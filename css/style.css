@@ -1,0 +1,49 @@
+#search .jumbotron{
+                height: 50vh;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+p,a,input,label,textarea,span,ul,li,button{
+    font-family: 'Open Sans', sans-serif;
+
+}
+header nav img{
+    width:30px;
+}
+header li{
+    margin: 0 10px;
+}
+
+/*search*/
+#search h1{
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/*
+body{
+   background: linear-gradient(90deg, #ffffff, #008b8b);
+}
+*/
+
+
+
+/*nav_li*/
+.nav_li,#dropdown{
+    font-size: 20px;
+    font-family: 'Noto Sans TC', sans-serif;
+    line-height: 3;
+    text-decoration: none;
+}
+.summary_btn{
+	font-size:25px;
+	margin-top:10px;
+	margin-left:12px;
+	background-color:white;
+	border:1px solid;
+	width:40px;
+	height:40px;
+}

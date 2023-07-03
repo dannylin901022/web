@@ -1,0 +1,31 @@
+.container-all {
+    display: flex;
+    align-items: stretch;
+}
+.container-left{
+    background-color: #E0DDCF;
+    height:100vh;
+    transition: 1s;
+}
+#siderbar{
+    width: 250px;
+    height: :100%;
+    transition: 1s;
+}
+.nav_li,#dropdown,#dropdown_login,#dropdown_register{
+    color:#534B52;
+}
+
+.container-left.active{
+    margin-left: -210px;
+    border: none;
+    background-color: white; 
+}
+
+/*hr_css*/
+.hr{
+    transition: 1s;
+}
+.hr.active{
+    opacity: 0;
+}
