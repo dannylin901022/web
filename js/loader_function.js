@@ -13,12 +13,12 @@ function home(){
      }, 3000); 
 }
 function result() {
-     display_all();
+         display_all();
      setTimeout(function(){
             document.getElementById("loader").style.display = "none";
             document.getElementById("result").style.display = "block";
-            document.getElementById("c_left").style.height = 200 + 'vh';
-     }, 3000);    
+            document.getElementById("c_left").style.height = 350 + 'vh';
+     }, 3000);     
 }
 function login() {
      display_all();

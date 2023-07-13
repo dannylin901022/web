@@ -15,6 +15,8 @@
 	  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
   	  <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
         
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         
         <link rel="stylesheet" href="./css/style.css">
@@ -87,7 +89,7 @@
                         <p id="user_account" class="nav_li" style="display: none;">使用者：{{account_input}}</p>
                     </li>
                     <li>
-                        <p id="logout" class="nav_li" style="display: none;">登出</p>
+                        <a href="#" id="logout" class="nav_li" style="display: none;" @click="logout_btn">登出</a>
                     </li>
                 </ul>
             </nav>
@@ -104,8 +106,14 @@
                     <h1>情緒分析應用於社群論壇之文件探勘</h1>
                     <p>輸入關鍵字以產生分析結果</p>
                     <div style="display:flex; flex-direction:column; justify-content:center;" >
-                        <input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="search_input">
-				        <button type="button" style="margin-top:30px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" @click="search_btn" onclick="result()">搜尋</button>
+                        <input type="text" id="search_box" style="margin-top:20px;height: 50px; width:75%;font-size:30px;">
+                        <div style="display: flex;align-content: center;margin-top: 20px;">
+                            <p style="text-align:center">開始時間：</p>
+                            <input type="date" id="search_start" style="height: 20px;">
+                            <p style="text-align:center;margin-left: 40px;">結束時間：</p>
+                            <input type="date" id="search_end" style="height: 20px;">
+                        </div>
+				        <button type="button" style="margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" @click="search_btn" onclick="result()">搜尋</button>
                     </div>
                     <div style="margin-top:30px;">
                         <h3>熱門文章</h3>
@@ -118,18 +126,18 @@
             </div>
             </div>
         </section>
-        <section id="result" class="animate-bottom" style="display: none;margin-top:-300px;">
+        <section id="result" class="animate-bottom" style="display: none;margin-top: -100%">
             <div class='jumbotron'>
             <div class='container'>
             <div class='row'>
             <div class='col-md-12' >
 			<div>
-                <h1>{{search_input}}</h1>
+                <h1>{{search_input.topic}}</h1>
 				<div style="display:flex;">
 				<div style="display:flex;flex-direction:column;">
                     <div style="border:1px solid;height:35vh;width:100vh">
-<!--                        <p v-for="item in result_text">{{item.title}}</p>-->
-                        <p>摘要</p>
+                        <p v-for="item in result_text">帳號：{{item.account}} 密碼：{{item.password}}</p>
+<!--                        <p>摘要</p>-->
 					</div>
 				</div>
 				<div style="display:flex-warp;flex-direction:column;">
@@ -155,7 +163,12 @@
                 <div style="height:50%;width:70%;margin-top:30px;">
 						<canvas id="bar_chart"></canvas>	
 					</div>
-			<div id="word_cloud" style="height:50%;width:70%;margin-top:20px;">
+                <hr style="margin-top:-100px;margin-bottom: 100px;">
+                <div style="height:50%;width:70%;margin-top:-30px;">
+						<canvas id="line_chart"></canvas>	
+					</div>
+                <hr style="margin-top:-100px;margin-bottom: 100px;">
+			<div id="word_cloud" style="height:50%;width:70%;margin-top:-30px;">
 	
 				</div>
             </div>
@@ -163,7 +176,7 @@
             </div>
             </div>
         </section>
-        <section id="login" class="animate-bottom" style="display: none" >
+        <section id="login" class="animate-bottom" style="display: none;" >
             <div class='jumbotron'>
             <div class='container'>
             <div class='row'>
@@ -233,11 +246,20 @@
     </div>
     </div>
 </body>
-    <script>
+    <script type="module">
+        const api_url = "https://localhost:54310/api/";
+        import chart from "./js/chart.js";
+        import search from "./js/search.js";
+        import news from "./js/news.js";
+        import login from "./js/login.js";
+        import logout from "./js/logout.js";
+        
         Vue.createApp({
             data(){
                 return{
-                    search_input:"",
+                    search_input:{  "topic": "",
+                                    "startDate": "",
+                                    "endDate": ""},
                     recommend_info:"推薦",
                     account_input:"",
                     password_input:"",
@@ -247,33 +269,37 @@
                 }
             },
             methods:{
-                async get_data() {
-                    const res = await fetch("https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6");
-                    const data = await res.json();
-                    this.result_text = data;
-                },        
+                get_data() {
+                    fetch(api_url + "Member")
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((response) => {
+                        this.result_text = response;
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                },
                 search_btn(){
-                    document.getElementById("search").style.display = 'none';
-                    setTimeout(function(){
-                            document.getElementById("result").style.display = 'block';
-                    }, 3000);
-                    this.bar_chart();
-			        this.word_chart(); 
-                    this.get_data();
+                    this.search_input = {
+                        "topic": document.getElementById("search_box").value,
+                        "startDate": document.getElementById("search_start").value,
+                        "endDate": document.getElementById("search_end").value
+                    };
+                    search.search_btn(this.search_input.startDate,this.search_input.endDate,chart); 
                 },
-                login_btn(){
-                    document.getElementById("login").style.display = 'none';
-                    setTimeout(function(){
-                            document.getElementById("search").style.display = 'block';
-                            document.getElementById("dropdown").style.display = 'none';
-                            document.getElementById("dropdown_login").style.display = 'none';
-                            document.getElementById("dropdown_register").style.display = 'none';
-                            document.getElementById("user_account").style.display = 'block';
-                            document.getElementById("user_collection").style.display = 'block';
-                            document.getElementById("logout").style.display = 'block';
-                            
-                    }, 3000);     
+                
+                async login_btn(){
+                    login.login_btn(api_url,this.account_input,this.password_input);
                 },
+                logout_btn(){
+                    logout.logout_btn();
+                    this.account_input = "";
+                    this.password_input = "";
+                },
+                
                 register_btn(){
                     var s = this.email_input;
                     document.getElementById("register").style.display = 'none';
@@ -282,58 +308,12 @@
                             alert(s + "註冊成功，請再次登入!!");
                     }, 3000);     
                 },
+                
                 news_btn(){
-                        this.news_text = "";
-                        var text = ["<h4 style='margin-top: 10px;'>小燈泡事件</h4>","<h4 style='margin-top: 10px;'>ABD</h4>"];
-                        for (var i = 0;i<text.length;i++){
-                            this.news_text += text[i];
-                        }    
+                    this.news_text = "";
+                    var news_box = ["小燈泡事件","ABD"];
+                    this.news_text = news.news(news_box);
                 },
-                bar_chart(){
-                    const ctx = document.getElementById('bar_chart');
-
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['小燈泡', '內湖', '新聞', '警方', '母親','死刑','嫌犯','台北','殺害','兒童','生命'],
-                            datasets: [{
-                                label: '關鍵字比數',
-                                data: [1090000000, 983000000, 527000000, 281000000, 267000000, 229000000,129000000,100000000,91000000,40000000,20000000],
-                                borderWidth: 1,
-                                backgroundColor: ['yellow', 'aqua', 'pink', 'lightgreen', 'lightblue', 'gold','blue','green','red','gray','#55ee00'],
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                },
-			word_chart(){
-				var data = [
-    					{"x": "小燈泡", "value": 1090000000, category: "小燈泡"},
-    					{"x": "內湖", "value": 983000000, category: "內湖"},
-    					{"x": "新聞", "value": 527000000, category: "新聞"},
-    					{"x": "警方", "value": 281000000, category: "警方"},
-    					{"x": "母親", "value": 267000000, category: "母親"},
-    					{"x": "死刑", "value": 229000000, category: "死刑"},
-    					{"x": "嫌犯", "value": 129000000, category: "嫌犯"},
-                        {"x": "台北", "value": 100000000, category: "台北"},
-                        {"x": "殺害", "value": 91000000, category: "殺害"},
-                        {"x": "兒童", "value": 40000000, category: "兒童"},
-                        {"x": "生命", "value": 20000000, category: "生命"},
-  				];
-                var chart = anychart.tagCloud(data);
-                chart.title('關鍵字出現數');
-                chart.angles([0]);
-                chart.colorRange(true);
-                chart.colorRange().length('80%');
-                chart.container("word_cloud");
-                chart.draw();
-			}
         },
         mounted: function(){
         
