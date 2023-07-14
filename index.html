@@ -83,7 +83,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" id="user_collection" class="nav_li" onclick="collection()" style="display: none;">收藏列表</a>
+                        <a href="#" id="user_collection" class="nav_li" onclick="collection()" style="display: none;" @click="collect_btn">收藏列表</a>
                     </li>
                     <li>
                         <p id="user_account" class="nav_li" style="display: none;">使用者：{{account_input}}</p>
@@ -247,7 +247,8 @@
     </div>
 </body>
     <script type="module">
-        const api_url = "https://localhost:54310/api/";
+        const api_url = "https://localhost:61521/api/";
+        var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjg5MzMyMTg3LCJqdGkiOiI2ZTdhYWZiMy1iN2VhLTRmNjQtYWUxMC1kZjlkYWZkMjk2ZjgiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2ODkzMzAzODcsImlhdCI6MTY4OTMzMDM4N30.XIe8-EQOVJ5EKLsWrYzFITIUmFcLLsDBaT9GHi-mPCc";
         import chart from "./js/chart.js";
         import search from "./js/search.js";
         import news from "./js/news.js";
@@ -269,30 +270,37 @@
                 }
             },
             methods:{
-                get_data() {
-                    fetch(api_url + "Member")
-                    .then((response) => {
-                        return response.json();
-                    })
-                    .then((response) => {
-                        this.result_text = response;
-                        console.log(response);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-                },
+//                get_data() {
+//                    fetch(api_url + "Member")
+//                    .then((response) => {
+//                        return response.json();
+//                    })
+//                    .then((response) => {
+//                        this.result_text = response;
+//                        console.log(response);
+//                    })
+//                    .catch((error) => {
+//                        console.log(error);
+//                    })
+//                },
                 search_btn(){
                     this.search_input = {
                         "topic": document.getElementById("search_box").value,
                         "startDate": document.getElementById("search_start").value,
                         "endDate": document.getElementById("search_end").value
                     };
-                    search.search_btn(this.search_input.startDate,this.search_input.endDate,chart); 
+                    search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,chart,api_url,token); 
                 },
                 
                 async login_btn(){
-                    login.login_btn(api_url,this.account_input,this.password_input);
+                    var login_info = await login.login_btn(api_url,this.account_input,this.password_input);
+                    if(!login_info.bool){
+                        this.account_input = "";
+                        this.password_input = "";
+                    }
+                    else{
+                        token = login_info.response;
+                    }
                 },
                 logout_btn(){
                     logout.logout_btn();
@@ -308,7 +316,9 @@
                             alert(s + "註冊成功，請再次登入!!");
                     }, 3000);     
                 },
-                
+                collect_btn(){
+                    
+                },
                 news_btn(){
                     this.news_text = "";
                     var news_box = ["小燈泡事件","ABD"];
