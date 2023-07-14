@@ -1,5 +1,5 @@
 var search = {
-    search_btn(start,end,chart){
+    async search_btn(topic,start,end,chart,api_url,token){
         if(start > end){
                         alert("結束日期小於開始日期，請重新輸入");
                         document.getElementById("search_start").value = "";
@@ -14,14 +14,78 @@ var search = {
                         setTimeout(function(){
                                 document.getElementById("result").style.display = 'block';
                         }, 3000);
-                    
-                        const label = ['小燈泡', '內湖', '新聞', '警方', '母親','死刑','嫌犯','台北','殺害','兒童','生命'];
-                        const datas = [1090000000, 983000000, 527000000, 281000000, 267000000, 229000000,129000000,100000000,91000000,40000000,20000000];
-                        chart.bar_chart(label,datas);
-			            chart.word_chart(); 
-                        chart.line_chart();
+                        
+                        const data_PA = await this.get_data_PopularityAnalysis(topic,start,end,api_url,token);
+                        chart.bar_chart(data_PA.dates,data_PA.discussNumber);
+                        
+                        const data_SA = await this.get_data_SentimentAnalysis(topic,start,end,api_url,token);
+                        chart.line_chart(data_SA.dates,data_SA.positiveNumber,data_SA.negativeNumber);
+                        
+                        const data_WC = await this.get_data_WordCloud(topic,start,end,api_url,token);
+			            chart.word_chart(data_WC.wordSegment,data_WC.frequency); 
+                        
+                        
                     } 
-                }
+                },
+        async get_data_PopularityAnalysis(topic,start,end,api_url,token) {
+                var data = {};
+                    await fetch(api_url + "PopularityAnalysis/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
+                        headers: {"Authorization": 'Bearer ' +  token,
+                                  "Content-Type": "application/json",
+                                  "Accept": "application/json"} 
+                    })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((response) => {
+                        data = response;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+        console.log(data);
+        return data;
+                },
+    
+        async get_data_SentimentAnalysis(topic,start,end,api_url,token) {
+                var data = {};
+                    await fetch(api_url + "SentimentAnalysis/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
+                        headers: {"Authorization": 'Bearer ' +  token,
+                                  "Content-Type": "application/json",
+                                  "Accept": "application/json"} 
+                    })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((response) => {
+                        data = response;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+        console.log(data);
+        return data;
+                },
+    
+    async get_data_WordCloud(topic,start,end,api_url,token) {
+                var data = {};
+                    await fetch(api_url + "WordCloud/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
+                        headers: {"Authorization": 'Bearer ' +  token,
+                                  "Content-Type": "application/json",
+                                  "Accept": "application/json"} 
+                    })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((response) => {
+                        data = response;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+        console.log(data);
+        return data;
+                },
 };
 export default search;
 
