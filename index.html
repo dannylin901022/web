@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="./css/nav.css">
         <link rel="stylesheet" href="./css/loader_style.css">
 
-        <script src="./js/nav.js"></script>
+        <script  src="./js/nav.js"></script>
         
         <script src="./js/loader_function.js"></script>
         
@@ -68,9 +68,11 @@
                     <li>
                         <a href="#" onclick="news()" class="nav_li" @click="news_btn">最新消息</a>
                     </li>
+<!--
                     <li>
                         <a href="#" class="nav_li">關於我們(暫留)</a>
                     </li>
+-->
                     <li>
                         <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="collapsed" aria-expanded="false">登入/註冊</a>
                         <ul id="sublist" class="list-unstyled collapse nav_li">
@@ -83,7 +85,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" id="user_collection" class="nav_li" onclick="collection()" style="display: none;" @click="collect_btn">收藏列表</a>
+                        <a href="#" id="user_collection" class="nav_li" onclick="collection()" style="display: none;" @click="collect_get">收藏列表</a>
                     </li>
                     <li>
                         <p id="user_account" class="nav_li" style="display: none;">使用者：{{account_input}}</p>
@@ -104,7 +106,7 @@
             <div class='row'>
                 <div class='col-md-12'>
                     <h1>情緒分析應用於社群論壇之文件探勘</h1>
-                    <p>輸入關鍵字以產生分析結果</p>
+                    <p>輸入主題以產生分析結果</p>
                     <div style="display:flex; flex-direction:column; justify-content:center;" >
                         <input type="text" id="search_box" style="margin-top:20px;height: 50px; width:75%;font-size:30px;">
                         <div style="display: flex;align-content: center;margin-top: 20px;">
@@ -113,7 +115,9 @@
                             <p style="text-align:center;margin-left: 40px;">結束時間：</p>
                             <input type="date" id="search_end" style="height: 20px;">
                         </div>
-				        <button type="button" style="margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" @click="search_btn" onclick="result()">搜尋</button>
+				        <button type="button" style="margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" 
+                        onclick="result()"
+                        @click="search_btn" >搜尋</button>
                     </div>
                     <div style="margin-top:30px;">
                         <h3>熱門文章</h3>
@@ -142,10 +146,10 @@
 				</div>
 				<div style="display:flex-warp;flex-direction:column;">
                     <div style="display:flex;margin-left:30px;">
-					   <button type="button" class="summary_btn"><i class="fa-solid fa-thumbs-up" style="margin-left:0;"></i></button>
-					   <button type="button" class="summary_btn"><i class="fa-solid fa-thumbs-down"></i></button>
-					   <button type="button" class="summary_btn"><i class="fa-solid fa-heart"></i></button>
-                        <button type="button" class="summary_btn" style="font-size: 10;width: 70px">相關連結</button>
+					   <button type="button" class="summary_btn" @click="good"><i class="fa-solid fa-thumbs-up" style="margin-left:0;"></i></button>
+					   <button type="button" class="summary_btn" @click="bad"><i class="fa-solid fa-thumbs-down"></i></button>
+					   <button type="button" class="summary_btn" @click="save_btn"><i class="fa-solid fa-heart"></i></button>
+                        <a href="https://www.google.com/" target="_blank"><button type="button" class="summary_btn" style="font-size: 10;width: 70px">相關連結</button></a>
 				    </div>
                     <div style="border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;">
                         正負項資料筆數
@@ -153,6 +157,18 @@
 					<div style="border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;">
                         GPT分數
 					</div>
+                    
+                    <dialog id="collect_info" style="justify-content:center;align-items:center;flex-direction:column;">
+                        <p>請選擇要儲存的資料夾及儲存名稱</p>
+                        <select id="select_folder1" style="height: 50px; width:75%;" v-html="folder">
+
+                        </select>
+                        <input type="text" id="collect_info_box" style="margin-top:20px;height: 50px; width:75%;font-size:20px;">
+                        <div style="margin-top: 20px;">
+                            <button id="save" @click="save">儲存</button>
+                            <button id="cancel" style="margin-left: 20px;" @click="cancel_save">取消</button>
+                        </div>
+                    </dialog>
                     
                     
                 <div>
@@ -216,11 +232,27 @@
             <div class='container'>
             <div class='row'>
                 <div class='col-md-12'>
-                    <h1>{{account_input}}的收藏列表</h1>
-                    <div style="display:flex; flex-direction:column;border:1px solid black;height:70vh;width:150vh" >
-                        <h4 style="margin-top: 10px;">小燈泡事件</h4>
+                    <div style="display: flex;justify-content: Space-between;">
+                        <h1>{{account_input}}的收藏列表</h1>
+                        <button type="button" id="new_collect" class="summary_btn" @click="new_collect_btn"><i class="fa-solid fa-plus"></i></button>
                     </div>
+                    <div style="display:flex; flex-direction:column;border:1px solid black;height:70vh;width:150vh;overflow:auto;" v-html="collect_text">
+                    </div>
+                    <dialog id="new_collect_info" style="justify-content:center;align-items:center;flex-direction:column;">
+                        <p>請選擇要新增或修改資料夾名稱</p>
+                        <select id="select_folder2" style="height: 50px; width:75%;" v-html="folder">
+
+                        </select>
+                        <input type="text" id="collect_change_info_box" style="margin-top:20px;height: 50px; width:75%;font-size:20px;" placeholder="輸入新增或修改的名稱">
+                        <div style="margin-top: 20px;">
+                            <button id="new_folder" @click="collect_post_folder">新增</button>
+                            <button id="change_folder" @click="collect_post_change_folder" style="margin-left: 20px;">修改名稱</button>
+                            <button id="change_folder" @click="collect_delete_change_folder" style="margin-left: 20px;">刪除</button>
+                            <button id="cancel_folder" style="margin-left: 20px;" @click="new_collect_cancel">取消</button>
+                        </div>
+                    </dialog>
                 </div>
+                
             </div>
             </div>
             </div>
@@ -247,13 +279,20 @@
     </div>
 </body>
     <script type="module">
-        const api_url = "https://localhost:61521/api/";
-        var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjg5MzMyMTg3LCJqdGkiOiI2ZTdhYWZiMy1iN2VhLTRmNjQtYWUxMC1kZjlkYWZkMjk2ZjgiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2ODkzMzAzODcsImlhdCI6MTY4OTMzMDM4N30.XIe8-EQOVJ5EKLsWrYzFITIUmFcLLsDBaT9GHi-mPCc";
         import chart from "./js/chart.js";
         import search from "./js/search.js";
         import news from "./js/news.js";
         import login from "./js/login.js";
         import logout from "./js/logout.js";
+        import register from "./js/register.js";
+        import collect from "./js/collect.js";
+
+        
+        
+        var login_statu = 0;
+        const api_url = "https://localhost:62164/api/";
+        var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjg5Njg0MzE2LCJqdGkiOiJhMGYxYzNkMi1hOTM4LTQxYmMtYjZhMi03ZDcyMTgyMDZjYzMiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2ODk2ODI1MTYsImlhdCI6MTY4OTY4MjUxNn0.yBl2TZiUSj-VKdjhSfg5PWtYhNOUnpiTGh9T7vGOM84";
+
         
         Vue.createApp({
             data(){
@@ -266,32 +305,32 @@
                     password_input:"",
                     email_input:"",
                     result_text:[],
-                    news_text:""
+                    news_text:"",
+                    collect_text:"",
+                    collect_data:[],
+                    folder:"",
                 }
             },
             methods:{
-//                get_data() {
-//                    fetch(api_url + "Member")
-//                    .then((response) => {
-//                        return response.json();
-//                    })
-//                    .then((response) => {
-//                        this.result_text = response;
-//                        console.log(response);
-//                    })
-//                    .catch((error) => {
-//                        console.log(error);
-//                    })
-//                },
+                
+//==========================================================================================                
+//                搜尋
                 search_btn(){
                     this.search_input = {
                         "topic": document.getElementById("search_box").value,
                         "startDate": document.getElementById("search_start").value,
                         "endDate": document.getElementById("search_end").value
                     };
-                    search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,chart,api_url,token); 
+                    if(this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == ""){
+                        alert("請輸入主題、時間，若已更換頁面，請重新輸入");
+                    }
+                    else{  
+                        search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,chart,api_url,token); 
+                    }
+                    
                 },
-                
+//==========================================================================================                
+//                登入登出
                 async login_btn(){
                     var login_info = await login.login_btn(api_url,this.account_input,this.password_input);
                     if(!login_info.bool){
@@ -300,30 +339,127 @@
                     }
                     else{
                         token = login_info.response;
+                        login_statu = 1;
                     }
                 },
                 logout_btn(){
-                    logout.logout_btn();
-                    this.account_input = "";
-                    this.password_input = "";
-                },
-                
-                register_btn(){
-                    var s = this.email_input;
-                    document.getElementById("register").style.display = 'none';
-                    setTimeout(function(){
-                            document.getElementById("search").style.display = 'block';
-                            alert(s + "註冊成功，請再次登入!!");
-                    }, 3000);     
-                },
-                collect_btn(){
+                    var b = logout.logout_btn();
+                    if(b == 1){
+                        login_statu = 0;
+                        this.account_input = "";
+                        this.password_input = "";
+                    }
                     
                 },
+//==========================================================================================                
+//                註冊
+                async register_btn(){
+                    var s = this.email_input;
+                    var register_info = await register.register_btn(api_url,this.account_input,this.password_input); 
+                    this.account_input = "";
+                    this.password_input = "";
+                    this.email_input = "";
+                },
+//==========================================================================================                
+//                收藏列表(get)
+                async collect_get(){
+                    this.collect_text = await collect.get_data_collect(api_url,token);
+                    var re = await collect.get_save_collect(api_url,token); 
+                    this.folder = re.collect_list;
+                    this.collect_data = re.return_data;
+                },
+                
+//==========================================================================================                
+//                結果收藏                 
+                async save_btn(){//顯示dialog
+                    if(login_statu == 0){
+                        alert("請先登入");
+                    }
+                    else{ 
+                        this.collect_get();
+                        document.getElementById("collect_info").showModal();
+                    }
+                },
+                save(){//儲存結果
+                    alert("已收藏");
+                    document.getElementById("collect_info_box").value = "";
+                    document.getElementById("collect_info").close();
+                },
+                cancel_save(){//關閉dialog
+                    document.getElementById("collect_info_box").value = "";
+                    document.getElementById("collect_info").close();
+                },
+//==========================================================================================                
+//                資料夾更動
+                async new_collect_btn(){//顯示dialog
+                      document.getElementById("new_collect_info").showModal();
+                      this.collect_get();
+                },
+                
+                collect_post_folder(){//新增資料夾
+                    alert("已新增資料夾");
+                    var text = document.getElementById("collect_change_info_box");
+                    collect.collect_post_data(api_url,token,text.value);
+                    text.value = "";
+                    this.collect_get();
+                    document.getElementById("new_collect_info").close();
+                },
+                collect_post_change_folder(){//資料夾改名
+                    alert("已更改名稱");
+                    var text = document.getElementById("collect_change_info_box");
+                    var select_folder = document.getElementById("select_folder2");
+                    var id = 0;
+                    console.log(select_folder.value);
+                    for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                        if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                            id = this.collect_data[collect_text].favoriteFolderId;
+                        }
+                    }
+                    
+                    collect.collect_patch_data(api_url,token,text.value,id);
+                    text.value = "";
+                    this.collect_get();
+                    document.getElementById("new_collect_info").close();   
+                },
+                
+                collect_delete_change_folder(){//資料夾刪除
+                    alert("已刪除資料夾");
+                    var text = document.getElementById("collect_change_info_box");
+                    var select_folder = document.getElementById("select_folder2");
+                    var id = 0;
+                    console.log(select_folder.value);
+                    for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                        if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                            id = this.collect_data[collect_text].favoriteFolderId;
+                        }
+                    }
+                    
+                    collect.collect_delete_data(api_url,token,id);
+                    text.value = "";
+                    this.collect_get();
+                    document.getElementById("new_collect_info").close();   
+                },
+
+                new_collect_cancel(){//關閉dialog                   
+                    document.getElementById("collect_change_info_box").value = "";
+                    document.getElementById("new_collect_info").close();
+                },
+//==========================================================================================                
+//                最新消息
                 news_btn(){
                     this.news_text = "";
                     var news_box = ["小燈泡事件","ABD"];
                     this.news_text = news.news(news_box);
                 },
+//==========================================================================================                
+//                其他
+                good(){
+                    alert("已點喜歡");
+                },
+                bad(){
+                    alert("已點不喜歡");  
+            },
+                
         },
         mounted: function(){
         

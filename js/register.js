@@ -1,27 +1,21 @@
-var login = {
-    async login_btn(url,account,password){
-                    var re = await this.login_post_data(url,account,password);
-                    if(re.bool == 1){
-                        document.getElementById("login").style.display = 'none';
-                        alert("登入成功");
-                        setTimeout(function(){
-                            document.getElementById("search").style.display = 'block';
-                            document.getElementById("dropdown").style.display = 'none';
-                            document.getElementById("dropdown_login").style.display = 'none';
-                            document.getElementById("dropdown_register").style.display = 'none';
-                            document.getElementById("user_account").style.display = 'block';
-                            document.getElementById("user_collection").style.display = 'block';
-                            document.getElementById("logout").style.display = 'block';
-                        }, 1000); 
-                        return re
-                    }
-                    else{
-                        alert("帳號或密碼錯誤");
-                        return re;
-                    }
-                },
+var register = {
+    async register_btn(url,account,password){
+        var re = await this.register_post_data(url,account,password);
+        if(re.bool == 1){
+        document.getElementById("register").style.display = 'none';
+        setTimeout(function(){
+            document.getElementById("search").style.display = 'block';
+            alert("註冊成功，請再次登入!!");
+        }, 1000);
+            return re
+        }
+        else{
+            alert("該帳號已註冊");
+            return re;
+        }
+    },
     
-    async login_post_data(api_url,account_input,password_input) {
+    async register_post_data(api_url,account_input,password_input) {
                     var bool = 0
                     var re = {
                         "response": "",
@@ -31,8 +25,7 @@ var login = {
                         "account": account_input,
                         "password": password_input
                     }
-                    
-                    await fetch(api_url + "Member/login",{
+                    await fetch(api_url + "Member/register",{
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -65,5 +58,6 @@ var login = {
                     return re;
                 },
 
+    
 }
-export default login;
+export default register;

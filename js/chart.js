@@ -1,15 +1,20 @@
 var chart = {
             bar_chart(label,datas){
-                    const ctx = document.getElementById('bar_chart');
-                    new Chart(ctx, {
+                    const c = document.getElementById('bar_chart');
+                    var ctx = c.getContext("2d")
+                    var gradient = ctx.createLinearGradient(0, 0, 0, 170);
+                        gradient.addColorStop(0, "black");
+                        gradient.addColorStop(1, "white");
+                    ctx.fillStyle = gradient;
+                    new Chart(c, {
                         type: 'bar',
                         data: {
                             labels: label.reverse(),
                             datasets: [{
-                                label: '關鍵字比數',
+                                label: '主題文章數',
                                 data: datas.reverse(),
                                 borderWidth: 1,
-                                backgroundColor: ['yellow', 'aqua', 'pink', 'lightgreen', 'lightblue', 'gold','blue','green','red','gray','#55ee00'],
+                                backgroundColor: ["#000505","#373041","#646873"],
                             }]
                         },
                         options: {
@@ -31,12 +36,12 @@ var chart = {
                     label: '正向評價數',
                     data: data1.reverse(),
                     fill: false,
-                    borderColor: 'rgb(75, 192, 192)',},
+                    borderColor: '#646873',},
                     {
                     label: '負向評價數',
                     data: data2.reverse(),
                     fill: false,
-                    borderColor: 'rgb(192, 75, 192)',
+                    borderColor: '#000505',
                 }
             ],
         }});

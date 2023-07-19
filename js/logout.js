@@ -14,13 +14,25 @@ var logout ={
             document.getElementById("user_account").style.display = 'none';
             document.getElementById("user_collection").style.display = 'none';
             document.getElementById("c_left").style.height = 100 + 'vh';
+            var x = document.getElementsByClassName("nav_li");
+            for(var i = 0;i<x.length;i++){
+                x[i].style.pointerEvents = "none";
+            }
             
             setTimeout(function(){
                 document.getElementById("loader").style.display = "none";
                 document.getElementById("search").style.display = "block";
                 document.getElementById("dropdown_login").style.display = 'block';
                 document.getElementById("dropdown_register").style.display = 'block';
+                var x = document.getElementsByClassName("nav_li");
+                    for(var i = 0;i<x.length;i++){
+                    x[i].style.pointerEvents = "auto";
+                }
             }, 3000);
+            return 1
+        }
+        else{
+            return 0;
         }
     }
 }
