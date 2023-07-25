@@ -4,7 +4,7 @@
 }
 .container-left{
     background-color: #E0DDCF;
-    height:100vh;
+    min-height:1200px;
     transition: 1s;
 }
 #siderbar{

@@ -73,6 +73,41 @@ var collect = {
                         console.log("fail");
                     })
                 },
+//==========================================================================================                
+//                新增項目   
+    async collect_post_item(api_url,token,string,id) {
+                    const api = api_url.substr(0, api_url.length - 4);
+                    var data = {
+                        "favoriteItemName": string,
+                    }
+                    await fetch(api + "FavoriteFolder/" + id +"/FavoriteFolderItem",{
+                        method: "POST",
+                        headers: {
+                            "Authorization": 'Bearer ' +  token,
+                            "Content-Type": "application/json",
+                            "Accept": "application/json",
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then((response) => {
+                        if(response.status < 200 || response.status >= 300){
+                            console.log("connect fail");
+                            throw Error;
+                        }
+                        else{
+                            return response.json();
+                        }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        console.log("success");
+                        
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        console.log("fail");
+                    })
+                },
   
 //==========================================================================================                
 //                更新資料夾名稱
@@ -157,6 +192,22 @@ var collect = {
                         console.log("success");   
                     })
                 },
+//==========================================================================================                
+//                刪除項目
+    async collect_delete_item_data(api_url,token,id) {
+                    await fetch(api_url + "FavoriteFolders/FavoriteFolderItem/"+id,{
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": 'Bearer ' +  token,
+                            "Content-type": 'application/json',
+                        },
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        console.log("success");   
+                    })
+                },
+    
     
 //==========================================================================================                
 //                顯示資料夾  
@@ -164,6 +215,15 @@ var collect = {
         var collect_list = "<option selected>請選擇資料夾</option>";
         for(var i = 0;i<data.length;i++){
             collect_list += ("<option>" + data[i].favoriteFolderName + "</option>");
+        }
+    return collect_list;
+    },
+//==========================================================================================                
+//                顯示項目  
+    async display_item(data,id){
+        var collect_list = "<option selected>請選擇項目</option>";
+        for(var i = 0;i<data[id].favoriteFolderItems.length;i++){
+            collect_list += ("<option>" + data[id].favoriteFolderItems[i].favoriteItem.favoriteItemName + "</option>");
         }
     return collect_list;
     },

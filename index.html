@@ -10,12 +10,14 @@
         
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 	  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
   	  <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
         
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+        
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         
@@ -43,7 +45,7 @@
         </style>
     </head>
 <body onload="search()" style="margin:0;">
-        <div style="height: 50px;background-color:#2D232E;"></div>
+        <div style="min-width: 1440px;height: 50px;background-color:#2D232E;"></div>
         <div id="all_body" style="height: 100%;margin-top:-50px;">
         <div class="container-all">
         <div id="c_left" class="container-left">
@@ -85,7 +87,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" id="user_collection" class="nav_li" onclick="collection()" style="display: none;" @click="collect_get">收藏列表</a>
+                        <a href="#" id="user_collection" class="nav_li" onclick="collection()" style="display: block;" @click="collect_get">收藏列表</a>
                     </li>
                     <li>
                         <p id="user_account" class="nav_li" style="display: none;">使用者：{{account_input}}</p>
@@ -97,7 +99,7 @@
             </nav>
         </div>
     
-        <div class="container-right" style="margin:0px auto;display: flex; justify-content: center; align-items: center;">
+        <div class="container-right" style="margin:0px auto;margin-top: -600px; display: flex; justify-content: center; align-items: center;">
         <div id="loader"></div>          
         <div class="container-fluid">
         <section id="search" class="animate-bottom" style="display: none" >
@@ -130,7 +132,7 @@
             </div>
             </div>
         </section>
-        <section id="result" class="animate-bottom" style="display: none;margin-top: -100%">
+        <section id="result" class="animate-bottom" style="display: none;margin-top: 500px;">
             <div class='jumbotron'>
             <div class='container'>
             <div class='row'>
@@ -140,8 +142,8 @@
 				<div style="display:flex;">
 				<div style="display:flex;flex-direction:column;">
                     <div style="border:1px solid;height:35vh;width:100vh">
-                        <p v-for="item in result_text">帳號：{{item.account}} 密碼：{{item.password}}</p>
-<!--                        <p>摘要</p>-->
+<!--                        <p v-for="item in result_text">帳號：{{item.account}} 密碼：{{item.password}}</p>-->
+                        <p>摘要</p>
 					</div>
 				</div>
 				<div style="display:flex-warp;flex-direction:column;">
@@ -160,7 +162,7 @@
                     
                     <dialog id="collect_info" style="justify-content:center;align-items:center;flex-direction:column;">
                         <p>請選擇要儲存的資料夾及儲存名稱</p>
-                        <select id="select_folder1" style="height: 50px; width:75%;" v-html="folder">
+                        <select id="select_folder1" @change="folder_change_result" style="height: 50px; width:75%;" v-html="folder" >
 
                         </select>
                         <input type="text" id="collect_info_box" style="margin-top:20px;height: 50px; width:75%;font-size:20px;">
@@ -176,23 +178,51 @@
             </div> 	
             </div>
             </div>
-                <div style="height:50%;width:70%;margin-top:30px;">
+                <div style="height:20%;width:70%;margin-top:100px;">
 						<canvas id="bar_chart"></canvas>	
 					</div>
-                <hr style="margin-top:-100px;margin-bottom: 100px;">
-                <div style="height:50%;width:70%;margin-top:-30px;">
+                <hr style="margin-top: -75px; margin-bottom: 100px;">
+                <div style="display: flex;">
+                <div style="height:50%;width:60%;margin-top:-30px;">
 						<canvas id="line_chart"></canvas>	
 					</div>
-                <hr style="margin-top:-100px;margin-bottom: 100px;">
-			<div id="word_cloud" style="height:50%;width:70%;margin-top:-30px;">
-	
-				</div>
+                    <div style="display: flex-warp;margin-left: 50px;">
+                        <p id="p_max"></p>
+                        <p id="p_min"></p>
+                        <p id="n_max"></p>
+                        <p id="n_min"></p>
+                    </div>
+                </div>
+                <hr style="margin-bottom: 100px;">
+                <div style="display: flex;height:1000px;">
+			        <div id="word_cloud1" style="height:30%;width:30%;margin-top:-30px;" @click="wc1_click">
+				    </div>
+                    <div id="word_cloud2" style="height:30%;width:30%;margin-top:-30px;" @click="wc2_click">
+				    </div>
+                    <div id="word_cloud3" style="height:30%;width:30%;margin-top:-30px;" @click="wc3_click">
+				    </div>
+                </div>
+                <dialog id="word_cloud1_dialog">
+                    <button id="wc1_close" style="display: flex;justify-content: end;" @click="wc1_close">關閉</button>
+                    <div id="wc1" style="height:600px;width:800px;">
+                    </div>
+                </dialog>
+                <dialog id="word_cloud2_dialog">
+                    <button id="wc2_close" style="display: flex;justify-content: end;" @click="wc2_close">關閉</button>
+                    <div id="wc2" style="height:600px;width:800px;">
+                    </div>
+                </dialog>
+                <dialog id="word_cloud3_dialog">
+                    <button id="wc3_close" style="display: flex;justify-content: end;" @click="wc3_close">關閉</button>
+                    <div id="wc3" style="height:600px;width:800px;">
+                    </div>
+                </dialog>
             </div>
             </div>
             </div>
             </div>
         </section>
-        <section id="login" class="animate-bottom" style="display: none;" >
+        <section id="login" class="animate-bottom" style="display: none;margin-top: 200px;" >
             <div class='jumbotron'>
             <div class='container'>
             <div class='row'>
@@ -208,7 +238,7 @@
             </div>
             </div>
         </section>
-        <section id="register" class="animate-bottom" style="display: none" >
+        <section id="register" class="animate-bottom" style="display: none;margin-top: 200px;" >
             <div class='jumbotron'>
             <div class='container'>
             <div class='row'>
@@ -227,7 +257,7 @@
             </div>
             </div>
         </section>
-        <section id="collection" class="animate-bottom" style="display: none" >
+        <section id="collection" class="animate-bottom" style="display: none;margin-top: 200px;" >
             <div class='jumbotron'>
             <div class='container'>
             <div class='row'>
@@ -239,9 +269,15 @@
                     <div style="display:flex; flex-direction:column;border:1px solid black;height:70vh;width:150vh;overflow:auto;" v-html="collect_text">
                     </div>
                     <dialog id="new_collect_info" style="justify-content:center;align-items:center;flex-direction:column;">
-                        <p>請選擇要新增或修改資料夾名稱</p>
-                        <select id="select_folder2" style="height: 50px; width:75%;" v-html="folder">
+                        <h2>此頁面可修改資料夾、刪除項目或資料夾</h2>
+                        <hr>
+                        <p>請選擇欲修改的資料夾</p>
+                        <select id="select_folder2" @change="folder_change_collect" style="height: 50px; width:75%;" v-html="folder">
 
+                        </select>
+                        <p style="margin-top:40px; ">請選擇欲刪除的項目</p>
+                        <select id="select_item" @change="item_change()" style="height: 50px; width:75%;" v-html="item">
+                            
                         </select>
                         <input type="text" id="collect_change_info_box" style="margin-top:20px;height: 50px; width:75%;font-size:20px;" placeholder="輸入新增或修改的名稱">
                         <div style="margin-top: 20px;">
@@ -262,7 +298,7 @@
             <div class='container'>
             <div class='row'>
                 <div class='col-md-12'>
-                    <h1 style="margin-top: -500px">最新消息</h1>
+                    <h1>最新消息</h1>
                     <hr style="border:2px dashed #534B52;">
                     <div style="display:flex; flex-direction:column;height:70vh;width:150vh" v-html="news_text">
                     </div>
@@ -286,12 +322,13 @@
         import logout from "./js/logout.js";
         import register from "./js/register.js";
         import collect from "./js/collect.js";
-
-        
+       
         
         var login_statu = 0;
-        const api_url = "https://localhost:62164/api/";
-        var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjg5Njg0MzE2LCJqdGkiOiJhMGYxYzNkMi1hOTM4LTQxYmMtYjZhMi03ZDcyMTgyMDZjYzMiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2ODk2ODI1MTYsImlhdCI6MTY4OTY4MjUxNn0.yBl2TZiUSj-VKdjhSfg5PWtYhNOUnpiTGh9T7vGOM84";
+        var id = 0,id_index = 0,item_id = 0;
+        const api_url = "https://localhost:53622/api/";
+        var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjkwMjIxMTg0LCJqdGkiOiJiNjQwOTZjMy04MWI4LTQ0ZTYtODQ5OC1hNGRkMmE5NDlkMTAiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2OTAyMTkzODQsImlhdCI6MTY5MDIxOTM4NH0.3Ki-R1DOnBeheLomO3z4PTzFi5jpypjYfkP7_ROo37I";
+        Chart.register(ChartDataLabels);
 
         
         Vue.createApp({
@@ -309,6 +346,8 @@
                     collect_text:"",
                     collect_data:[],
                     folder:"",
+                    item:"<option selected>請選擇項目</option>",
+                    item_select:0,
                 }
             },
             methods:{
@@ -325,7 +364,7 @@
                         alert("請輸入主題、時間，若已更換頁面，請重新輸入");
                     }
                     else{  
-                        search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,chart,api_url,token); 
+                        search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,chart,api_url,token);
                     }
                     
                 },
@@ -382,6 +421,8 @@
                 },
                 save(){//儲存結果
                     alert("已收藏");
+                    var text = document.getElementById("collect_info_box");
+                    collect.collect_post_item(api_url,token,text.value,id);
                     document.getElementById("collect_info_box").value = "";
                     document.getElementById("collect_info").close();
                 },
@@ -393,22 +434,23 @@
 //                資料夾更動
                 async new_collect_btn(){//顯示dialog
                       document.getElementById("new_collect_info").showModal();
+                      this.folder = "";
+                      this.item = "";
                       this.collect_get();
                 },
                 
-                collect_post_folder(){//新增資料夾
+                async collect_post_folder(){//新增資料夾
                     alert("已新增資料夾");
                     var text = document.getElementById("collect_change_info_box");
-                    collect.collect_post_data(api_url,token,text.value);
+                    await collect.collect_post_data(api_url,token,text.value);
                     text.value = "";
                     this.collect_get();
                     document.getElementById("new_collect_info").close();
                 },
-                collect_post_change_folder(){//資料夾改名
+                async collect_post_change_folder(){//資料夾改名
                     alert("已更改名稱");
                     var text = document.getElementById("collect_change_info_box");
                     var select_folder = document.getElementById("select_folder2");
-                    var id = 0;
                     console.log(select_folder.value);
                     for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
                         if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
@@ -416,30 +458,79 @@
                         }
                     }
                     
-                    collect.collect_patch_data(api_url,token,text.value,id);
+                    await collect.collect_patch_data(api_url,token,text.value,id);
                     text.value = "";
                     this.collect_get();
                     document.getElementById("new_collect_info").close();   
                 },
                 
-                collect_delete_change_folder(){//資料夾刪除
-                    alert("已刪除資料夾");
-                    var text = document.getElementById("collect_change_info_box");
-                    var select_folder = document.getElementById("select_folder2");
-                    var id = 0;
-                    console.log(select_folder.value);
+                async collect_delete_change_folder(){//資料夾刪除
+                    if(this.item_select == 0){
+                        alert("已刪除資料夾");
+                        var text = document.getElementById("collect_change_info_box");
+                        var select_folder = document.getElementById("select_folder2");
+                        console.log(select_folder.value);
+                        for (var collect_text =     0;collect_text<this.collect_data.length;collect_text++) {
+                            if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                                id = this.collect_data[collect_text].favoriteFolderId;
+                            }
+                        }
+                        await collect.collect_delete_data(api_url,token,id);
+                        text.value = "";
+                        this.collect_get();
+                        document.getElementById("new_collect_info").close();   
+                    }
+                    else if(this.item_select == 1){
+                        alert("已刪除項目");
+                        var text = document.getElementById("collect_change_info_box");
+                        var select_item = document.getElementById("select_item");
+                        console.log(select_item.value);
+                        for (var collect_text =     0;collect_text<this.collect_data[id_index].favoriteFolderItems.length;collect_text++) {
+                            if(this.collect_data[id_index].favoriteFolderItems[collect_text].favoriteItem.favoriteItemName == select_item.value){
+                                item_id = this.collect_data[id_index].favoriteFolderItems[collect_text].favoriteFolderItemId;
+                            }
+                        }
+                        await collect.collect_delete_item_data(api_url,token,item_id);
+                        text.value = "";
+                        this.collect_get();
+                        document.getElementById("new_collect_info").close();
+                    }
+                },
+                async folder_change_result(){//選擇資料夾(結果)
+                    var select_folder = document.getElementById("select_folder1");
                     for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
                         if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
                             id = this.collect_data[collect_text].favoriteFolderId;
+                            id_index = collect_text;
                         }
                     }
-                    
-                    collect.collect_delete_data(api_url,token,id);
-                    text.value = "";
-                    this.collect_get();
-                    document.getElementById("new_collect_info").close();   
+                    this.item = await collect.display_item(this.collect_data,id_index);
+                    this.item_select = 0;
+                                        console.log(id);
                 },
-
+                async folder_change_collect(){//選擇資料夾(收藏列表)
+                    var select_folder = document.getElementById("select_folder2");
+                    for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                        if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                            id = this.collect_data[collect_text].favoriteFolderId;
+                            id_index = collect_text;
+                        }
+                    }
+                    this.item = await collect.display_item(this.collect_data,id_index);
+                    this.item_select = 0;
+                                        console.log(id);
+                },
+                async item_change(){//選擇項目
+                    var select_folder = document.getElementById("select_folder2");
+                    for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                        if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                            id = this.collect_data[collect_text].favoriteFolderId;
+                            id_index = collect_text;
+                        }
+                    }
+//                    this.item = await collect.display_item(this.collect_data,id_index);
+                    this.item_select = 1;
+                },
                 new_collect_cancel(){//關閉dialog                   
                     document.getElementById("collect_change_info_box").value = "";
                     document.getElementById("new_collect_info").close();
@@ -450,6 +541,28 @@
                     this.news_text = "";
                     var news_box = ["小燈泡事件","ABD"];
                     this.news_text = news.news(news_box);
+                },
+//==========================================================================================                
+//                顯示文字雲  
+                wc1_click(){
+                    document.getElementById("word_cloud1_dialog").showModal();
+                },
+                wc1_close(){
+                    document.getElementById("word_cloud1_dialog").close();
+                },
+                
+                wc2_click(){
+                    document.getElementById("word_cloud2_dialog").showModal();
+                },
+                wc2_close(){
+                    document.getElementById("word_cloud2_dialog").close();
+                },
+                
+                wc3_click(){
+                    document.getElementById("word_cloud3_dialog").showModal();
+                },
+                wc3_close(){
+                    document.getElementById("word_cloud3_dialog").close();
                 },
 //==========================================================================================                
 //                其他

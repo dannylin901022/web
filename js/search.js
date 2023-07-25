@@ -29,7 +29,7 @@ var search = {
                 },
         async get_data_PopularityAnalysis(topic,start,end,api_url,token) {
                 var data = {};
-                    await fetch(api_url + "PopularityAnalysis/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
+                    await fetch(api_url + "PopularityAnalysis/fake/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
                         headers: {"Authorization": 'Bearer ' +  token,
                                   "Content-Type": "application/json",
                                   "Accept": "application/json"} 
@@ -49,7 +49,7 @@ var search = {
     
         async get_data_SentimentAnalysis(topic,start,end,api_url,token) {
                 var data = {};
-                    await fetch(api_url + "SentimentAnalysis/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
+                    await fetch(api_url + "SentimentAnalysis/fake/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
                         headers: {"Authorization": 'Bearer ' +  token,
                                   "Content-Type": "application/json",
                                   "Accept": "application/json"} 
@@ -69,7 +69,7 @@ var search = {
     
     async get_data_WordCloud(topic,start,end,api_url,token) {
                 var data = {};
-                    await fetch(api_url + "WordCloud/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
+                    await fetch(api_url + "WordCloud/fake/" + topic + "/StatrDate/" +start + "/EndDate/" + end,{
                         headers: {"Authorization": 'Bearer ' +  token,
                                   "Content-Type": "application/json",
                                   "Accept": "application/json"} 

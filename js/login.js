@@ -12,7 +12,7 @@ var login = {
                             document.getElementById("user_account").style.display = 'block';
                             document.getElementById("user_collection").style.display = 'block';
                             document.getElementById("logout").style.display = 'block';
-                        }, 1000); 
+                        }, 2000); 
                         return re
                     }
                     else{
