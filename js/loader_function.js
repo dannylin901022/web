@@ -22,7 +22,7 @@ function result() {
             document.getElementById("result").style.display = "block";
             document.getElementById("c_left").style.height = 350 + 'vh';
             all_event();
-     }, 3000);
+     }, 3000);//目前跑2分半
 }
 }
 function login() {

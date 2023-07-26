@@ -17,6 +17,8 @@ var chart = {
                                     beginAtZero: true
                                 }
                             },
+                            responsive: true,
+                            maintainAspectRatio: false,
                              plugins: {
                                 datalabels: {
                                     color: '#36A2EB',
@@ -24,7 +26,7 @@ var chart = {
                                     align: 'end',
                                     offset:4,
                                     font: {
-                                        size: 8,
+                                        size: 10,
                                     },
                                 }
                              },
@@ -43,6 +45,16 @@ var chart = {
                         },
                         
                     });
+                document.getElementById('bar_chart_div').style.width = label.length * 100 + "";
+                
+                let max = Math.max.apply(null, datas);
+                let max_text=label[datas.indexOf(max)];
+                let min = Math.min.apply(null, datas);
+                let min_text=label[datas.indexOf(min)];
+                document.getElementById("b_max").innerHTML = "主題文章最大值：" + max + "<br>" + "日期：" + max_text;
+                document.getElementById("b_min").innerHTML = "主題文章最小值：" + min + "<br>" + "日期：" + min_text;
+                
+
                 },
             line_chart(label,data1,data2){
                 var ctx = document.getElementById('line_chart');
@@ -58,39 +70,54 @@ var chart = {
                                     beginAtZero: true
                                 }
                             },
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                datalabels: {
+                                    color: '#36A2EB',
+                                    anchor:'end',
+                                    align: 'end',
+                                    offset:4,
+                                    font: {
+                                        size: 0,
+                                    },
+                                }
+                             },
                         },
                     data: {
                         labels: label,
                         datasets: [{
-                    label: '正向評價數',
-                    data: data1,
-                    fill: false,
-                    borderColor: '#646873',
-                        },
-                    {
-                    label: '負向評價數',
-                    data: data2,
-                    fill: false,
-                    borderColor: '#000505',
-                }
-            ],
-        }});
+                                label: '正向評價數',
+                                data: data1,
+                                fill: false,
+                                borderColor: '#646873',
+                            },
+                            {
+                                label: '負向評價數',
+                                data: data2,
+                                fill: false,
+                                borderColor: '#000505',
+                            }
+                        ],
+                }});
+                document.getElementById('line_chart_div').style.width = label.length * 100 + "";
+                
                 let max = Math.max.apply(null, data1);
                 let max_text=label[data1.indexOf(max)];
                 let min = Math.min.apply(null, data1);
                 let min_text=label[data1.indexOf(min)];
-                document.getElementById("p_max").innerHTML = "正向最大值：" + max + "\t\t日期：" + max_text;
-                document.getElementById("p_min").innerHTML = "正向最小值：" + min + "\t\t日期：" + min_text;
+                document.getElementById("p_max").innerHTML = "正向最大值：" + max + "<br>" + "日期：" + max_text;
+                document.getElementById("p_min").innerHTML = "正向最小值：" + min + "<br>" + "日期：" + min_text;
                 
                 max = Math.max.apply(null, data2);
                 max_text=label[data2.indexOf(max)];
                 min = Math.min.apply(null, data2);
                 min_text=label[data2.indexOf(min)];
-                document.getElementById("n_max").innerHTML = "負向最大值：" + max + "\t\t日期：" + max_text;
-                document.getElementById("n_min").innerHTML = "負向最小值：" + min + "\t\t日期：" + min_text;
+                document.getElementById("n_max").innerHTML = "負向最大值：" + max + "<br>" + "日期：" + max_text;
+                document.getElementById("n_min").innerHTML = "負向最小值：" + min + "<br>" + "日期：" + min_text;
 
             },
-			word_chart(wordSegment,frequency){
+			word_chart_all(wordSegment,frequency){
                 //chart_1
 				var data1 = [];
                 for(var i = 0;i<wordSegment.length;i++){
@@ -116,10 +143,10 @@ var chart = {
                 chart1_1.colorRange(true);
                 chart1_1.colorRange().length('80%');
                 chart1_1.container("wc1");
-                chart1_1.draw();
-                
-                
-                //chart_2
+                chart1_1.draw(); 
+			},
+    word_chart_positive(wordSegment,frequency){
+        //chart_2
 				var data2 = [];
                 for(var i = 0;i<wordSegment.length;i++){
                     data2.push({"x":wordSegment[i],"value":frequency[i]});
@@ -146,9 +173,9 @@ var chart = {
                 chart2_2.colorRange().length('80%');
                 chart2_2.container("wc2");
                 chart2_2.draw();
-                
-                
-                //chart_3
+    },
+    word_chart_negative(wordSegment,frequency){
+        //chart_3
 				var data3 = [];
                 for(var i = 0;i<wordSegment.length;i++){
                     data3.push({"x":wordSegment[i],"value":frequency[i]});
@@ -174,7 +201,7 @@ var chart = {
                 chart3_3.colorRange().length('80%');
                 chart3_3.container("wc3");
                 chart3_3.draw();
-			}
+    }
 }
 export default chart;
 
