@@ -1,5 +1,12 @@
 var chart = {
             bar_chart(label,datas){
+                    let max = Math.max.apply(null, datas);
+                    let max_text=label[datas.indexOf(max)];
+                    let min = Math.min.apply(null, datas);
+                    let min_text=label[datas.indexOf(min)];
+                    document.getElementById("b_max").innerHTML = "主題文章最大值：" + max + "<br>" + "日期：" + max_text;
+                    document.getElementById("b_min").innerHTML = "主題文章最小值：" + min + "<br>" + "日期：" + min_text;
+                
                     var ctx = document.getElementById('bar_chart').getContext("2d")
                     var gradient = ctx.createLinearGradient(0, 0, 0, 170);
                         gradient.addColorStop(0, "black");
@@ -12,6 +19,7 @@ var chart = {
                     new Chart(ctx, {
                         type: 'bar',
                         options: {
+                            
                             scales: {
                                 y: {
                                     beginAtZero: true
@@ -28,8 +36,27 @@ var chart = {
                                     font: {
                                         size: 10,
                                     },
+                                    listeners: {
+                                        enter: function(context, event) {
+                                            context.hovered = true;
+                                            return true;
+                                        },
+                                        leave: function(context, event) {
+                                            context.hovered = false;
+                                            return true;
+                                        }
+                                    }, 
                                 }
                              },
+                            onHover: (evt, activeEls) => {
+//                                console.log("hello");
+                                activeEls.length > 0 ? evt.chart.canvas.style.cursor = 'pointer' : evt.chart.canvas.style.cursor = 'default';
+                            },
+                            onClick: (evt, el, chart) => {
+                                if(el[0]){
+//                                    location.href = "http://www.google.com";
+                            }               
+                            } 
                         },
                         data: {
                             labels: label,
@@ -39,20 +66,19 @@ var chart = {
                                 borderWidth: 1,
                                 backgroundColor: ["#000505","#373041","#646873"],
                                 datalabels: {
-                                    color: '#332233'
-                                },
+                                    color: '#332233',
+                                    listeners: {
+                                        click: function(context) {
+                                        console.log('label ' + context.dataIndex + ' 被按到了!');},
+                                    },
+                                }
                             }]
                         },
                         
                     });
                 document.getElementById('bar_chart_div').style.width = label.length * 100 + "";
                 
-                let max = Math.max.apply(null, datas);
-                let max_text=label[datas.indexOf(max)];
-                let min = Math.min.apply(null, datas);
-                let min_text=label[datas.indexOf(min)];
-                document.getElementById("b_max").innerHTML = "主題文章最大值：" + max + "<br>" + "日期：" + max_text;
-                document.getElementById("b_min").innerHTML = "主題文章最小值：" + min + "<br>" + "日期：" + min_text;
+
                 
 
                 },
