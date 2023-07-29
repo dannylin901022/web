@@ -48,13 +48,28 @@ var chart = {
                                     }, 
                                 }
                              },
-                            onHover: (evt, activeEls) => {
-//                                console.log("hello");
+                            onHover: (evt,activeEls) => {
+                                try{
+                                console.log(activeEls[0].index);
+                                if(activeEls[0].index == datas.indexOf(max)){
+                                    document.getElementById("bar_link").innerHTML = "　最大值相關連結：" + "http://www.google.com";
+                                }
+                                    else{
+                                        document.getElementById("bar_link").innerHTML = "";
+                                    }
                                 activeEls.length > 0 ? evt.chart.canvas.style.cursor = 'pointer' : evt.chart.canvas.style.cursor = 'default';
+                                }
+                                catch(e){
+                                    document.getElementById("bar_link").innerHTML = "";
+                                }
+                            
                             },
                             onClick: (evt, el, chart) => {
                                 if(el[0]){
-//                                    location.href = "http://www.google.com";
+                                    if(chart.data.labels[el[0].index] == max_text){
+                                        location.href = "http://www.google.com";
+                                    }
+
                             }               
                             } 
                         },
@@ -94,7 +109,7 @@ var chart = {
                             scales: {
                                 y: {
                                     beginAtZero: true
-                                }
+                                },
                             },
                             responsive: true,
                             maintainAspectRatio: false,
@@ -107,6 +122,9 @@ var chart = {
                                     font: {
                                         size: 0,
                                     },
+                                },
+                                legend:{
+                                    position: 'left',
                                 }
                              },
                         },
@@ -126,7 +144,7 @@ var chart = {
                             }
                         ],
                 }});
-                document.getElementById('line_chart_div').style.width = label.length * 100 + "";
+                document.getElementById('line_chart_div').style.width = label.length * 50 + "";
                 
                 let max = Math.max.apply(null, data1);
                 let max_text=label[data1.indexOf(max)];
