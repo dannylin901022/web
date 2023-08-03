@@ -13,12 +13,12 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-	  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
-  	  <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+        <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+        <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
         
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
         
-        
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         
         <link rel="stylesheet" href="./css/style.css">
@@ -110,7 +110,7 @@
                     <h1>情緒分析應用於社群論壇之文件探勘</h1>
                     <p>輸入主題以產生分析結果</p>
                     <div style="display:flex; flex-direction:column; justify-content:center;" >
-                        <input type="text" id="search_box" style="margin-top:20px;height: 50px; width:75%;font-size:30px;">
+                        <input v-model="topic" type="text" id="search_box" style="margin-top:20px;height: 50px; width:75%;font-size:30px;">
                         <div style="display: flex;align-content: center;margin-top: 20px;">
                             <p style="text-align:center">開始時間：</p>
                             <input type="date" id="search_start" style="height: 20px;">
@@ -123,7 +123,7 @@
                     </div>
                     <div style="margin-top:30px;">
                         <h3>熱門文章</h3>
-                        <div style="border: 1px solid;height: 40px" v-model="recommend_info">
+                        <div style="border: 1px solid;height: 40px">
                             <p style="margin-top: 10px;">{{recommend_info}}</p>
                         </div>
                     </div>
@@ -141,9 +141,9 @@
                 <h1>{{search_input.topic}}</h1>
 				<div style="display:flex;">
 				<div style="display:flex;flex-direction:column;">
-                    <div style="border:1px solid;height:35vh;width:100vh">
+                    <div style="border:1px solid;height:35vh;width:100vh;overflow: scroll">
 <!--                        <p v-for="item in result_text">帳號：{{item.account}} 密碼：{{item.password}}</p>-->
-                        <p>摘要</p>
+                        <p>{{ summary }}</p>
 					</div>
 				</div>
 				<div style="display:flex-warp;flex-direction:column;">
@@ -193,7 +193,7 @@
                 <div id="bar_link" style="display: flex;align-items: center;font-size: 25px; border: 1px solid;height: 50px;width:700px;margin-top: 10px;">
                     
                 </div>
-                <hr style="; margin-bottom: 100px;">
+                <hr style="margin-bottom: 100px;">
                 <h2 >正負向評價數</h2>               
                 <div style="display: flex; height: 400px;width: 1200px;">
                     <div style="width:700px;overflow:auto;">
@@ -338,11 +338,10 @@
         import logout from "./js/logout.js";
         import register from "./js/register.js";
         import collect from "./js/collect.js";
-       
+        import { summary_api_url, api_url } from "./js/config.js";
         
         var login_statu = 0;
         var id = 0,id_index = 0,item_id = 0;
-        const api_url = "https://localhost:53622/api/";
         var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjkwMjIxMTg0LCJqdGkiOiJiNjQwOTZjMy04MWI4LTQ0ZTYtODQ5OC1hNGRkMmE5NDlkMTAiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2OTAyMTkzODQsImlhdCI6MTY5MDIxOTM4NH0.3Ki-R1DOnBeheLomO3z4PTzFi5jpypjYfkP7_ROo37I";
         Chart.register(ChartDataLabels);
 
@@ -350,9 +349,11 @@
         Vue.createApp({
             data(){
                 return{
-                    search_input:{  "topic": "",
-                                    "startDate": "",
-                                    "endDate": ""},
+                    search_input:{  
+                        topic: "",
+                        startDate: "",
+                        endDate: ""
+                    },
                     recommend_info:"推薦",
                     account_input:"",
                     password_input:"",
@@ -364,6 +365,8 @@
                     folder:"",
                     item:"<option selected>請選擇項目</option>",
                     item_select:0,
+                    summary: "",
+                    topic: "",
                 }
             },
             methods:{
@@ -587,12 +590,47 @@
                 },
                 bad(){
                     alert("已點不喜歡");  
-            },
+                },
+                async getSummary(payload) {
+                    const response = await fetch(`${summary_api_url}/summary`, {
+                        method: "POST",
+                        cache: "no-cache",
+                        keepalive: true,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "text/event-stream",
+                        },
+                        body: JSON.stringify(payload),
+                    });
+                    
+                    const reader = response.body.getReader();
+                    
+                    while (true) {
+                        const {value, done} = await reader.read();
+                        if (done) break;
+                        new TextDecoder().decode(value)
+                            .replace(/\r/g,"")
+                            .split("\n")
+                            .filter(line => line?.length > 0)
+                            .map(line => {
+                                const regex = /^: ping/;
+                                if (regex.test(line)) return {"text":""};
+                                const _temp = line.replace(/^data: /, '').replace(/'/g, '"');
+                                let jsonObj
+                                try {
+                                    jsonObj = JSON.parse(_temp)
+                                } catch (error) {
+                                    jsonObj = {"text":""}
+                                }
+                                return jsonObj
+                            })
+                            .forEach(line => {
+                                this.summary += line.text;
+                            })
+                    }
+                }
                 
-        },
-        mounted: function(){
-        
-        }, 
+            },
     }).mount('#all_body');
     </script>
 </html>
