@@ -1,598 +1,664 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-        
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        
-        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
-  	  <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
-        
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-        
-        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        
-        <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="./css/nav.css">
-        <link rel="stylesheet" href="./css/loader_style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
-        <script  src="./js/nav.js"></script>
-        
-        <script src="./js/loader_function.js"></script>
-        
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500&display=swap" rel="stylesheet">
-        
-        
-        <title>index</title>
-        
-        <style type="text/css">
-            .jumbotron {
-                padding: 4rem 2rem;
-                margin-bottom: 2rem;
-                border-radius: .3rem;  
-            }
-        </style>
-    </head>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/nav.css">
+    <link rel="stylesheet" href="./css/loader_style.css">
+
+    <script  src="./js/nav.js"></script>
+
+    <script src="./js/loader_function.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500&display=swap" rel="stylesheet">
+
+
+    <title>index</title>
+
+    <style type="text/css">
+        .jumbotron {
+            padding: 4rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: .3rem;  
+        }
+    </style>
+</head>
 <body onload="search()" style="margin:0;">
-        <div style="min-width: 1640px;height: 50px;background-color:#2D232E;"></div>
-        <div id="all_body" style="height: 100%;margin-top:-50px;">
-        <div class="container-all">
-        <div id="c_left" class="container-left">
-            <nav id="siderbar">
-                <div style="height: 50px; background-color:#2D232E;">
-                        <button type="button" id="collapse" class="collapse-btn"  style="margin-left: 210px;margin-top: 10px; border: none; font-size: 30px;background-color:#2D232E;">
-                            <i class="fa-solid fa-bars" style="color: white;"></i>
-                        </button>
+    <div style="min-width: 1640px;height: 50px;background-color:#2D232E;"></div>
+    <div id="all_body" style="height: 100%;margin-top:-50px;">
+    <div class="container-all">
+    <div id="c_left" class="container-left">
+        <nav id="siderbar">
+            <div style="height: 50px; background-color:#2D232E;">
+                    <button type="button" id="collapse" class="collapse-btn"  style="margin-left: 210px;margin-top: 10px; border: none; font-size: 30px;background-color:#2D232E;">
+                        <i class="fa-solid fa-bars" style="color: white;"></i>
+                    </button>
+            </div>
+            <div style="display: flex" onclick="home()">
+                <a href="#" style=" margin: auto;margin-top: 20px;"><img src="logo.png" style="height: 150px;"></a>
                 </div>
-                <div style="display: flex" onclick="home()">
-                    <a href="#" style=" margin: auto;margin-top: 20px;"><img src="logo.png" style="height: 150px;"></a>
-                    </div>
-                
-                <ul class="list-unstyled" style="margin-top:30px; text-align: center">                 
-                    <li>
-                        <hr class="hr">
-                        <a href="#" onclick="home()" class="nav_li">首頁</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="result()" class="nav_li" @click="search_btn">搜尋結果</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="news()" class="nav_li" @click="news_btn">最新消息</a>
-                    </li>
-<!--
-                    <li>
-                        <a href="#" class="nav_li">關於我們(暫留)</a>
-                    </li>
--->
-                    <li>
-                        <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="collapsed" aria-expanded="false">登入/註冊</a>
-                        <ul id="sublist" class="list-unstyled collapse nav_li">
-                            <li>
-                                <a href="#" id="dropdown_login" onclick="login()" style="text-decoration: none;font-size: 16px;">登入</a>
-                            </li>
-                            <li>
-                                <a href="#" id="dropdown_register" onclick="register()" style="text-decoration: none;font-size: 16px;">註冊</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" id="user_collection" class="nav_li" onclick="collection()" style="display: none;" @click="collect_get">收藏列表</a>
-                    </li>
-                    <li>
-                        <p id="user_account" class="nav_li" style="display: none;">使用者：{{account_input}}</p>
-                    </li>
-                    <li>
-                        <a href="#" id="logout" class="nav_li" style="display: none;" @click="logout_btn">登出</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    
-        <div class="container-right" style="margin:0px auto;margin-top: -800px; display: flex; justify-content: center; align-items: center;">
-        <div id="loader"></div>          
-        <div class="container-fluid">
-        <section id="search" class="animate-bottom" style="display: none" >
-            <div class='jumbotron'>
-            <div class='container'>
-            <div class='row'>
-                <div class='col-md-12'>
-                    <h1>情緒分析應用於社群論壇之文件探勘</h1>
-                    <p>輸入主題以產生分析結果</p>
-                    <div style="display:flex; flex-direction:column; justify-content:center;" >
-                        <input type="text" id="search_box" style="margin-top:20px;height: 50px; width:75%;font-size:30px;">
-                        <div style="display: flex;align-content: center;margin-top: 20px;">
-                            <p style="text-align:center">開始時間：</p>
-                            <input type="date" id="search_start" style="height: 20px;">
-                            <p style="text-align:center;margin-left: 40px;">結束時間：</p>
-                            <input type="date" id="search_end" style="height: 20px;">
-                        </div>
-				        <button type="button" style="margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" 
-                        onclick="result()"
-                        @click="search_btn" >搜尋</button>
-                    </div>
-                    <div style="margin-top:30px;">
-                        <h3>熱門文章</h3>
-                        <div style="border: 1px solid;height: 40px" v-model="recommend_info">
-                            <p style="margin-top: 10px;">{{recommend_info}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            </div>
-        </section>
-        <section id="result" class="animate-bottom" style="display: none;margin-top: 700px;">
-            <div class='jumbotron'>
-            <div class='container'>
-            <div class='row'>
-            <div class='col-md-12' >
-			<div>
-                <h1>{{search_input.topic}}</h1>
-				<div style="display:flex;">
-				<div style="display:flex;flex-direction:column;">
-                    <div style="border:1px solid;height:35vh;width:100vh">
-<!--                        <p v-for="item in result_text">帳號：{{item.account}} 密碼：{{item.password}}</p>-->
-                        <p>摘要</p>
-					</div>
-				</div>
-				<div style="display:flex-warp;flex-direction:column;">
-                    <div style="display:flex;margin-left:30px;">
-					   <button type="button" class="summary_btn" @click="good"><i class="fa-solid fa-thumbs-up" style="margin-left:0;"></i></button>
-					   <button type="button" class="summary_btn" @click="bad"><i class="fa-solid fa-thumbs-down"></i></button>
-					   <button type="button" class="summary_btn" @click="save_btn"><i class="fa-solid fa-heart"></i></button>
-                        <a href="https://www.google.com/" target="_blank"><button type="button" class="summary_btn" style="font-size: 10;width: 70px">相關連結</button></a>
-				    </div>
-                    <div style="border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;">
-                        正負項資料筆數
-                    </div>
-					<div style="border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;">
-                        GPT分數
-					</div>
-                    
-                    <dialog id="collect_info" style="justify-content:center;align-items:center;flex-direction:column;">
-                        <p>請選擇要儲存的資料夾及儲存名稱</p>
-                        <select id="select_folder1" @change="folder_change_result" style="height: 50px; width:75%;" v-html="folder" >
 
-                        </select>
-                        <input type="text" id="collect_info_box" style="margin-top:20px;height: 50px; width:75%;font-size:20px;">
-                        <div style="margin-top: 20px;">
-                            <button id="save" @click="save">儲存</button>
-                            <button id="cancel" style="margin-left: 20px;" @click="cancel_save">取消</button>
-                        </div>
-                    </dialog>
-                    
-                    
-                <div>
+            <ul class="list-unstyled" style="margin-top:30px; text-align: center">                 
+                <li>
+                    <hr class="hr">
+                    <a href="#" onclick="home()" class="nav_li">首頁</a>
+                </li>
+                <li>
+                    <a href="#" onclick="result()" class="nav_li" @click="search_btn">搜尋結果</a>
+                </li>
+                <li>
+                    <a href="#" onclick="news()" class="nav_li" @click="news_btn">最新消息</a>
+                </li>
+<!--
+                <li>
+                    <a href="#" class="nav_li">關於我們(暫留)</a>
+                </li>
+-->
+                <li>
+                    <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="collapsed" aria-expanded="false">登入/註冊</a>
+                    <ul id="sublist" class="list-unstyled collapse nav_li">
+                        <li>
+                            <a href="#" id="dropdown_login" onclick="login()" style="text-decoration: none;font-size: 16px;">登入</a>
+                        </li>
+                        <li>
+                            <a href="#" id="dropdown_register" onclick="register()" style="text-decoration: none;font-size: 16px;">註冊</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" id="user_collection" class="nav_li" onclick="collection()" style="display: none;" @click="collect_get">收藏列表</a>
+                </li>
+                <li>
+                    <p id="user_account" class="nav_li" style="display: none;">使用者：{{account_input}}</p>
+                </li>
+                <li>
+                    <a href="#" id="logout" class="nav_li" style="display: none;" @click="logout_btn">登出</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container-right" style="margin:0px auto;margin-top: -500px; display: flex; justify-content: center; align-items: center;">
+    <div id="loader"></div>          
+    <div class="container-fluid">
+    <section id="search" class="animate-bottom" style="display: none;margin-top: -200px;" >
+        <div class='jumbotron'>
+        <div class='container'>
+        <div class='row'>
+            <div class='col-md-12'>
+                <h1>情緒分析應用於社群論壇之文件探勘</h1>
+                <p>輸入主題以產生分析結果</p>
+                <div style="display:flex; flex-direction:column; justify-content:center;" >
+                    <input v-model="topic" type="text" id="search_box" style="margin-top:20px;height: 50px; width:75%;font-size:30px;">
+                    <div style="display: flex;align-content: center;margin-top: 20px;">
+                        <p style="text-align:center">開始時間：</p>
+                        <input type="date" id="search_start" style="height: 20px;">
+                        <p style="text-align:center;margin-left: 40px;">結束時間：</p>
+                        <input type="date" id="search_end" style="height: 20px;">
+                        <p style="text-align:center;margin-left: 40px;">日期間隔：</p>
+                        <input type="text" id="search_day" style="height: 20px;width: 40px;"><p>天</p>
+                    </div>
+                    <button type="button" style="margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" 
+                    onclick="result()"
+                    @click="search_btn" >搜尋</button>
                 </div>
-            </div> 	
+                <div style="margin-top:30px;">
+                    <h3>熱門文章</h3>
+                    <div style="border: 1px solid;height: 40px" v-model="recommend_info">
+                        <p style="margin-top: 10px;">{{recommend_info}}</p>
+                    </div>
+                </div>
             </div>
+        </div>
+        </div>
+        </div>
+    </section>
+    <section id="result" class="animate-bottom" style="display: none;margin-top: 300px;">
+        <div class='jumbotron'>
+        <div class='container'>
+        <div class='row'>
+        <div class='col-md-12' >
+        <div>
+            <h1>{{search_input.topic}}</h1>
+            <div style="display:flex;">
+            <div style="display:flex;flex-direction:column;">
+                <div style="border:1px solid;height:35vh;width:100vh">
+<!--                        <p v-for="item in result_text">帳號：{{item.account}} 密碼：{{item.password}}</p>-->
+                    <p>{{summary}}</p>
+                </div>
             </div>
-                <h2 style="margin-top: 100px;margin-bottom: -100px">主題文章數</h2>
-                <div style="display: flex; height: 400px;width: 1200px;">
-                <div style="width:700px;overflow:auto;">
-                <div id="bar_chart_div" style="height:70%;margin-top:100px;">
-						<canvas id="bar_chart"></canvas>	
-					</div>
+            <div style="display:flex-warp;flex-direction:column;">
+                <div style="display:flex;margin-left:30px;">
+                   <button type="button" class="summary_btn" @click="good"><i class="fa-solid fa-thumbs-up" style="margin-left:0;"></i></button>
+                   <button type="button" class="summary_btn" @click="bad"><i class="fa-solid fa-thumbs-down"></i></button>
+                   <button type="button" class="summary_btn" @click="save_btn"><i class="fa-solid fa-heart"></i></button>
+                    <a href="https://www.google.com/" target="_blank"><button type="button" class="summary_btn" style="font-size: 10;width: 70px">相關連結</button></a>
                 </div>
-                    <div style="display: flex-warp;margin-top:100px;margin-left: 50px;">
-                        <p id="b_max"></p>
-                        <p id="b_min"></p>
-                    </div>
+                <div id="b_sum" style="border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;">
+<!--                        正負項資料筆數-->
                 </div>
-                <div id="bar_link" style="display: flex;align-items: center;font-size: 25px; border: 1px solid;height: 50px;width:700px;margin-top: 10px;">
-                    
+                <div style="border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;">
+                    GPT分數
                 </div>
-                <hr style="; margin-bottom: 100px;">
-                <h2 >正負向評價數</h2>               
-                <div style="display: flex; height: 400px;width: 1200px;">
-                    <div style="width:700px;overflow:auto;">
-                <div id="line_chart_div" style="height:70%;">
-						<canvas id="line_chart"></canvas>	
-					</div>
-                    </div>
-                    <div style="display: flex-warp;margin-left: 50px;">
-                        <p id="p_max"></p>
-                        <p id="p_min"></p>
-                        <p id="n_max"></p>
-                        <p id="n_min"></p>
-                    </div>
-                </div>
-                <hr style="margin-bottom: 100px;">
-                <h2 style="margin-bottom: 50px">關鍵字文字雲</h2>
-                <div style="display: flex;height:500px;">
-			        <div id="word_cloud1" style="height:70%;width:40%;margin-top:-30px;" @click="wc1_click">
-				    </div>
-                    <div id="word_cloud2" style="height:70%;width:40%;margin-top:-30px;" @click="wc2_click">
-				    </div>
-                    <div id="word_cloud3" style="height:70%;width:40%;margin-top:-30px;" @click="wc3_click">
-				    </div>
-                </div>
-                <dialog id="word_cloud1_dialog">
-                    <button id="wc1_close" style="display: flex;justify-content: end;" @click="wc1_close">關閉</button>
-                    <div id="wc1" style="height:600px;width:800px;">
+
+                <dialog id="collect_info" style="justify-content:center;align-items:center;flex-direction:column;">
+                    <p>請選擇要儲存的資料夾及儲存名稱</p>
+                    <select id="select_folder1" @change="folder_change_result" style="height: 50px; width:75%;" v-html="folder" >
+
+                    </select>
+                    <input type="text" id="collect_info_box" style="margin-top:20px;height: 50px; width:75%;font-size:20px;">
+                    <div style="margin-top: 20px;">
+                        <button id="save" @click="save">儲存</button>
+                        <button id="cancel" style="margin-left: 20px;" @click="cancel_save">取消</button>
                     </div>
                 </dialog>
-                <dialog id="word_cloud2_dialog">
-                    <button id="wc2_close" style="display: flex;justify-content: end;" @click="wc2_close">關閉</button>
-                    <div id="wc2" style="height:600px;width:800px;">
-                    </div>
-                </dialog>
-                <dialog id="word_cloud3_dialog">
-                    <button id="wc3_close" style="display: flex;justify-content: end;" @click="wc3_close">關閉</button>
-                    <div id="wc3" style="height:600px;width:800px;">
-                    </div>
-                </dialog>
+
+
+            <div>
             </div>
+        </div> 	
+        </div>
+        </div>
+            <hr style="margin-top: 100px;">
+            <h2 style="margin-bottom: -100px">主題文章數</h2>
+            <div style="display: flex; height: 400px;width: 1200px;">
+            <div style="width:700px;overflow:auto;">
+            <div id="bar_chart_div" style="height:70%;margin-top:100px;">
+                    <canvas id="bar_chart"></canvas>
+                </div>
+
             </div>
+
+                <div style="display: flex-warp;margin-top:100px;margin-left: 50px;">
+<!--                        <p id="b_sum"></p>-->
+                    <p id="b_max"></p>
+                    <p id="b_min"></p>
+                </div>
+
             </div>
+            <div style="width:700px;overflow:auto;">
+                <h6>範圍放大</h6>
+                <div id="bar_chart_zoom_div" style="height:400px;border: 1px solid">
+                    <canvas id="bar_chart_zoom"></canvas>
+                </div>
+                </div>
+            <div id="bar_link" style="display: flex;align-items: center;font-size: 25px; border: 1px solid;height: 50px;width:700px;margin-top: 10px;">
+
             </div>
-        </section>
-        <section id="login" class="animate-bottom" style="display: none;margin-top: 200px;" >
-            <div class='jumbotron'>
-            <div class='container'>
-            <div class='row'>
-                <div class='col-md-12'>
-                    <h1>使用者登入</h1>
+            <hr style="margin-top: 100px;">
+            <h2 >正負向評價數</h2>               
+            <div style="display: flex-warp; height: 400px;width: 1200px;">
+                <div style="width:1000px;">
+            <div id="line_chart_div_all" style="height:70%;">
+                <h6>總體趨勢</h6>
+                    <canvas id="line_chart_all"></canvas>	
+                </div>
+                </div>
+                <div style="margin-top: 100px; display: flex">
+                    <h6>放大檢視</h6>
+                <div style="width:700px;overflow:auto;margin-top: 20px;">
+            <div id="line_chart_div" style="height:90%;">
+
+                    <canvas id="line_chart"></canvas>	
+                </div>
+                </div>
+                <div style="display: flex-warp;margin-left: 50px;">
+                    <p id="p_max"></p>
+                    <p id="p_min"></p>
+                    <p id="n_max"></p>
+                    <p id="n_min"></p>
+                </div>
+                </div>
+            </div>
+            <hr style="margin-top: 300px;">
+            <h2 style="margin-bottom: 50px">關鍵字文字雲</h2>
+            <div style="display: flex;height:500px;">
+                <div id="word_cloud1" style="height:70%;width:40%;margin-top:-30px;" @click="wc1_click">
+                </div>
+                <div id="word_cloud2" style="height:70%;width:40%;margin-top:-30px;" @click="wc2_click">
+                </div>
+                <div id="word_cloud3" style="height:70%;width:40%;margin-top:-30px;" @click="wc3_click">
+                </div>
+            </div>
+            <dialog id="word_cloud1_dialog">
+                <button id="wc1_close" style="display: flex;justify-content: end;" @click="wc1_close">關閉</button>
+                <div id="wc1" style="height:600px;width:800px;">
+                </div>
+            </dialog>
+            <dialog id="word_cloud2_dialog">
+                <button id="wc2_close" style="display: flex;justify-content: end;" @click="wc2_close">關閉</button>
+                <div id="wc2" style="height:600px;width:800px;">
+                </div>
+            </dialog>
+            <dialog id="word_cloud3_dialog">
+                <button id="wc3_close" style="display: flex;justify-content: end;" @click="wc3_close">關閉</button>
+                <div id="wc3" style="height:600px;width:800px;">
+                </div>
+            </dialog>
+        </div>
+        </div>
+        </div>
+        </div>
+    </section>
+    <section id="login" class="animate-bottom" style="display: none;margin-top: 200px;" >
+        <div class='jumbotron'>
+        <div class='container'>
+        <div class='row'>
+            <div class='col-md-12'>
+                <h1>使用者登入</h1>
+                <p>帳號：<input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="account_input"></p>
+                <p>密碼：<input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="password_input"></p>
+                <div style="display:flex; flex-direction:column; justify-content:center;" >
+                    <button type="button" style="margin-top:30px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" @click="login_btn" onclick="search()">登入</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+    <section id="register" class="animate-bottom" style="display: none;margin-top: 200px;" >
+        <div class='jumbotron'>
+        <div class='container'>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div style="display:flex; flex-direction:column; justify-content:center;" >
+                    <h1>使用者註冊</h1>
                     <p>帳號：<input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="account_input"></p>
                     <p>密碼：<input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="password_input"></p>
+                    <p style="margin-left:-30px;">電子信箱：<input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="email_input"></p>
                     <div style="display:flex; flex-direction:column; justify-content:center;" >
-				        <button type="button" style="margin-top:30px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" @click="login_btn" onclick="search()">登入</button>
-                    </div>
+                    <button type="button" style="margin-top:30px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" @click="register_btn" onclick="search()">註冊</button>
                 </div>
             </div>
-            </div>
-            </div>
-        </section>
-        <section id="register" class="animate-bottom" style="display: none;margin-top: 200px;" >
-            <div class='jumbotron'>
-            <div class='container'>
-            <div class='row'>
-                <div class='col-md-12'>
-                    <div style="display:flex; flex-direction:column; justify-content:center;" >
-                        <h1>使用者註冊</h1>
-                        <p>帳號：<input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="account_input"></p>
-                        <p>密碼：<input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="password_input"></p>
-                        <p style="margin-left:-30px;">電子信箱：<input type="text" style="margin-top:20px;height: 50px; width:75%;font-size:30px;" v-model="email_input"></p>
-                        <div style="display:flex; flex-direction:column; justify-content:center;" >
-				        <button type="button" style="margin-top:30px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" @click="register_btn" onclick="search()">註冊</button>
-                    </div>
+        </div>
+        </div>
+        </div>
+        </div>
+    </section>
+    <section id="collection" class="animate-bottom" style="display: none;margin-top: 200px;" >
+        <div class='jumbotron'>
+        <div class='container'>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div style="display: flex;justify-content: Space-between;">
+                    <h1>{{account_input}}的收藏列表</h1>
+                    <button type="button" id="new_collect" class="summary_btn" @click="new_collect_btn"><i class="fa-solid fa-plus"></i></button>
                 </div>
-            </div>
-            </div>
-            </div>
-            </div>
-        </section>
-        <section id="collection" class="animate-bottom" style="display: none;margin-top: 200px;" >
-            <div class='jumbotron'>
-            <div class='container'>
-            <div class='row'>
-                <div class='col-md-12'>
-                    <div style="display: flex;justify-content: Space-between;">
-                        <h1>{{account_input}}的收藏列表</h1>
-                        <button type="button" id="new_collect" class="summary_btn" @click="new_collect_btn"><i class="fa-solid fa-plus"></i></button>
-                    </div>
-                    <div style="display:flex; flex-direction:column;border:1px solid black;height:70vh;width:150vh;overflow:auto;" v-html="collect_text">
-                    </div>
-                    <dialog id="new_collect_info" style="justify-content:center;align-items:center;flex-direction:column;">
-                        <h2>此頁面可修改資料夾、刪除項目或資料夾</h2>
-                        <hr>
-                        <p>請選擇欲修改的資料夾</p>
-                        <select id="select_folder2" @change="folder_change_collect" style="height: 50px; width:75%;" v-html="folder">
+                <div style="display:flex; flex-direction:column;border:1px solid black;height:70vh;width:150vh;overflow:auto;" v-html="collect_text">
+                </div>
+                <dialog id="new_collect_info" style="justify-content:center;align-items:center;flex-direction:column;">
+                    <h2>此頁面可修改資料夾、刪除項目或資料夾</h2>
+                    <hr>
+                    <p>請選擇欲修改的資料夾</p>
+                    <select id="select_folder2" @change="folder_change_collect" style="height: 50px; width:75%;" v-html="folder">
 
-                        </select>
-                        <p style="margin-top:40px; ">請選擇欲刪除的項目</p>
-                        <select id="select_item" @change="item_change()" style="height: 50px; width:75%;" v-html="item">
-                            
-                        </select>
-                        <input type="text" id="collect_change_info_box" style="margin-top:20px;height: 50px; width:75%;font-size:20px;" placeholder="輸入新增或修改的名稱">
-                        <div style="margin-top: 20px;">
-                            <button id="new_folder" @click="collect_post_folder">新增</button>
-                            <button id="change_folder" @click="collect_post_change_folder" style="margin-left: 20px;">修改名稱</button>
-                            <button id="change_folder" @click="collect_delete_change_folder" style="margin-left: 20px;">刪除</button>
-                            <button id="cancel_folder" style="margin-left: 20px;" @click="new_collect_cancel">取消</button>
-                        </div>
-                    </dialog>
-                </div>
-                
-            </div>
-            </div>
-            </div>
-        </section>
-        <section id="news" class="animate-bottom" style="display: none" >
-            <div class='jumbotron'>
-            <div class='container'>
-            <div class='row'>
-                <div class='col-md-12'>
-                    <h1>最新消息</h1>
-                    <hr style="border:2px dashed #534B52;">
-                    <div style="display:flex; flex-direction:column;height:70vh;width:150vh" v-html="news_text">
+                    </select>
+                    <p style="margin-top:40px; ">請選擇欲刪除的項目</p>
+                    <select id="select_item" @change="item_change()" style="height: 50px; width:75%;" v-html="item">
+
+                    </select>
+                    <input type="text" id="collect_change_info_box" style="margin-top:20px;height: 50px; width:75%;font-size:20px;" placeholder="輸入新增或修改的名稱">
+                    <div style="margin-top: 20px;">
+                        <button id="new_folder" @click="collect_post_folder">新增</button>
+                        <button id="change_folder" @click="collect_post_change_folder" style="margin-left: 20px;">修改名稱</button>
+                        <button id="change_folder" @click="collect_delete_change_folder" style="margin-left: 20px;">刪除</button>
+                        <button id="cancel_folder" style="margin-left: 20px;" @click="new_collect_cancel">取消</button>
                     </div>
-                </div>
+                </dialog>
             </div>
-            </div>
-            </div>
-        </section>
-        
 
         </div>
-    </div>
-    </div>
-    </div>
-</body>
-    <script type="module">
-        import chart from "./js/chart.js";
-        import search from "./js/search.js";
-        import news from "./js/news.js";
-        import login from "./js/login.js";
-        import logout from "./js/logout.js";
-        import register from "./js/register.js";
-        import collect from "./js/collect.js";
-       
-        
-        var login_statu = 0;
-        var id = 0,id_index = 0,item_id = 0;
-        const api_url = "https://localhost:53622/api/";
-        var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjkwMjIxMTg0LCJqdGkiOiJiNjQwOTZjMy04MWI4LTQ0ZTYtODQ5OC1hNGRkMmE5NDlkMTAiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2OTAyMTkzODQsImlhdCI6MTY5MDIxOTM4NH0.3Ki-R1DOnBeheLomO3z4PTzFi5jpypjYfkP7_ROo37I";
-        Chart.register(ChartDataLabels);
+        </div>
+        </div>
+    </section>
+    <section id="news" class="animate-bottom" style="display: none" >
+        <div class='jumbotron'>
+        <div class='container'>
+        <div class='row'>
+            <div class='col-md-12'>
+                <h1>最新消息</h1>
+                <hr style="border:2px dashed #534B52;">
+                <div style="display:flex; flex-direction:column;height:70vh;width:150vh" v-html="news_text">
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
 
-        
-        Vue.createApp({
-            data(){
-                return{
-                    search_input:{  "topic": "",
-                                    "startDate": "",
-                                    "endDate": ""},
-                    recommend_info:"推薦",
-                    account_input:"",
-                    password_input:"",
-                    email_input:"",
-                    result_text:[],
-                    news_text:"",
-                    collect_text:"",
-                    collect_data:[],
-                    folder:"",
-                    item:"<option selected>請選擇項目</option>",
-                    item_select:0,
-                }
-            },
-            methods:{
-                
+
+    </div>
+</div>
+</div>
+</div>
+</body>
+<script type="module">
+    import chart from "./js/chart.js";
+    import search from "./js/search.js";
+    import news from "./js/news.js";
+    import login from "./js/login.js";
+    import logout from "./js/logout.js";
+    import register from "./js/register.js";
+    import collect from "./js/collect.js";
+    import { summary_api_url, api_url } from "./js/config.js";
+
+
+    var login_statu = 0;
+    var id = 0,id_index = 0,item_id = 0;
+//    const api_url = "https://localhost:58329/api/";
+    var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjkwMjIxMTg0LCJqdGkiOiJiNjQwOTZjMy04MWI4LTQ0ZTYtODQ5OC1hNGRkMmE5NDlkMTAiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2OTAyMTkzODQsImlhdCI6MTY5MDIxOTM4NH0.3Ki-R1DOnBeheLomO3z4PTzFi5jpypjYfkP7_ROo37I";
+    Chart.register(ChartDataLabels);
+
+
+    Vue.createApp({
+        data(){
+            return{
+                search_input:{  "topic": "",
+                                "startDate": "",
+                                "endDate": ""},
+                recommend_info:"推薦",
+                account_input:"",
+                password_input:"",
+                email_input:"",
+                result_text:[],
+                news_text:"",
+                collect_text:"",
+                collect_data:[],
+                folder:"",
+                item:"<option selected>請選擇項目</option>",
+                item_select:0,
+                summary: "",
+                topic: "",
+            }
+        },
+        methods:{
+
 //==========================================================================================                
 //                搜尋
-                search_btn(){
-                    this.search_input = {
-                        "topic": document.getElementById("search_box").value,
-                        "startDate": document.getElementById("search_start").value,
-                        "endDate": document.getElementById("search_end").value
-                    };
-                    if(this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == ""){
-                        alert("請輸入主題、時間，若已更換頁面，請重新輸入");
-                    }
-                    else{  
-                        search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,chart,api_url,token);
-                    }
-                    
-                },
+            search_btn(){
+                this.search_input = {
+                    "topic": document.getElementById("search_box").value,
+                    "startDate": document.getElementById("search_start").value,
+                    "endDate": document.getElementById("search_end").value
+                };
+                if(this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == ""){
+                    alert("請輸入主題、時間，若已更換頁面，請重新輸入");
+                }
+                else{  
+                    search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,chart,api_url,token);
+                }
+
+            },
 //==========================================================================================                
 //                登入登出
-                async login_btn(){
-                    var login_info = await login.login_btn(api_url,this.account_input,this.password_input);
-                    if(!login_info.bool){
-                        this.account_input = "";
-                        this.password_input = "";
-                    }
-                    else{
-                        token = login_info.response;
-                        login_statu = 1;
-                    }
-                },
-                logout_btn(){
-                    var b = logout.logout_btn();
-                    if(b == 1){
-                        login_statu = 0;
-                        this.account_input = "";
-                        this.password_input = "";
-                    }
-                    
-                },
-//==========================================================================================                
-//                註冊
-                async register_btn(){
-                    var s = this.email_input;
-                    var register_info = await register.register_btn(api_url,this.account_input,this.password_input); 
+            async login_btn(){
+                var login_info = await login.login_btn(api_url,this.account_input,this.password_input);
+                if(!login_info.bool){
                     this.account_input = "";
                     this.password_input = "";
-                    this.email_input = "";
-                },
+                }
+                else{
+                    token = login_info.response;
+                    login_statu = 1;
+                }
+            },
+            logout_btn(){
+                var b = logout.logout_btn();
+                if(b == 1){
+                    login_statu = 0;
+                    this.account_input = "";
+                    this.password_input = "";
+                }
+
+            },
+//==========================================================================================                
+//                註冊
+            async register_btn(){
+                var s = this.email_input;
+                var register_info = await register.register_btn(api_url,this.account_input,this.password_input); 
+                this.account_input = "";
+                this.password_input = "";
+                this.email_input = "";
+            },
 //==========================================================================================                
 //                收藏列表(get)
-                async collect_get(){
-                    this.collect_text = await collect.get_data_collect(api_url,token);
-                    var re = await collect.get_save_collect(api_url,token); 
-                    this.folder = re.collect_list;
-                    this.collect_data = re.return_data;
-                },
-                
+            async collect_get(){
+                this.collect_text = await collect.get_data_collect(api_url,token);
+                var re = await collect.get_save_collect(api_url,token); 
+                this.folder = re.collect_list;
+                this.collect_data = re.return_data;
+            },
+
 //==========================================================================================                
 //                結果收藏                 
-                async save_btn(){//顯示dialog
-                    if(login_statu == 0){
-                        alert("請先登入");
-                    }
-                    else{ 
-                        this.collect_get();
-                        document.getElementById("collect_info").showModal();
-                    }
-                },
-                save(){//儲存結果
-                    alert("已收藏");
-                    var text = document.getElementById("collect_info_box");
-                    collect.collect_post_item(api_url,token,text.value,id);
-                    document.getElementById("collect_info_box").value = "";
-                    document.getElementById("collect_info").close();
-                },
-                cancel_save(){//關閉dialog
-                    document.getElementById("collect_info_box").value = "";
-                    document.getElementById("collect_info").close();
-                },
+            async save_btn(){//顯示dialog
+                if(login_statu == 0){
+                    alert("請先登入");
+                }
+                else{ 
+                    this.collect_get();
+                    document.getElementById("collect_info").showModal();
+                }
+            },
+            save(){//儲存結果
+                alert("已收藏");
+                var text = document.getElementById("collect_info_box");
+                collect.collect_post_item(api_url,token,text.value,id);
+                document.getElementById("collect_info_box").value = "";
+                document.getElementById("collect_info").close();
+            },
+            cancel_save(){//關閉dialog
+                document.getElementById("collect_info_box").value = "";
+                document.getElementById("collect_info").close();
+            },
 //==========================================================================================                
 //                資料夾更動
-                async new_collect_btn(){//顯示dialog
-                      document.getElementById("new_collect_info").showModal();
-                      this.folder = "";
-                      this.item = "";
-                      this.collect_get();
-                },
-                
-                async collect_post_folder(){//新增資料夾
-                    alert("已新增資料夾");
-                    var text = document.getElementById("collect_change_info_box");
-                    await collect.collect_post_data(api_url,token,text.value);
-                    text.value = "";
-                    this.collect_get();
-                    document.getElementById("new_collect_info").close();
-                },
-                async collect_post_change_folder(){//資料夾改名
-                    alert("已更改名稱");
+            async new_collect_btn(){//顯示dialog
+                  document.getElementById("new_collect_info").showModal();
+                  this.folder = "";
+                  this.item = "";
+                  this.collect_get();
+            },
+
+            async collect_post_folder(){//新增資料夾
+                alert("已新增資料夾");
+                var text = document.getElementById("collect_change_info_box");
+                await collect.collect_post_data(api_url,token,text.value);
+                text.value = "";
+                this.collect_get();
+                document.getElementById("new_collect_info").close();
+            },
+            async collect_post_change_folder(){//資料夾改名
+                alert("已更改名稱");
+                var text = document.getElementById("collect_change_info_box");
+                var select_folder = document.getElementById("select_folder2");
+                console.log(select_folder.value);
+                for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                    if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                        id = this.collect_data[collect_text].favoriteFolderId;
+                    }
+                }
+
+                await collect.collect_patch_data(api_url,token,text.value,id);
+                text.value = "";
+                this.collect_get();
+                document.getElementById("new_collect_info").close();   
+            },
+
+            async collect_delete_change_folder(){//資料夾刪除
+                if(this.item_select == 0){
+                    alert("已刪除資料夾");
                     var text = document.getElementById("collect_change_info_box");
                     var select_folder = document.getElementById("select_folder2");
                     console.log(select_folder.value);
-                    for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                    for (var collect_text =     0;collect_text<this.collect_data.length;collect_text++) {
                         if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
                             id = this.collect_data[collect_text].favoriteFolderId;
                         }
                     }
-                    
-                    await collect.collect_patch_data(api_url,token,text.value,id);
+                    await collect.collect_delete_data(api_url,token,id);
                     text.value = "";
                     this.collect_get();
                     document.getElementById("new_collect_info").close();   
-                },
-                
-                async collect_delete_change_folder(){//資料夾刪除
-                    if(this.item_select == 0){
-                        alert("已刪除資料夾");
-                        var text = document.getElementById("collect_change_info_box");
-                        var select_folder = document.getElementById("select_folder2");
-                        console.log(select_folder.value);
-                        for (var collect_text =     0;collect_text<this.collect_data.length;collect_text++) {
-                            if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
-                                id = this.collect_data[collect_text].favoriteFolderId;
-                            }
-                        }
-                        await collect.collect_delete_data(api_url,token,id);
-                        text.value = "";
-                        this.collect_get();
-                        document.getElementById("new_collect_info").close();   
-                    }
-                    else if(this.item_select == 1){
-                        alert("已刪除項目");
-                        var text = document.getElementById("collect_change_info_box");
-                        var select_item = document.getElementById("select_item");
-                        console.log(select_item.value);
-                        for (var collect_text =     0;collect_text<this.collect_data[id_index].favoriteFolderItems.length;collect_text++) {
-                            if(this.collect_data[id_index].favoriteFolderItems[collect_text].favoriteItem.favoriteItemName == select_item.value){
-                                item_id = this.collect_data[id_index].favoriteFolderItems[collect_text].favoriteFolderItemId;
-                            }
-                        }
-                        await collect.collect_delete_item_data(api_url,token,item_id);
-                        text.value = "";
-                        this.collect_get();
-                        document.getElementById("new_collect_info").close();
-                    }
-                },
-                async folder_change_result(){//選擇資料夾(結果)
-                    var select_folder = document.getElementById("select_folder1");
-                    for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
-                        if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
-                            id = this.collect_data[collect_text].favoriteFolderId;
-                            id_index = collect_text;
+                }
+                else if(this.item_select == 1){
+                    alert("已刪除項目");
+                    var text = document.getElementById("collect_change_info_box");
+                    var select_item = document.getElementById("select_item");
+                    console.log(select_item.value);
+                    for (var collect_text =     0;collect_text<this.collect_data[id_index].favoriteFolderItems.length;collect_text++) {
+                        if(this.collect_data[id_index].favoriteFolderItems[collect_text].favoriteItem.favoriteItemName == select_item.value){
+                            item_id = this.collect_data[id_index].favoriteFolderItems[collect_text].favoriteFolderItemId;
                         }
                     }
-                    this.item = await collect.display_item(this.collect_data,id_index);
-                    this.item_select = 0;
-                                        console.log(id);
-                },
-                async folder_change_collect(){//選擇資料夾(收藏列表)
-                    var select_folder = document.getElementById("select_folder2");
-                    for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
-                        if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
-                            id = this.collect_data[collect_text].favoriteFolderId;
-                            id_index = collect_text;
-                        }
-                    }
-                    this.item = await collect.display_item(this.collect_data,id_index);
-                    this.item_select = 0;
-                                        console.log(id);
-                },
-                async item_change(){//選擇項目
-                    var select_folder = document.getElementById("select_folder2");
-                    for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
-                        if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
-                            id = this.collect_data[collect_text].favoriteFolderId;
-                            id_index = collect_text;
-                        }
-                    }
-//                    this.item = await collect.display_item(this.collect_data,id_index);
-                    this.item_select = 1;
-                },
-                new_collect_cancel(){//關閉dialog                   
-                    document.getElementById("collect_change_info_box").value = "";
+                    await collect.collect_delete_item_data(api_url,token,item_id);
+                    text.value = "";
+                    this.collect_get();
                     document.getElementById("new_collect_info").close();
-                },
+                }
+            },
+            async folder_change_result(){//選擇資料夾(結果)
+                var select_folder = document.getElementById("select_folder1");
+                for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                    if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                        id = this.collect_data[collect_text].favoriteFolderId;
+                        id_index = collect_text;
+                    }
+                }
+                this.item = await collect.display_item(this.collect_data,id_index);
+                this.item_select = 0;
+                                    console.log(id);
+            },
+            async folder_change_collect(){//選擇資料夾(收藏列表)
+                var select_folder = document.getElementById("select_folder2");
+                for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                    if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                        id = this.collect_data[collect_text].favoriteFolderId;
+                        id_index = collect_text;
+                    }
+                }
+                this.item = await collect.display_item(this.collect_data,id_index);
+                this.item_select = 0;
+                                    console.log(id);
+            },
+            async item_change(){//選擇項目
+                var select_folder = document.getElementById("select_folder2");
+                for (var collect_text = 0;collect_text<this.collect_data.length;collect_text++) {
+                    if(this.collect_data[collect_text].favoriteFolderName == select_folder.value){
+                        id = this.collect_data[collect_text].favoriteFolderId;
+                        id_index = collect_text;
+                    }
+                }
+//                    this.item = await collect.display_item(this.collect_data,id_index);
+                this.item_select = 1;
+            },
+            new_collect_cancel(){//關閉dialog                   
+                document.getElementById("collect_change_info_box").value = "";
+                document.getElementById("new_collect_info").close();
+            },
 //==========================================================================================                
 //                最新消息
-                news_btn(){
-                    this.news_text = "";
-                    var news_box = ["小燈泡事件","ABD"];
-                    this.news_text = news.news(news_box);
-                },
+            news_btn(){
+                this.news_text = "";
+                var news_box = ["小燈泡事件","ABD"];
+                this.news_text = news.news(news_box);
+            },
 //==========================================================================================                
 //                顯示文字雲  
-                wc1_click(){
-                    document.getElementById("word_cloud1_dialog").showModal();
-                },
-                wc1_close(){
-                    document.getElementById("word_cloud1_dialog").close();
-                },
-                
-                wc2_click(){
-                    document.getElementById("word_cloud2_dialog").showModal();
-                },
-                wc2_close(){
-                    document.getElementById("word_cloud2_dialog").close();
-                },
-                
-                wc3_click(){
-                    document.getElementById("word_cloud3_dialog").showModal();
-                },
-                wc3_close(){
-                    document.getElementById("word_cloud3_dialog").close();
-                },
+            wc1_click(){
+                document.getElementById("word_cloud1_dialog").showModal();
+            },
+            wc1_close(){
+                document.getElementById("word_cloud1_dialog").close();
+            },
+
+            wc2_click(){
+                document.getElementById("word_cloud2_dialog").showModal();
+            },
+            wc2_close(){
+                document.getElementById("word_cloud2_dialog").close();
+            },
+
+            wc3_click(){
+                document.getElementById("word_cloud3_dialog").showModal();
+            },
+            wc3_close(){
+                document.getElementById("word_cloud3_dialog").close();
+            },
 //==========================================================================================                
 //                其他
-                good(){
-                    alert("已點喜歡");
-                },
-                bad(){
-                    alert("已點不喜歡");  
+            good(){
+                alert("已點喜歡");
             },
-                
+            bad(){
+                alert("已點不喜歡");  
         },
-        mounted: function(){
-        
-        }, 
-    }).mount('#all_body');
-    </script>
+//==========================================================================================                
+//                摘要
+            async getSummary(payload) {
+                    const response = await fetch(`${summary_api_url}/summary`, {
+                        method: "POST",
+                        cache: "no-cache",
+                        keepalive: true,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "text/event-stream",
+                        },
+                        body: JSON.stringify(payload),
+                    });
+                    
+                    const reader = response.body.getReader();
+                    
+                    while (true) {
+                        const {value, done} = await reader.read();
+                        if (done) break;
+                        new TextDecoder().decode(value)
+                            .replace(/\r/g,"")
+                            .split("\n")
+                            .filter(line => line?.length > 0)
+                            .map(line => {
+                                const regex = /^: ping/;
+                                if (regex.test(line)) return {"text":""};
+                                const _temp = line.replace(/^data: /, '').replace(/'/g, '"');
+                                let jsonObj
+                                try {
+                                    jsonObj = JSON.parse(_temp)
+                                } catch (error) {
+                                    jsonObj = {"text":""}
+                                }
+                                return jsonObj
+                            })
+                            .forEach(line => {
+                                this.summary += line.text;
+                            })
+                    }
+                },
+
+    },
+    mounted: function(){
+
+    }, 
+}).mount('#all_body');
+</script>
 </html>

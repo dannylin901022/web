@@ -4,8 +4,15 @@ var chart = {
                     let max_text=label[datas.indexOf(max)];
                     let min = Math.min.apply(null, datas);
                     let min_text=label[datas.indexOf(min)];
-                    document.getElementById("b_max").innerHTML = "主題文章最大值：" + max + "<br>" + "日期：" + max_text;
-                    document.getElementById("b_min").innerHTML = "主題文章最小值：" + min + "<br>" + "日期：" + min_text;
+                
+                    let sum = 0;
+                    for(var i = 0;i<datas.length;i++){
+                        sum += datas[i];
+                    }    
+
+                    document.getElementById("b_sum").innerHTML = "文章總數：" + sum.toLocaleString();
+                    document.getElementById("b_max").innerHTML = "主題文章最大值：" + max.toLocaleString() + "<br>" + "日期：" + max_text;
+                    document.getElementById("b_min").innerHTML = "主題文章最小值：" + min.toLocaleString() + "<br>" + "日期：" + min_text;
                 
                     var ctx = document.getElementById('bar_chart').getContext("2d")
                     var gradient = ctx.createLinearGradient(0, 0, 0, 170);
@@ -23,6 +30,12 @@ var chart = {
                             scales: {
                                 y: {
                                     beginAtZero: true
+                                },
+                                xAxes:{
+                                    ticks: {
+                                        maxTicksLimit: 50
+//                                        autoSkip: false
+                                    }
                                 }
                             },
                             responsive: true,
@@ -34,7 +47,7 @@ var chart = {
                                     align: 'end',
                                     offset:4,
                                     font: {
-                                        size: 10,
+                                        size: 0,
                                     },
                                     listeners: {
                                         enter: function(context, event) {
@@ -49,27 +62,12 @@ var chart = {
                                 }
                              },
                             onHover: (evt,activeEls) => {
-                                try{
-                                console.log(activeEls[0].index);
-                                if(activeEls[0].index == datas.indexOf(max)){
-                                    document.getElementById("bar_link").innerHTML = "　最大值相關連結：" + "http://www.google.com";
-                                }
-                                    else{
-                                        document.getElementById("bar_link").innerHTML = "";
-                                    }
-                                activeEls.length > 0 ? evt.chart.canvas.style.cursor = 'pointer' : evt.chart.canvas.style.cursor = 'default';
-                                }
-                                catch(e){
-                                    document.getElementById("bar_link").innerHTML = "";
-                                }
-                            
+                                activeEls.length > 0 ? evt.chart.canvas.style.cursor = 'pointer' : evt.chart.canvas.style.cursor = 'default';                          
                             },
                             onClick: (evt, el, chart) => {
                                 if(el[0]){
-                                    if(chart.data.labels[el[0].index] == max_text){
-                                        location.href = "http://www.google.com";
-                                    }
-
+                                    document.getElementById("bar_link").innerHTML = "";
+                                    this.bar_chart_zoom(label,datas,el[0].index,max,max_text);
                             }               
                             } 
                         },
@@ -91,19 +89,75 @@ var chart = {
                         },
                         
                     });
-                document.getElementById('bar_chart_div').style.width = label.length * 100 + "";
+//                document.getElementById('bar_chart_div').style.width = label.length * 100 + "";
                 
 
                 
 
                 },
             line_chart(label,data1,data2){
-                var ctx = document.getElementById('line_chart');
-                var graphique = Chart.getChart("line_chart");
+                var data1_all = data1,data2_all = data2,label_all = label;
+                for(var i = 0;i<data1.length;i++){
+                    if(data1_all[i] == 0 && data2_all[i] == 0){
+                        data1_all.splice(i,i+1);
+                        data2_all.splice(i,i+1);
+                        label_all.splice(i,i+1);
+                    }
+                }
+                
+                var ctx = document.getElementById('line_chart_all');
+                var graphique = Chart.getChart("line_chart_all");
                     if(graphique){
                         graphique.destroy();
                     }
                 var myChart = new Chart(ctx, {
+                    type: 'line',
+                    options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                },
+                            },
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                datalabels: {
+                                    color: '#36A2EB',
+                                    anchor:'end',
+                                    align: 'end',
+                                    offset:4,
+                                    font: {
+                                        size: 0,
+                                    },
+                                },
+                                legend:{
+                                    position: 'left',
+                                }
+                             },
+                        },
+                    data: {
+                        labels: label_all,
+                        datasets: [{
+                                label: '正向評價數',
+                                data: data1_all,
+                                fill: false,
+                                borderColor: 'Red',
+                            },
+                            {
+                                label: '負向評價數',
+                                data: data2_all,
+                                fill: false,
+                                borderColor: 'Green',
+                            }
+                        ],
+                }});
+                
+                ctx = document.getElementById('line_chart');
+                graphique = Chart.getChart("line_chart");
+                    if(graphique){
+                        graphique.destroy();
+                    }
+                myChart = new Chart(ctx, {
                     type: 'line',
                     options: {
                             scales: {
@@ -134,13 +188,13 @@ var chart = {
                                 label: '正向評價數',
                                 data: data1,
                                 fill: false,
-                                borderColor: '#646873',
+                                borderColor: 'Red',
                             },
                             {
                                 label: '負向評價數',
                                 data: data2,
                                 fill: false,
-                                borderColor: '#000505',
+                                borderColor: 'Green',
                             }
                         ],
                 }});
@@ -150,15 +204,15 @@ var chart = {
                 let max_text=label[data1.indexOf(max)];
                 let min = Math.min.apply(null, data1);
                 let min_text=label[data1.indexOf(min)];
-                document.getElementById("p_max").innerHTML = "正向最大值：" + max + "<br>" + "日期：" + max_text;
-                document.getElementById("p_min").innerHTML = "正向最小值：" + min + "<br>" + "日期：" + min_text;
+                document.getElementById("p_max").innerHTML = "正向最大值：" + max.toLocaleString() + "<br>" + "日期：" + max_text;
+                document.getElementById("p_min").innerHTML = "正向最小值：" + min.toLocaleString() + "<br>" + "日期：" + min_text;
                 
                 max = Math.max.apply(null, data2);
                 max_text=label[data2.indexOf(max)];
                 min = Math.min.apply(null, data2);
                 min_text=label[data2.indexOf(min)];
-                document.getElementById("n_max").innerHTML = "負向最大值：" + max + "<br>" + "日期：" + max_text;
-                document.getElementById("n_min").innerHTML = "負向最小值：" + min + "<br>" + "日期：" + min_text;
+                document.getElementById("n_max").innerHTML = "負向最大值：" + max.toLocaleString() + "<br>" + "日期：" + max_text;
+                document.getElementById("n_min").innerHTML = "負向最小值：" + min.toLocaleString() + "<br>" + "日期：" + min_text;
 
             },
 			word_chart_all(wordSegment,frequency){
@@ -200,7 +254,7 @@ var chart = {
                 var chart2 = anychart.tagCloud(data2);
                 chart2.title('正向關鍵字出現數比例');                
                 var coolor2 = anychart.scales.linearColor();
-                coolor2.colors(["#BFCDE0", "#000505"]);
+                coolor2.colors(["#EFADAC", "#EF3344"]);
                 chart2.colorScale(coolor2);
                 chart2.colorRange(true);
                 chart2.colorRange().length('80%');
@@ -211,7 +265,7 @@ var chart = {
                 var chart2_2 = anychart.tagCloud(data2);
                 chart2_2.title('正向關鍵字出現數比例');                
                 var coolor2_2 = anychart.scales.linearColor();
-                coolor2_2.colors(["#BFCDE0", "#000505"]);
+                coolor2_2.colors(["#EFADAC", "#EF3344"]);
                 chart2_2.colorScale(coolor2_2);
                 chart2_2.colorRange(true);
                 chart2_2.colorRange().length('80%');
@@ -228,7 +282,7 @@ var chart = {
                 var chart3 = anychart.tagCloud(data3);
                 chart3.title('負向關鍵字出現數比例');                
                 var coolor3 = anychart.scales.linearColor();
-                coolor3.colors(["#BFCDE0", "#000505"]);
+                coolor3.colors(["#33CC45", "#22AA44"]);
                 chart3.colorScale(coolor3);
                 chart3.colorRange(true);
                 chart3.colorRange().length('80%');
@@ -239,12 +293,99 @@ var chart = {
                 var chart3_3 = anychart.tagCloud(data3);
                 chart3_3.title('負向關鍵字出現數比例');                
                 var coolor3_3 = anychart.scales.linearColor();
-                coolor3_3.colors(["#BFCDE0", "#000505"]);
+                coolor3_3.colors(["#33CC45", "#22AA44"]);
                 chart3_3.colorScale(coolor3_3);
                 chart3_3.colorRange(true);
                 chart3_3.colorRange().length('80%');
                 chart3_3.container("wc3");
                 chart3_3.draw();
+    },
+    
+    bar_chart_zoom(label,datas,index,max,max_text){
+        var ctx = document.getElementById('bar_chart_zoom').getContext("2d");
+        var data = [datas[index-2],datas[index-1],datas[index],datas[index+1],datas[index+2]];
+        var labels = [label[index-2],label[index-1],label[index],label[index+1],label[index+2]];
+        
+        let max_zoom = Math.max.apply(null, data);
+        let min = Math.min.apply(null, data);
+        
+        var graphique = Chart.getChart("bar_chart_zoom");
+                    if(graphique){
+                        graphique.destroy();
+                    }
+        
+        new Chart(ctx, {
+                        type: 'bar',
+                        options: {
+                            
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                },
+                            },
+                            responsive: true,
+                            maintainAspectRatio: false,
+                             plugins: {
+                                datalabels: {
+                                    color: '#36A2EB',
+                                    anchor:'end',
+                                    align: 'end',
+                                    offset:4,
+                                    font: {
+                                        size: 16,
+                                    },
+                                    listeners: {
+                                        enter: function(context, event) {
+                                            context.hovered = true;
+                                            return true;
+                                        },
+                                        leave: function(context, event) {
+                                            context.hovered = false;
+                                            return true;
+                                        }
+                                    }, 
+                                }
+                             },
+                            onHover: (evt,activeEls) => {
+                                try{
+                                console.log(activeEls[0]);
+                                if(activeEls[0].index == data.indexOf(max) && datas[max] == data[max_zoom]){
+                                    document.getElementById("bar_link").innerHTML = "　最大值相關連結：" + "http://www.google.com";
+//                                    要顯示點選位置的網址，用這個function收到的index去抓收到的datas裡的網址
+                                }
+                                    else{
+//                                        document.getElementById("bar_link").innerHTML = "";
+                                    }
+                                activeEls.length > 0 ? evt.chart.canvas.style.cursor = 'pointer' : evt.chart.canvas.style.cursor = 'default';
+                                }
+                                catch(e){
+//                                    document.getElementById("bar_link").innerHTML = "";
+                                }
+                            
+                            },
+                            onClick: (evt, el, chart) => {
+                                if(el[0]){
+                                    if(chart.data.labels[el[0].index] == max_text){
+                                        location.href = "http://www.google.com";
+//                                        要顯示點選位置的網址，用這個function收到的index去抓收到的datas裡的網址
+                                    }
+                                }
+                             },
+                        },
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: '主題文章數',
+                                data: data,
+                                borderWidth: 1,
+                                backgroundColor: ["#000505","#373041","#646873"],
+                                datalabels: {
+                                    color: '#332233',
+                                }
+                            }]
+                        },
+                        
+                    });
     }
 }
 export default chart;

@@ -20,9 +20,9 @@ function result() {
      setTimeout(function(){
             document.getElementById("loader").style.display = "none";
             document.getElementById("result").style.display = "block";
-            document.getElementById("c_left").style.height = 350 + 'vh';
+            document.getElementById("c_left").style.height = 450 + 'vh';
             all_event();
-     }, 3000);//目前跑2分半
+     }, 3000);
 }
 }
 function login() {
