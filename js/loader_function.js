@@ -20,7 +20,7 @@ function result() {
      setTimeout(function(){
             document.getElementById("loader").style.display = "none";
             document.getElementById("result").style.display = "block";
-            document.getElementById("c_left").style.height = 450 + 'vh';
+            document.getElementById("c_left").style.height = 3218 + 'px';
             all_event();
      }, 3000);
 }

@@ -2,7 +2,12 @@ var chart = {
             bar_chart(label,datas){
                     let max = Math.max.apply(null, datas);
                     let max_text=label[datas.indexOf(max)];
-                    let min = Math.min.apply(null, datas);
+                    let min = max;
+                    for(var i = 0;i<datas.length;i++){
+                        if(datas[i] < max && datas[i] != 0){
+                            min = datas[i];
+                        }
+                    }
                     let min_text=label[datas.indexOf(min)];
                 
                     let sum = 0;
@@ -11,8 +16,8 @@ var chart = {
                     }    
 
                     document.getElementById("b_sum").innerHTML = "文章總數：" + sum.toLocaleString();
-                    document.getElementById("b_max").innerHTML = "主題文章最大值：" + max.toLocaleString() + "<br>" + "日期：" + max_text;
-                    document.getElementById("b_min").innerHTML = "主題文章最小值：" + min.toLocaleString() + "<br>" + "日期：" + min_text;
+                    document.getElementById("b_max").innerHTML = "主題討論最大值：" + max.toLocaleString() + "<br>" + "日期：" + max_text;
+                    document.getElementById("b_min").innerHTML = "主題討論最小值：" + min.toLocaleString() + "<br>" + "日期：" + min_text;
                 
                     var ctx = document.getElementById('bar_chart').getContext("2d")
                     var gradient = ctx.createLinearGradient(0, 0, 0, 170);
@@ -74,10 +79,10 @@ var chart = {
                         data: {
                             labels: label,
                             datasets: [{
-                                label: '主題文章數',
+                                label: '主題討論數',
                                 data: datas,
                                 borderWidth: 1,
-                                backgroundColor: ["#000505","#373041","#646873"],
+                                backgroundColor: ["#05FFA7","#3CC796","#58FFC4"],
                                 datalabels: {
                                     color: '#332233',
                                     listeners: {
@@ -141,13 +146,13 @@ var chart = {
                                 label: '正向評價數',
                                 data: data1_all,
                                 fill: false,
-                                borderColor: 'Red',
+                                borderColor: '#FF5454',
                             },
                             {
                                 label: '負向評價數',
                                 data: data2_all,
                                 fill: false,
-                                borderColor: 'Green',
+                                borderColor: '#66FF07',
                             }
                         ],
                 }});
@@ -188,13 +193,13 @@ var chart = {
                                 label: '正向評價數',
                                 data: data1,
                                 fill: false,
-                                borderColor: 'Red',
+                                borderColor: '#FF5454',
                             },
                             {
                                 label: '負向評價數',
                                 data: data2,
                                 fill: false,
-                                borderColor: 'Green',
+                                borderColor: '#66FF07',
                             }
                         ],
                 }});
@@ -202,14 +207,24 @@ var chart = {
                 
                 let max = Math.max.apply(null, data1);
                 let max_text=label[data1.indexOf(max)];
-                let min = Math.min.apply(null, data1);
+                let min = max;
+                    for(var i = 0;i<data1.length;i++){
+                        if(data1[i] < max && data1[i] != 0){
+                            min = data1[i];
+                        }
+                    }
                 let min_text=label[data1.indexOf(min)];
                 document.getElementById("p_max").innerHTML = "正向最大值：" + max.toLocaleString() + "<br>" + "日期：" + max_text;
                 document.getElementById("p_min").innerHTML = "正向最小值：" + min.toLocaleString() + "<br>" + "日期：" + min_text;
                 
                 max = Math.max.apply(null, data2);
                 max_text=label[data2.indexOf(max)];
-                min = Math.min.apply(null, data2);
+                min = max;
+                    for(var i = 0;i<data2.length;i++){
+                        if(data2[i] < max && data2[i] != 0){
+                            min = data2[i];
+                        }
+                    }
                 min_text=label[data2.indexOf(min)];
                 document.getElementById("n_max").innerHTML = "負向最大值：" + max.toLocaleString() + "<br>" + "日期：" + max_text;
                 document.getElementById("n_min").innerHTML = "負向最小值：" + min.toLocaleString() + "<br>" + "日期：" + min_text;
@@ -375,10 +390,10 @@ var chart = {
                         data: {
                             labels: labels,
                             datasets: [{
-                                label: '主題文章數',
+                                label: '主題討論數',
                                 data: data,
                                 borderWidth: 1,
-                                backgroundColor: ["#000505","#373041","#646873"],
+                                backgroundColor: ["#05FFA7","#3CC796","#58FFC4"],
                                 datalabels: {
                                     color: '#332233',
                                 }

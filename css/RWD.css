@@ -1,0 +1,13 @@
+/*RWD*/
+
+@media screen and (max-height: 800px){
+  #result{
+    margin-top: 50vh;
+}
+}
+
+@media screen and (max-height: 600px){
+  #result{
+    margin-top: 100vh;
+  }
+}

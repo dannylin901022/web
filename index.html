@@ -1,6 +1,6 @@
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/nav.css">
     <link rel="stylesheet" href="./css/loader_style.css">
+    <link rel="stylesheet" href="./css/RWD.css">
+
 
     <script  src="./js/nav.js"></script>
 
@@ -117,11 +119,20 @@
                         <p style="text-align:center;margin-left: 40px;">結束時間：</p>
                         <input type="date" id="search_end" style="height: 20px;">
                         <p style="text-align:center;margin-left: 40px;">日期間隔：</p>
-                        <input type="text" id="search_day" style="height: 20px;width: 40px;"><p>天</p>
+                        <input type="text" id="dateRange" placeholder="30" style="height: 20px;width: 40px;"><p>天</p>
                     </div>
-                    <button type="button" style="margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" 
+                    <div style="display: flex;align-items: center;">
+                        <button type="button" style="margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;" 
                     onclick="result()"
                     @click="search_btn" >搜尋</button>
+                        <div style="display: flex-warp;margin-left: 20px;margin-top: 20px;">
+                        <h5>是否開啟精準搜尋</h5>
+                        <label class="switch">
+                            <input type="checkbox" id="search_slider">
+                            <span class="slider round"></span>
+                        </label>
+                        </div>
+                    </div>
                 </div>
                 <div style="margin-top:30px;">
                     <h3>熱門文章</h3>
@@ -134,7 +145,7 @@
         </div>
         </div>
     </section>
-    <section id="result" class="animate-bottom" style="display: none;margin-top: 300px;">
+    <section id="result" class="animate-bottom" style="display: none;max-height:auto;margin-top: 50vh;">
         <div class='jumbotron'>
         <div class='container'>
         <div class='row'>
@@ -181,7 +192,7 @@
         </div>
         </div>
             <hr style="margin-top: 100px;">
-            <h2 style="margin-bottom: -100px">主題文章數</h2>
+            <h2 style="margin-bottom: -100px">主題討論數</h2>
             <div style="display: flex; height: 400px;width: 1200px;">
             <div style="width:700px;overflow:auto;">
             <div id="bar_chart_div" style="height:70%;margin-top:100px;">
@@ -261,7 +272,7 @@
         </div>
         </div>
     </section>
-    <section id="login" class="animate-bottom" style="display: none;margin-top: 200px;" >
+    <section id="login" class="animate-bottom" style="display: none;" >
         <div class='jumbotron'>
         <div class='container'>
         <div class='row'>
@@ -277,7 +288,7 @@
         </div>
         </div>
     </section>
-    <section id="register" class="animate-bottom" style="display: none;margin-top: 200px;" >
+    <section id="register" class="animate-bottom" style="display: none;" >
         <div class='jumbotron'>
         <div class='container'>
         <div class='row'>
@@ -296,7 +307,7 @@
         </div>
         </div>
     </section>
-    <section id="collection" class="animate-bottom" style="display: none;margin-top: 200px;" >
+    <section id="collection" class="animate-bottom" style="display: none;" >
         <div class='jumbotron'>
         <div class='container'>
         <div class='row'>
@@ -376,7 +387,9 @@
             return{
                 search_input:{  "topic": "",
                                 "startDate": "",
-                                "endDate": ""},
+                                "endDate": "",
+                                "dateRange": "",
+                                "isExactMatch":false},
                 recommend_info:"推薦",
                 account_input:"",
                 password_input:"",
@@ -400,13 +413,25 @@
                 this.search_input = {
                     "topic": document.getElementById("search_box").value,
                     "startDate": document.getElementById("search_start").value,
-                    "endDate": document.getElementById("search_end").value
+                    "endDate": document.getElementById("search_end").value,
+                    "dateRange":document.getElementById("dateRange").value,
                 };
+                if(document.getElementById("search_slider").checked){
+                    this.search_input.isExactMatch = true;
+                }
+                else{
+                    this.search_input.isExactMatch = false;
+                }
+                if(this.search_input.dateRange == ""){
+                    this.search_input.dateRange = 30;
+                }
+                console.log(this.search_input.isExactMatch);
                 if(this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == ""){
                     alert("請輸入主題、時間，若已更換頁面，請重新輸入");
+                    document.getElementById("search_slider").checked = false;
                 }
                 else{  
-                    search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,chart,api_url,token);
+                    search.search_btn(this.search_input.topic,this.search_input.startDate,this.search_input.endDate,this.search_input.dateRange,this.search_input.isExactMatch,chart,api_url,token);
                 }
 
             },
