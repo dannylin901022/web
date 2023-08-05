@@ -23,7 +23,7 @@
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/cn2t.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -443,7 +443,7 @@
     Chart.register(ChartDataLabels);
 
 
-    Vue.createApp({
+    const vm = Vue.createApp({
         data() {
             return {
                 search_input: {
@@ -701,52 +701,12 @@
             bad() {
                 alert("已點不喜歡");
             },
-            //==========================================================================================                
-            //摘要
-            async getSummary(payload) {
-                const response = await fetch(`${summary_api_url}/summary`, {
-                    method: "POST",
-                    cache: "no-cache",
-                    keepalive: true,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "text/event-stream",
-                    },
-                    body: JSON.stringify(payload),
-                });
-
-                const reader = response.body.getReader();
-
-                while (true) {
-                    const { value, done } = await reader.read();
-                    if (done) break;
-                    new TextDecoder().decode(value)
-                        .replace(/\r/g, "")
-                        .split("\n")
-                        .filter(line => line?.length > 0)
-                        .map(line => {
-                            const regex = /^: ping/;
-                            if (regex.test(line)) return { "text": "" };
-                            const _temp = line.replace(/^data: /, '').replace(/'/g, '"');
-                            let jsonObj
-                            try {
-                                jsonObj = JSON.parse(_temp)
-                            } catch (error) {
-                                jsonObj = { "text": "" }
-                            }
-                            return jsonObj
-                        })
-                        .forEach(line => {
-                            this.summary += line.text;
-                        })
-                }
-            },
-
         },
         mounted: function () {
 
         },
     }).mount('#all_body');
+    window.vm = vm
 </script>
 
 </html>
