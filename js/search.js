@@ -5,6 +5,7 @@ var search = {
         end,
         dateRange,
         isEM,
+        mode,
         chart,
         api_url,
         token
@@ -31,10 +32,11 @@ var search = {
                 end,
                 dateRange,
                 isEM,
+                mode,
                 api_url,
                 token
             );
-            chart.bar_chart(data_PA.dates, data_PA.discussNumber);
+            chart.bar_chart(data_PA.dates, data_PA.discussNumber,data_PA.hotArticles);
 
             const data_SA = await this.get_data_SentimentAnalysis(
                 topic,
@@ -42,6 +44,7 @@ var search = {
                 end,
                 dateRange,
                 isEM,
+                mode,
                 api_url,
                 token
             );
@@ -49,7 +52,9 @@ var search = {
             chart.line_chart(
                 data_SA.dates,
                 data_SA.positiveNumber,
-                data_SA.negativeNumber
+                data_SA.negativeNumber,
+                data_SA.posHotArticle,
+                data_SA.negHotArticle
             );
 
             const data_WC_all = await this.get_data_WordCloud_all(
@@ -58,6 +63,7 @@ var search = {
                 end,
                 dateRange,
                 isEM,
+                mode,
                 api_url,
                 token
             );
@@ -68,6 +74,7 @@ var search = {
                     end,
                     dateRange,
                     isEM,
+                    mode,
                     api_url,
                     token
                 );
@@ -78,21 +85,35 @@ var search = {
                     end,
                     dateRange,
                     isEM,
+                    mode,
                     api_url,
                     token
                 );
 
             chart.word_chart_all(
                 data_WC_all.wordSegment,
-                data_WC_all.frequency
+                data_WC_all.wordSegmentFrequency,
+                data_WC_all.wordSegmentNb,
+                data_WC_all.wordSegmentNbFrequency,
+                data_WC_all.wordSegmentAdj,
+                data_WC_all.wordSegmentAdjFrequency,
+                
             );
             chart.word_chart_positive(
                 get_data_WordCloud_pos.wordSegment,
-                get_data_WordCloud_pos.frequency
+                get_data_WordCloud_pos.wordSegmentFrequency,
+                get_data_WordCloud_pos.wordSegmentNb,
+                get_data_WordCloud_pos.wordSegmentNbFrequency,
+                get_data_WordCloud_pos.wordSegmentAdj,
+                get_data_WordCloud_pos.wordSegmentAdjFrequency,
             );
             chart.word_chart_negative(
                 get_data_WordCloud_neg.wordSegment,
-                get_data_WordCloud_neg.frequency
+                get_data_WordCloud_neg.wordSegmentFrequency,
+                get_data_WordCloud_neg.wordSegmentNb,
+                get_data_WordCloud_neg.wordSegmentNbFrequency,
+                get_data_WordCloud_neg.wordSegmentAdj,
+                get_data_WordCloud_neg.wordSegmentAdjFrequency,
             );
         }
     },
@@ -102,6 +123,7 @@ var search = {
         end,
         dateRange,
         isEM,
+        mode,
         api_url,
         token
     ) {
@@ -109,21 +131,24 @@ var search = {
         //fake/
         await fetch(
             api_url +
-                "PopularityAnalysis/fake/" +
+                "PopularityAnalysis/" +
                 topic +
                 "/StatrDate/" +
                 start +
                 "/EndDate/" +
                 end +
-                "?dateRange=" +
+                "?DateRange=" +
                 dateRange +
-                "&isExactMatch=" +
-                isEM,
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode,
             {
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                     Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
                 },
             }
         )
@@ -146,6 +171,7 @@ var search = {
         end,
         dateRange,
         isEM,
+        mode,
         api_url,
         token
     ) {
@@ -153,21 +179,24 @@ var search = {
         //fake/
         await fetch(
             api_url +
-                "SentimentAnalysis/fake/" +
+                "SentimentAnalysis/" +
                 topic +
                 "/StatrDate/" +
                 start +
                 "/EndDate/" +
                 end +
-                "?dateRange=" +
+                "?DateRange=" +
                 dateRange +
-                "&isExactMatch=" +
-                isEM,
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode,
             {
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                     Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
                 },
             }
         )
@@ -190,6 +219,7 @@ var search = {
         end,
         dateRange,
         isEM,
+        mode,
         api_url,
         token
     ) {
@@ -197,21 +227,24 @@ var search = {
         //fake/
         await fetch(
             api_url +
-                "WordCloud/fake/" +
+                "WordCloud/" +
                 topic +
                 "/StatrDate/" +
                 start +
                 "/EndDate/" +
                 end +
-                "?dateRange=" +
+                "?DateRange=" +
                 dateRange +
-                "&isExactMatch=" +
-                isEM,
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode,
             {
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                     Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
                 },
             }
         )
@@ -233,6 +266,7 @@ var search = {
         end,
         dateRange,
         isEM,
+        mode,
         api_url,
         token
     ) {
@@ -247,15 +281,18 @@ var search = {
                 "/EndDate/" +
                 end +
                 "/Positive" +
-                "?dateRange=" +
+                "?DateRange=" +
                 dateRange +
-                "&isExactMatch=" +
-                isEM,
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode,
             {
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                     Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
                 },
             }
         )
@@ -277,6 +314,7 @@ var search = {
         end,
         dateRange,
         isEM,
+        mode,
         api_url,
         token
     ) {
@@ -291,15 +329,18 @@ var search = {
                 "/EndDate/" +
                 end +
                 "/Negative" +
-                "?dateRange=" +
+                "?DateRange=" +
                 dateRange +
-                "&isExactMatch=" +
-                isEM,
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode,
             {
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                     Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
                 },
             }
         )

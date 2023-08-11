@@ -1,15 +1,15 @@
 #loader {
-    position: relative;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
     width: 120px;
     height: 120px;
-    margin: 0px -75px 0 -75px;
+    margin: 0px 50px 150px 0px;
     border: 16px solid #DDDDDD;
     border-radius: 50%;
-    border-top: 16px solid #474448;
+    border-top: 16px solid #3377c4;
     animation: spin 1s linear infinite;
 }
 

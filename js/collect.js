@@ -7,6 +7,7 @@ var collect = {
                 Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
                 Accept: "application/json",
+                'ngrok-skip-browser-warning':true,
             },
         })
             .then((response) => {
@@ -62,6 +63,7 @@ var collect = {
                 Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
                 Accept: "application/json",
+                'ngrok-skip-browser-warning':true,
             },
             body: JSON.stringify(data),
         })
@@ -95,6 +97,7 @@ var collect = {
                 Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
                 Accept: "application/json",
+                'ngrok-skip-browser-warning':true,
             },
             body: JSON.stringify(data),
         })
@@ -129,6 +132,7 @@ var collect = {
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-type": "application/json",
+                    'ngrok-skip-browser-warning':true,
                 },
                 body: JSON.stringify(data),
             }
@@ -151,6 +155,7 @@ var collect = {
                 Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
                 Accept: "application/json",
+                'ngrok-skip-browser-warning':true,
             },
         })
             .then((response) => {
@@ -181,6 +186,7 @@ var collect = {
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-type": "application/json",
+                    'ngrok-skip-browser-warning':true,
                 },
                 body: JSON.stringify(data),
             }
@@ -212,6 +218,7 @@ var collect = {
             headers: {
                 Authorization: "Bearer " + token,
                 "Content-type": "application/json",
+                'ngrok-skip-browser-warning':true,
             },
         }).then((response) => {
             console.log(response);

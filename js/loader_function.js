@@ -26,7 +26,7 @@ function result() {
         setTimeout(function () {
             document.getElementById("loader").style.display = "none";
             document.getElementById("result").style.display = "block";
-            document.getElementById("c_left").style.height = 3218 + "px";
+            document.getElementById("c_left").style.height = 700 + "vh";
             all_event();
         }, 3000);
     }

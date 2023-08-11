@@ -11,6 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bubbly-bg@1.0.0/dist/bubbly-bg.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -27,12 +29,9 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/nav.css">
     <link rel="stylesheet" href="./css/loader_style.css">
     <link rel="stylesheet" href="./css/RWD.css">
-
-
+    
     <script src="./js/nav.js"></script>
 
     <script src="./js/loader_function.js"></script>
@@ -53,24 +52,22 @@
     </style>
 </head>
 
-<body onload="search()" style="margin:0;">
-    <div style="min-width: 1640px;height: 50px;background-color:#2D232E;"></div>
-    <div id="all_body" style="height: 100%;margin-top:-50px;">
+<body onload="search()">
+    <div id="top"></div>
+    <div id="all_body">
         <div class="container-all">
             <div id="c_left" class="container-left">
                 <nav id="siderbar">
-                    <div style="height: 50px; background-color:#2D232E;">
-                        <button type="button" id="collapse" class="collapse-btn"
-                            style="margin-left: 210px;margin-top: 10px; border: none; font-size: 30px;background-color:#2D232E;">
+                    <div id="sliderbar_top">
+                        <button type="button" id="collapse" class="collapse-btn">
                             <i class="fa-solid fa-bars" style="color: white;"></i>
                         </button>
                     </div>
                     <div style="display: flex" onclick="home()">
-                        <a href="#" style=" margin: auto;margin-top: 20px;"><img src="logo.png"
-                                style="height: 150px;"></a>
+                        <a href="#" id="logo"><img src="logo.png"></a>
                     </div>
 
-                    <ul class="list-unstyled" style="margin-top:30px; text-align: center">
+                    <ul class="list-unstyled">
                         <li>
                             <hr class="hr">
                             <a href="#" onclick="home()" class="nav_li">首頁</a>
@@ -87,16 +84,13 @@
                 </li>
 -->
                         <li>
-                            <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="collapsed"
-                                aria-expanded="false">登入/註冊</a>
+                            <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="collapsed"aria-expanded="false">登入/註冊</a>
                             <ul id="sublist" class="list-unstyled collapse nav_li">
                                 <li>
-                                    <a href="#" id="dropdown_login" onclick="login()"
-                                        style="text-decoration: none;font-size: 16px;">登入</a>
+                                    <a href="#" id="dropdown_login" onclick="login()">登入</a>
                                 </li>
                                 <li>
-                                    <a href="#" id="dropdown_register" onclick="register()"
-                                        style="text-decoration: none;font-size: 16px;">註冊</a>
+                                    <a href="#" id="dropdown_register" onclick="register()">註冊</a>
                                 </li>
                             </ul>
                         </li>
@@ -114,11 +108,10 @@
                 </nav>
             </div>
 
-            <div class="container-right"
-                style="margin:0px auto;margin-top: -500px; display: flex; justify-content: center; align-items: center;">
+            <div class="container-right">
                 <div id="loader"></div>
                 <div class="container-fluid">
-                    <section id="search" class="animate-bottom" style="display: none;margin-top: -200px;">
+                    <section id="search" class="animate-bottom">
                         <div class='jumbotron'>
                             <div class='container'>
                                 <div class='row'>
@@ -126,23 +119,32 @@
                                         <h1>情緒分析應用於社群論壇之文件探勘</h1>
                                         <p>輸入主題以產生分析結果</p>
                                         <div style="display:flex; flex-direction:column; justify-content:center;">
-                                            <input v-model="topic" type="text" id="search_box"
-                                                style="margin-top:20px;height: 50px; width:75%;font-size:30px;">
-                                            <div style="display: flex;align-content: center;margin-top: 20px;">
-                                                <p style="text-align:center">開始時間：</p>
-                                                <input type="date" id="search_start" style="height: 20px;">
-                                                <p style="text-align:center;margin-left: 40px;">結束時間：</p>
-                                                <input type="date" id="search_end" style="height: 20px;">
-                                                <p style="text-align:center;margin-left: 40px;">日期間隔：</p>
-                                                <input type="text" id="dateRange" placeholder="30"
-                                                    style="height: 20px;width: 40px;">
-                                                <p>天</p>
+                                            <input v-model="topic" type="text" id="search_box">
+                                            <div id="time_set">
+                                                <div style="display: flex">
+                                                <p>開始時間：</p>
+                                                <input type="date" id="search_start">
+                                                </div>
+                                                <div style="display: flex;">
+                                                <p>結束時間：</p>
+                                                <input type="date" id="search_end">
+                                                </div>
+                                                <div style="display: flex;">
+                                                <p>日期間隔：</p>
+                                                <input type="text" id="dateRange" placeholder="30天">
+                                                </div>
+                                            </div>
+                                            <div id="mode_select">
+                                                <p>選擇模式：</p>
+                                                <div style="display: flex-warp">
+                                                    <input type="radio" name="mode" value="0" checked>僅搜尋標題及內文
+                                                    <input type="radio" name="mode" value="1">搜尋標題、內文及留言
+                                                </div>
                                             </div>
                                             <div style="display: flex;align-items: center;">
-                                                <button type="button"
-                                                    style="margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;"
+                                                <button type="button" id="start_search_btn"
                                                     onclick="result()" @click="search_btn">搜尋</button>
-                                                <div style="display: flex-warp;margin-left: 20px;margin-top: 20px;">
+                                                <div id="isExactMatch_info">
                                                     <h5>是否開啟精準搜尋</h5>
                                                     <label class="switch">
                                                         <input type="checkbox" id="search_slider">
@@ -151,10 +153,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="margin-top:30px;">
+                                        <div id="Popular_Article_info">
                                             <h3>熱門文章</h3>
-                                            <div style="border: 1px solid;height: 40px" v-model="recommend_info">
-                                                <p style="margin-top: 10px;">{{recommend_info}}</p>
+                                            <div id="Popular_Article_show" v-model="recommend_info">
+                                                <p>{{recommend_info}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -162,22 +164,21 @@
                             </div>
                         </div>
                     </section>
-                    <section id="result" class="animate-bottom" style="display: none;max-height:auto;margin-top: 50vh;">
+                    <section id="result" class="animate-bottom" style="display: none;">
                         <div class='jumbotron'>
                             <div class='container'>
                                 <div class='row'>
                                     <div class='col-md-12'>
                                         <div>
-                                            <h1>{{search_input.topic}}</h1>
-                                            <div style="display:flex;">
-                                                <div style="display:flex;flex-direction:column;">
-                                                    <div style="border:1px solid;height:35vh;width:100vh">
-                                                        <!--                        <p v-for="item in result_text">帳號：{{item.account}} 密碼：{{item.password}}</p>-->
+                                            <h1 id="result_topic">{{search_input.topic}}</h1>
+                                            <div id="result_top">
+                                                <div style="display:flex;flex-direction:column; background-color: white;">
+                                                    <div id="summary_content">
                                                         <p>{{summary}}</p>
                                                     </div>
                                                 </div>
                                                 <div style="display:flex-warp;flex-direction:column;">
-                                                    <div style="display:flex;margin-left:30px;">
+                                                    <div id="result_btn_list">
                                                         <button type="button" class="summary_btn" @click="good"><i
                                                                 class="fa-solid fa-thumbs-up"
                                                                 style="margin-left:0;"></i></button>
@@ -186,123 +187,168 @@
                                                         <button type="button" class="summary_btn" @click="save_btn"><i
                                                                 class="fa-solid fa-heart"></i></button>
                                                         <a href="https://www.google.com/" target="_blank"><button
-                                                                type="button" class="summary_btn"
-                                                                style="font-size: 10;width: 70px">相關連結</button></a>
+                                                                type="button" id="related_link" class="summary_btn">相關連結</button></a>
                                                     </div>
-                                                    <div id="b_sum"
-                                                        style="border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;">
-                                                        <!--                        正負項資料筆數-->
+                                                    <div id="b_sum">
                                                     </div>
-                                                    <div
-                                                        style="border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;">
+                                                    <div id="GPT_score">
                                                         GPT分數
                                                     </div>
-
                                                     <dialog id="collect_info"
                                                         style="justify-content:center;align-items:center;flex-direction:column;">
                                                         <p>請選擇要儲存的資料夾及儲存名稱</p>
-                                                        <select id="select_folder1" @change="folder_change_result"
-                                                            style="height: 50px; width:75%;" v-html="folder">
-
+                                                        <select id="select_folder1" @change="folder_change_result"v-html="folder">
                                                         </select>
-                                                        <input type="text" id="collect_info_box"
-                                                            style="margin-top:20px;height: 50px; width:75%;font-size:20px;">
-                                                        <div style="margin-top: 20px;">
+                                                        <input type="text" id="collect_info_box">
+                                                        <div>
                                                             <button id="save" @click="save">儲存</button>
-                                                            <button id="cancel" style="margin-left: 20px;"
-                                                                @click="cancel_save">取消</button>
+                                                            <button id="cancel" @click="cancel_save">取消</button>
                                                         </div>
                                                     </dialog>
-
-
                                                     <div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr style="margin-top: 100px;">
-                                        <h2 style="margin-bottom: -100px">主題討論數</h2>
-                                        <div style="display: flex; height: 400px;width: 1200px;">
-                                            <div style="width:700px;overflow:auto;">
-                                                <div id="bar_chart_div" style="height:70%;margin-top:100px;">
+                                        <hr id="bar_chart_hr">
+                                        <h2 id="bar_chart_title">主題討論數</h2>
+                                        <div id="bar_chart_range">
+                                            <div class="bar_chart_overflow">
+                                                <div id="bar_chart_div">
                                                     <canvas id="bar_chart"></canvas>
                                                 </div>
-
                                             </div>
-
-                                            <div style="display: flex-warp;margin-top:100px;margin-left: 50px;">
-                                                <!--                        <p id="b_sum"></p>-->
+                                            <div id="bar_chart_info">
                                                 <p id="b_max"></p>
                                                 <p id="b_min"></p>
                                             </div>
-
                                         </div>
-                                        <div style="width:700px;overflow:auto;">
+                                        <div class="bar_chart_overflow">
                                             <h6>範圍放大</h6>
-                                            <div id="bar_chart_zoom_div" style="height:400px;border: 1px solid">
-                                                <canvas id="bar_chart_zoom"></canvas>
+                                            <div id="bar_chart_zoom_div">
+                                                <canvas id="bar_chart_zoom" style="background-color: white;"></canvas>
                                             </div>
                                         </div>
-                                        <div id="bar_link"
-                                            style="display: flex;align-items: center;font-size: 25px; border: 1px solid;height: 50px;width:700px;margin-top: 10px;">
-
+                                        <div id="message_count">
                                         </div>
-                                        <hr style="margin-top: 100px;">
+                                        <div id="bar_link">
+                                        </div>
+                                        <hr id="line_chart_hr">
                                         <h2>正負向評價數</h2>
-                                        <div style="display: flex-warp; height: 400px;width: 1200px;">
-                                            <div style="width:1000px;">
-                                                <div id="line_chart_div_all" style="height:70%;">
-                                                    <h6>總體趨勢</h6>
+                                        <div id="line_chart_range">
+                                            <div id="line_chart_title">
+                                                <h6>總體趨勢</h6>
+                                                <div id="line_chart_div_all">    
                                                     <canvas id="line_chart_all"></canvas>
                                                 </div>
                                             </div>
-                                            <div style="margin-top: 100px; display: flex">
-                                                <h6>放大檢視</h6>
-                                                <div style="width:700px;overflow:auto;margin-top: 20px;">
-                                                    <div id="line_chart_div" style="height:90%;">
-
-                                                        <canvas id="line_chart"></canvas>
+                                            <div id="line_chart_zoom_title">
+                                                <h6 style="width:200px;">放大檢視</h6>
+                                                <div id="line_chart_zoom_height">
+                                                <div id="line_chart_zoom_overflow">
+                                                    <div id="line_chart_div">
+                                                        <canvas id="line_chart" style="background-color: white;"></canvas>
                                                     </div>
                                                 </div>
-                                                <div style="display: flex-warp;margin-left: 50px;">
+                                                <div id="line_chart_info">
+                                                    <div id="p_info">
                                                     <p id="p_max"></p>
                                                     <p id="p_min"></p>
+                                                    </div>
+                                                    <div id="n_info">
                                                     <p id="n_max"></p>
                                                     <p id="n_min"></p>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                <p id="line_link_date"></p>
+                                                <div id="line_plink">
+                                                </div>
+                                                <div id="line_pinfo">
+                                                </div>
+                                                <div id="line_nlink">
+                                                </div>
+                                                <div id="line_ninfo">
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr style="margin-top: 300px;">
-                                        <h2 style="margin-bottom: 50px">關鍵字文字雲</h2>
-                                        <div style="display: flex;height:500px;">
-                                            <div id="word_cloud1" style="height:70%;width:40%;margin-top:-30px;"
-                                                @click="wc1_click">
+                                        <hr id="word_cloud_hr">
+                                        <h2 id="word_cloud_title">關鍵字文字雲</h2>
+                                        <div id="word_cloud_range">
+                                            <p style="font-size:20px">總體文字雲</p>
+                                            <div id="WordCloud_all">
+                                                <div id="word_cloud1" class="word_display" @click="wc1_click"></div>
+                                                <div id="word_cloud4" class="word_display" @click="wc4_click"></div>
+                                                <div id="word_cloud5" class="word_display" @click="wc5_click"></div>
                                             </div>
-                                            <div id="word_cloud2" style="height:70%;width:40%;margin-top:-30px;"
-                                                @click="wc2_click">
+                                            <p id="pos_wc_info" style="font-size:20px">正向文字雲</p>
+                                            <div id="WordCloud_pos">
+                                                <div id="word_cloud2" class="word_display" @click="wc2_click"></div>
+                                                <div id="word_cloud6" class="word_display" @click="wc6_click"></div>
+                                                <div id="word_cloud7" class="word_display" @click="wc7_click"></div>
                                             </div>
-                                            <div id="word_cloud3" style="height:70%;width:40%;margin-top:-30px;"
-                                                @click="wc3_click">
+                                            <p id="neg_wc_info" style="font-size:20px">負向文字雲</p>
+                                            <div id="WordCloud_neg">
+                                                <div id="word_cloud3" class="word_display" @click="wc3_click"></div>
+                                                <div id="word_cloud8" class="word_display" @click="wc8_click"></div>
+                                                <div id="word_cloud9" class="word_display" @click="wc9_click"></div>
                                             </div>
                                         </div>
                                         <dialog id="word_cloud1_dialog">
                                             <button id="wc1_close" style="display: flex;justify-content: end;"
                                                 @click="wc1_close">關閉</button>
-                                            <div id="wc1" style="height:600px;width:800px;">
+                                            <div id="wc1">
                                             </div>
                                         </dialog>
                                         <dialog id="word_cloud2_dialog">
                                             <button id="wc2_close" style="display: flex;justify-content: end;"
                                                 @click="wc2_close">關閉</button>
-                                            <div id="wc2" style="height:600px;width:800px;">
+                                            <div id="wc2">
                                             </div>
                                         </dialog>
                                         <dialog id="word_cloud3_dialog">
                                             <button id="wc3_close" style="display: flex;justify-content: end;"
                                                 @click="wc3_close">關閉</button>
-                                            <div id="wc3" style="height:600px;width:800px;">
+                                            <div id="wc3">
                                             </div>
                                         </dialog>
+                                        <dialog id="word_cloud4_dialog">
+                                            <button id="wc4_close" style="display: flex;justify-content: end;"
+                                                @click="wc4_close">關閉</button>
+                                            <div id="wc4">
+                                            </div>
+                                        </dialog>
+                                        <dialog id="word_cloud5_dialog">
+                                            <button id="wc5_close" style="display: flex;justify-content: end;"
+                                                @click="wc5_close">關閉</button>
+                                            <div id="wc5">
+                                            </div>
+                                        </dialog>
+                                        <dialog id="word_cloud6_dialog">
+                                            <button id="wc6_close" style="display: flex;justify-content: end;"
+                                                @click="wc6_close">關閉</button>
+                                            <div id="wc6">
+                                            </div>
+                                        </dialog>
+                                        <dialog id="word_cloud7_dialog">
+                                            <button id="wc7_close" style="display: flex;justify-content: end;"
+                                                @click="wc7_close">關閉</button>
+                                            <div id="wc7">
+                                            </div>
+                                        </dialog>
+                                        <dialog id="word_cloud8_dialog">
+                                            <button id="wc8_close" style="display: flex;justify-content: end;"
+                                                @click="wc8_close">關閉</button>
+                                            <div id="wc8">
+                                            </div>
+                                        </dialog>
+                                        <dialog id="word_cloud9_dialog">
+                                            <button id="wc9_close" style="display: flex;justify-content: end;"
+                                                @click="wc9_close">關閉</button>
+                                            <div id="wc9">
+                                            </div>
+                                        </dialog>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -314,15 +360,12 @@
                                 <div class='row'>
                                     <div class='col-md-12'>
                                         <h1>使用者登入</h1>
-                                        <p>帳號：<input type="text"
-                                                style="margin-top:20px;height: 50px; width:75%;font-size:30px;"
-                                                v-model="account_input"></p>
-                                        <p>密碼：<input type="text"
-                                                style="margin-top:20px;height: 50px; width:75%;font-size:30px;"
-                                                v-model="password_input"></p>
+                                        <h3>帳號：<input type="text"
+                                                v-model="account_input"></h3>
+                                        <h3>密碼：<input type="text"
+                                                v-model="password_input"></h3>
                                         <div style="display:flex; flex-direction:column; justify-content:center;">
                                             <button type="button"
-                                                style="margin-top:30px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;"
                                                 @click="login_btn" onclick="search()">登入</button>
                                         </div>
                                     </div>
@@ -335,20 +378,16 @@
                             <div class='container'>
                                 <div class='row'>
                                     <div class='col-md-12'>
-                                        <div style="display:flex; flex-direction:column; justify-content:center;">
+                                        <div style="display:flex; flex-direction:column; justify-content:center;width: 505px;">
                                             <h1>使用者註冊</h1>
-                                            <p>帳號：<input type="text"
-                                                    style="margin-top:20px;height: 50px; width:75%;font-size:30px;"
-                                                    v-model="account_input"></p>
-                                            <p>密碼：<input type="text"
-                                                    style="margin-top:20px;height: 50px; width:75%;font-size:30px;"
-                                                    v-model="password_input"></p>
-                                            <p style="margin-left:-30px;">電子信箱：<input type="text"
-                                                    style="margin-top:20px;height: 50px; width:75%;font-size:30px;"
-                                                    v-model="email_input"></p>
+                                            <h3>帳號：<input type="text"
+                                                    v-model="account_input"></h3>
+                                            <h3>密碼：<input type="text"
+                                                    v-model="password_input"></h3>
+                                            <h3 style="margin-left:-55px;">電子信箱：<input type="text"
+                                                    v-model="email_input"></h3>
                                             <div style="display:flex; flex-direction:column; justify-content:center;">
                                                 <button type="button"
-                                                    style="margin-top:30px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;"
                                                     @click="register_btn" onclick="search()">註冊</button>
                                             </div>
                                         </div>
@@ -362,39 +401,30 @@
                             <div class='container'>
                                 <div class='row'>
                                     <div class='col-md-12'>
-                                        <div style="display: flex;justify-content: Space-between;">
+                                        <div id="collect_top" style="display: flex;justify-content: Space-between;">
                                             <h1>{{account_input}}的收藏列表</h1>
                                             <button type="button" id="new_collect" class="summary_btn"
                                                 @click="new_collect_btn"><i class="fa-solid fa-plus"></i></button>
                                         </div>
-                                        <div style="display:flex; flex-direction:column;border:1px solid black;height:70vh;width:150vh;overflow:auto;"
-                                            v-html="collect_text">
+                                        <div id="collection_list" v-html="collect_text">
                                         </div>
                                         <dialog id="new_collect_info"
                                             style="justify-content:center;align-items:center;flex-direction:column;">
                                             <h2>此頁面可修改資料夾、刪除項目或資料夾</h2>
                                             <hr>
                                             <p>請選擇欲修改的資料夾</p>
-                                            <select id="select_folder2" @change="folder_change_collect"
-                                                style="height: 50px; width:75%;" v-html="folder">
-
+                                            <select id="select_folder2" @change="folder_change_collect" v-html="folder">
                                             </select>
-                                            <p style="margin-top:40px; ">請選擇欲刪除的項目</p>
-                                            <select id="select_item" @change="item_change()"
-                                                style="height: 50px; width:75%;" v-html="item">
-
+                                            <p id="delete_item_info">請選擇欲刪除的項目</p>
+                                            <select id="select_item" @change="item_change()" v-html="item">
                                             </select>
                                             <input type="text" id="collect_change_info_box"
-                                                style="margin-top:20px;height: 50px; width:75%;font-size:20px;"
                                                 placeholder="輸入新增或修改的名稱">
-                                            <div style="margin-top: 20px;">
+                                            <div id="collection_dialog_btn">
                                                 <button id="new_folder" @click="collect_post_folder">新增</button>
-                                                <button id="change_folder" @click="collect_post_change_folder"
-                                                    style="margin-left: 20px;">修改名稱</button>
-                                                <button id="change_folder" @click="collect_delete_change_folder"
-                                                    style="margin-left: 20px;">刪除</button>
-                                                <button id="cancel_folder" style="margin-left: 20px;"
-                                                    @click="new_collect_cancel">取消</button>
+                                                <button id="change_folder_post" @click="collect_post_change_folder">修改名稱</button>
+                                                <button id="change_folder_delete" @click="collect_delete_change_folder">刪除</button>
+                                                <button id="cancel_folder" @click="new_collect_cancel">取消</button>
                                             </div>
                                         </dialog>
                                     </div>
@@ -409,9 +439,8 @@
                                 <div class='row'>
                                     <div class='col-md-12'>
                                         <h1>最新消息</h1>
-                                        <hr style="border:2px dashed #534B52;">
-                                        <div style="display:flex; flex-direction:column;height:70vh;width:150vh"
-                                            v-html="news_text">
+                                        <hr>
+                                        <div id="news_display" v-html="news_text">
                                         </div>
                                     </div>
                                 </div>
@@ -426,6 +455,7 @@
     </div>
 </body>
 <script type="module">
+    
     import chart from "./js/chart.js";
     import search from "./js/search.js";
     import news from "./js/news.js";
@@ -433,15 +463,15 @@
     import logout from "./js/logout.js";
     import register from "./js/register.js";
     import collect from "./js/collect.js";
+    import bubble from "./js/bubble.js";
     import { summary_api_url, api_url } from "./js/config.js";
 
+    bubble.bubbly_create();
 
     var login_statu = 0;
     var id = 0, id_index = 0, item_id = 0;
-    //    const api_url = "https://localhost:58329/api/";
     var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJKd3RBdXRoRGVtbyIsInN1YiI6IjEwMDAwIiwidW5pcXVlX25hbWUiOiIxMDAwMCIsIm5hbWVpZCI6IjEwMDAwIiwibmFtZSI6IjEwMDAwIiwiZXhwIjoxNjkwMjIxMTg0LCJqdGkiOiJiNjQwOTZjMy04MWI4LTQ0ZTYtODQ5OC1hNGRkMmE5NDlkMTAiLCJyb2xlIjoiVXNlcnMiLCJuYmYiOjE2OTAyMTkzODQsImlhdCI6MTY5MDIxOTM4NH0.3Ki-R1DOnBeheLomO3z4PTzFi5jpypjYfkP7_ROo37I";
     Chart.register(ChartDataLabels);
-
 
     const vm = Vue.createApp({
         data() {
@@ -451,7 +481,8 @@
                     "startDate": "",
                     "endDate": "",
                     "dateRange": "",
-                    "isExactMatch": false
+                    "isExactMatch": false,
+                    "mode":0,
                 },
                 recommend_info: "推薦",
                 account_input: "",
@@ -477,6 +508,7 @@
                     "startDate": document.getElementById("search_start").value,
                     "endDate": document.getElementById("search_end").value,
                     "dateRange": document.getElementById("dateRange").value,
+                    "mode":document.querySelector('input[name="mode"]:checked').value,
                 };
                 if (document.getElementById("search_slider").checked) {
                     this.search_input.isExactMatch = true;
@@ -487,13 +519,12 @@
                 if (this.search_input.dateRange == "") {
                     this.search_input.dateRange = 30;
                 }
-                console.log(this.search_input.isExactMatch);
                 if (this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == "") {
                     alert("請輸入主題、時間，若已更換頁面，請重新輸入");
                     document.getElementById("search_slider").checked = false;
                 }
                 else {
-                    search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, chart, api_url, token);
+                    search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch,this.search_input.mode, chart, api_url, token);
                 }
 
             },
@@ -679,20 +710,55 @@
             wc1_close() {
                 document.getElementById("word_cloud1_dialog").close();
             },
-
             wc2_click() {
                 document.getElementById("word_cloud2_dialog").showModal();
             },
             wc2_close() {
                 document.getElementById("word_cloud2_dialog").close();
             },
-
             wc3_click() {
                 document.getElementById("word_cloud3_dialog").showModal();
             },
             wc3_close() {
                 document.getElementById("word_cloud3_dialog").close();
             },
+            wc4_click() {
+                document.getElementById("word_cloud4_dialog").showModal();
+            },
+            wc4_close() {
+                document.getElementById("word_cloud4_dialog").close();
+            },
+            wc5_click() {
+                document.getElementById("word_cloud5_dialog").showModal();
+            },
+            wc5_close() {
+                document.getElementById("word_cloud5_dialog").close();
+            },
+            wc6_click() {
+                document.getElementById("word_cloud6_dialog").showModal();
+            },
+            wc6_close() {
+                document.getElementById("word_cloud6_dialog").close();
+            },
+            wc7_click() {
+                document.getElementById("word_cloud7_dialog").showModal();
+            },
+            wc7_close() {
+                document.getElementById("word_cloud7_dialog").close();
+            },
+            wc8_click() {
+                document.getElementById("word_cloud8_dialog").showModal();
+            },
+            wc8_close() {
+                document.getElementById("word_cloud8_dialog").close();
+            },
+            wc9_click() {
+                document.getElementById("word_cloud9_dialog").showModal();
+            },
+            wc9_close() {
+                document.getElementById("word_cloud9_dialog").close();
+            },
+            
             //==========================================================================================                
             //其他
             good() {
