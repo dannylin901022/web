@@ -1,0 +1,34 @@
+#loader {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: 0px 50px 150px 0px;
+    border: 16px solid #DDDDDD;
+    border-radius: 50%;
+    border-top: 16px solid #3377c4;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-bottom {
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+.search {
+  display: none;
+}
