@@ -1,3 +1,5 @@
+import { getSummary } from "./summary.js"
+
 var search = {
     async search_btn(
         topic,
@@ -115,6 +117,7 @@ var search = {
                 get_data_WordCloud_neg.wordSegmentAdj,
                 get_data_WordCloud_neg.wordSegmentAdjFrequency,
             );
+            await getSummary()
         }
     },
     async get_data_PopularityAnalysis(
