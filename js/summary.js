@@ -6,12 +6,13 @@ export async function getSummary() {
 }
 
 async function getRedisKey() {
-    const topic = "戰爭";
-    const start = "2022-01-03";
-    const end = "2022-01-31";
-    const dateRange = 30;
-    const isExactMatch = false;
-    const searchMode = 0;
+    const condition = window.vm.search_input;
+    const topic = condition.topic;
+    const start = condition.startDate;
+    const end = condition.endDate;
+    const dateRange = condition.dateRange;
+    const isExactMatch = condition.isExactMatch;
+    const searchMode = condition.mode;
     const response = await fetch(
         `${api_url}Redis/${topic}/StatrDate/${start}/EndDate/${end}?DateRange=${dateRange}&IsExactMatch=${isExactMatch}&SearchMode=${searchMode}`,
         {
@@ -28,7 +29,8 @@ async function getRedisKey() {
 }
 
 async function fetchSummary(key) {
-    const vm = window.vm;
+    const condition = window.vm.search_input;
+
     const converter = OpenCC.Converter({ from: "cn", to: "tw" });
 
     const response = await fetch(`${summary_api_url}/summary`, {
@@ -39,7 +41,7 @@ async function fetchSummary(key) {
             "Content-Type": "application/json",
             Accept: "text/event-stream",
         },
-        body: JSON.stringify({ content: key }),
+        body: JSON.stringify({ content: key, topic: condition.topic }),
     });
 
     const reader = response.body.getReader();
