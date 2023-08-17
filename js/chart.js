@@ -1,10 +1,19 @@
 var chart = {
     bar_chart(label, datas,hotArticles) {
+        let point_value = 0;
+        let index_low = 0, index_high = 0;
+        for(var i = 0;i<datas.length;i++){
+            if((datas[i+1] != null) && (datas[i+1]-datas[i] > point_value)){
+                point_value = datas[i+1]-datas[i];
+                index_low = i;
+                index_high = i+1;
+            }
+        }
         let max = Math.max.apply(null, datas);
         let max_text = label[datas.indexOf(max)];
         let min = max;
         for (var i = 0; i < datas.length; i++) {
-            if (datas[i] < max && datas[i] != 0) {
+            if (datas[i] < min && datas[i] != 0) {
                 min = datas[i];
             }
         }
@@ -17,14 +26,21 @@ var chart = {
 
         document.getElementById("b_sum").innerHTML =
             "文章總數：" + sum.toLocaleString();
+        
+        document.getElementById("b_reverse").innerHTML =
+            "<h5>討論熱度轉折點：</h5>" + "　轉折點日期：" + 
+            label[index_high] + "<br>　" + "該日討論文章數：" + datas[index_high].toLocaleString() + "<br>　" + "討論文章增加數：" + point_value.toLocaleString();
+        
+//        最大值移掉，想個更好的呈現方式
         document.getElementById("b_max").innerHTML =
-            "主題討論最大值：" +
+            "熱度高峰：" +
             max.toLocaleString() +
             "<br>" +
             "日期：" +
             max_text;
+//        最小值移掉，想個更好的呈現方式        
         document.getElementById("b_min").innerHTML =
-            "主題討論最小值：" +
+            "熱度低谷：" +
             min.toLocaleString() +
             "<br>" +
             "日期：" +
@@ -115,15 +131,15 @@ var chart = {
                         backgroundColor: ["#05FFA7", "#3CC796", "#58FFC4"],
                         datalabels: {
                             color: "#332233",
-                            listeners: {
-                                click: function (context) {
-                                    console.log(
-                                        "label " +
-                                            context.dataIndex +
-                                            " 被按到了!"
-                                    );
-                                },
-                            },
+//                            listeners: {
+//                                click: function (context) {
+//                                    console.log(
+//                                        "label " +
+//                                            context.dataIndex +
+//                                            " 被按到了!"
+//                                    );
+//                                },
+//                            },
                         },
                     },
                 ],
@@ -135,13 +151,13 @@ var chart = {
         var data1_all = data1,
             data2_all = data2,
             label_all = label;
-        for (var i = 0; i < data1.length; i++) {
-            if (data1_all[i] == 0 && data2_all[i] == 0) {
-                data1_all.splice(i, i + 1);
-                data2_all.splice(i, i + 1);
-                label_all.splice(i, i + 1);
-            }
-        }
+//        for (var i = 0; i < data1.length; i++) {
+//            if (data1_all[i] == 0 && data2_all[i] == 0) {
+//                data1_all.splice(i, i + 1);
+//                data2_all.splice(i, i + 1);
+//                label_all.splice(i, i + 1);
+//            }
+//        }
         
         document.getElementById("line_plink").innerHTML = ""
         document.getElementById("line_pinfo").innerHTML = ""
@@ -214,6 +230,17 @@ var chart = {
             }
         }
         
+        let pos_point_value = 0;
+        let pos_index_low = 0, pos_index_high = 0;
+        
+        for(var i = 0;i<data1.length;i++){
+            if((data1[i+1] != null) && data1[i+1]-data1[i] > pos_point_value){
+                pos_point_value = data1[i+1]-data1[i];
+                pos_index_low = i;
+                pos_index_high = i+1;
+            }
+        }
+        
         var neg_articles = [];
         var neg_url = [];
         var neg_sentimentCount = [];
@@ -228,6 +255,17 @@ var chart = {
                 neg_articles.push(null);
                 neg_url.push(null);
                 neg_sentimentCount.push(null);
+            }
+        }
+        
+        let neg_point_value = 0;
+        let neg_index_low = 0, neg_index_high = 0;
+        
+        for(var i = 0;i<data2.length;i++){
+            if((data2[i+1] != null) && data2[i+1]-data2[i] > neg_point_value){
+                neg_point_value = data2[i+1]-data2[i];
+                neg_index_low = i;
+                neg_index_high = i+1;
             }
         }
         
@@ -320,23 +358,41 @@ var chart = {
         let max_text = label[data1.indexOf(max)];
         let min = max;
         for (var i = 0; i < data1.length; i++) {
-            if (data1[i] < max && data1[i] != 0) {
+            if (data1[i] < min && data1[i] != 0) {
                 min = data1[i];
             }
         }
         let min_text = label[data1.indexOf(min)];
+//        最大值移掉，想個更好的呈現方式
         document.getElementById("p_max").innerHTML =
-            "正向最大值：" +
-            max.toLocaleString() +
-            "<br>" +
-            "日期：" +
-            max_text;
+            "<h5>區間內正向情緒：</h5>" + "<br>　"
+//            + data_key[0] + "：" + data_value[0] + "<br>　" + data_key[1] + "：" + data_value[1] + "<br>　" + data_key[2] + "：" + data_value[2]
+
         document.getElementById("p_min").innerHTML =
-            "正向最小值：" +
-            min.toLocaleString() +
-            "<br>" +
-            "日期：" +
-            min_text;
+            "<h5>區間內負向情緒：</h5>" + "<br>　"
+//            + data_key[0] + "：" + data_value[0] + "<br>　" + data_key[1] + "：" + data_value[1] + "<br>　" + data_key[2] + "：" + data_value[2]
+        
+        document.getElementById("n_max").innerHTML =
+            "<h5>正向情緒爬升點：</h5>" + "　爬升點日期：" + 
+            label[pos_index_high] + "<br>　" + "正向情緒討論數：" + data1[pos_index_high].toLocaleString() + "<br>　" + "正向情緒增加數：" + pos_point_value.toLocaleString();
+        
+        document.getElementById("n_min").innerHTML =
+            "<h5>負向情緒爬升點：</h5>" + "　爬升點日期：" + 
+            label[neg_index_high] + "<br>　" + "負向情緒討論數：" + data2[neg_index_high].toLocaleString() + "<br>　" + "負向情緒增加數：" + neg_point_value.toLocaleString();
+
+//        document.getElementById("p_max").innerHTML =
+//            "正向最大值：" +
+//            max.toLocaleString() +
+//            "<br>" +
+//            "日期：" +
+//            max_text;
+//        最小值移掉，想個更好的呈現方式        
+//        document.getElementById("p_min").innerHTML =
+//            "正向最小值：" +
+//            min.toLocaleString() +
+//            "<br>" +
+//            "日期：" +
+//            min_text;
 
         max = Math.max.apply(null, data2);
         max_text = label[data2.indexOf(max)];
@@ -347,18 +403,20 @@ var chart = {
             }
         }
         min_text = label[data2.indexOf(min)];
-        document.getElementById("n_max").innerHTML =
-            "負向最大值：" +
-            max.toLocaleString() +
-            "<br>" +
-            "日期：" +
-            max_text;
-        document.getElementById("n_min").innerHTML =
-            "負向最小值：" +
-            min.toLocaleString() +
-            "<br>" +
-            "日期：" +
-            min_text;
+//        最大值移掉，想個更好的呈現方式
+//        document.getElementById("n_max").innerHTML =
+//            "負向最大值：" +
+//            max.toLocaleString() +
+//            "<br>" +
+//            "日期：" +
+//            max_text;
+////        最小值移掉，想個更好的呈現方式
+//        document.getElementById("n_min").innerHTML =
+//            "負向最小值：" +
+//            min.toLocaleString() +
+//            "<br>" +
+//            "日期：" +
+//            min_text;
     },
     word_chart_all(wordSegment, frequency,wordSegmentNb,wordSegmentNbFrequency,wordSegmentAdj,wordSegmentAdjFrequency) {
         //chart_1
