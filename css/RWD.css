@@ -194,9 +194,11 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #b_sum{
     border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background-color: white;
 }
+/*
 #GPT_score{
     border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background-color: white;
 }
+*/
 /*display_chart：hr*/
 #bar_chart_hr,#line_chart_hr{
     margin-top: 100px;
@@ -233,6 +235,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #bar_link{
     display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:#3CC796;height: 50px;width:700px;margin-top: 10px;background-color: white;
 }
+#map{
+    width: 25vw;margin-left:20px;border: 3px solid;border-radius: 4px;border-color:#3CC796;
+}
 
 /*line chart*/
 #line_chart_range{
@@ -265,7 +270,8 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #n_info{
     margin-top: 40px;
 }
-#p_min,#n_min{
+/*#n_sum*/
+#n_max{
     margin-top: 30px;
 }
 #line_link_date{
@@ -273,6 +279,18 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 #line_plink,#line_pinfo,#line_nlink,#line_ninfo{
     display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:lightgreen;height: 50px;width:700px;margin-top: 10px;background-color: white;
+}
+#line_table_all,#line_table_nb,#line_table_adj{
+    margin-top: 10px;margin-left: 20px;
+}
+#line_table_all td,#line_table_nb td,#line_table_adj td{
+    border: 3px double black;
+}
+#line_data_dialog{
+    width: 50vw;
+}
+#line_data{
+    display: flex;justify-content: center;
 }
 
 /*word cloud*/
@@ -526,9 +544,11 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #b_sum{
     border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background-color: white;
 }
+/*
 #GPT_score{
     border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background-color: white;
 }
+*/
 /*display_chart：hr*/
 #bar_chart_hr,#line_chart_hr{
     margin-top: 100px;
@@ -556,8 +576,11 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #bar_chart_info{
     display: flex-warp;margin-top:100px;margin-left:20px;width:35vw;
 }
-#b_max,#b_min{
+#b_max,#b_min,#address{
     margin-top: 20px;
+}
+#map{
+    width: 50vw;margin-left:20px;border: 3px solid;border-radius: 4px;border-color:#3CC796;
 }
 #bar_chart_zoom_div{
     height:400px;border: 3px solid;border-radius: 4px;border-color:#3CC796;width: 80vw;
@@ -855,9 +878,11 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #b_sum{
     border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background-color: white;
 }
+/*
 #GPT_score{
     border:1px solid; border-radius:50px; height:10vh;width:36vh;margin-left:30px;margin-top:4vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background-color: white;
 }
+*/
 /*display_chart：hr*/
 #bar_chart_hr,#line_chart_hr{
     margin-top: 100px;

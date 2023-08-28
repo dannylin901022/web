@@ -23,6 +23,9 @@
 
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+    
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/cn2t.js"></script>
@@ -191,9 +194,11 @@
                                                     </div>
                                                     <div id="b_sum">
                                                     </div>
+<!--
                                                     <div id="GPT_score">
                                                         GPT分數
                                                     </div>
+-->
                                                     <dialog id="collect_info"
                                                         style="justify-content:center;align-items:center;flex-direction:column;">
                                                         <p>請選擇要儲存的資料夾及儲存名稱</p>
@@ -223,17 +228,27 @@
                                                 <p id=b_reverse></p>
                                                 <p id="b_max"></p>
                                                 <p id="b_min"></p>
+                                                
                                             </div>
                                         </div>
+                                        <div style="display: flex;">
+                                        <div>
                                         <div class="bar_chart_overflow">
-                                            <h6>範圍放大</h6>
+                                            <div style="display: flex;justify-content: space-between;">
+                                                <h4>範圍放大</h4>
+                                                <h4 id="address"></h4>
+                                            </div>
                                             <div id="bar_chart_zoom_div">
                                                 <canvas id="bar_chart_zoom" style="background-color: white;"></canvas>
                                             </div>
                                         </div>
+                                            
                                         <div id="message_count">
                                         </div>
                                         <div id="bar_link">
+                                        </div>
+                                            </div>
+                                            <div id="map"></div>
                                         </div>
                                         <hr id="line_chart_hr">
                                         <h2>正負向評價數</h2>
@@ -254,13 +269,30 @@
                                                 </div>
                                                 <div id="line_chart_info">
                                                     <div id="p_info">
-                                                    <p id="p_max"></p>
-                                                    <p id="p_min"></p>
+                                                        <p id="p_sum">區間內關鍵字統計：</p>
+<!--                                                    <p id="n_sum"></p>-->
+                                                    <div>
+                                                        <button id="line_data_btn" @click="line_data_click" style="display: none">詳細資料</button>
+                                                    </div>
                                                     </div>
                                                     <div id="n_info">
+                                                    <p id="p_max"></p>
                                                     <p id="n_max"></p>
-                                                    <p id="n_min"></p>
-                                                    </div>
+                                                    </div> 
+                                                    <dialog id="line_data_dialog">
+                                                        <div style="display: flex">
+                                                            <button id="line_data_dialog_close" style="display: flex;justify-content: end;"@click="line_data_dialog_close">關閉</button>
+                                                            <h5 style="margin-left: 20px;">關鍵字詳細排序</h5>
+                                                        </div>
+                                                        <div id="line_data">
+                                                            <table id="line_table_all">    
+                                                            </table>
+                                                            <table id="line_table_nb">    
+                                                            </table>
+                                                            <table id="line_table_adj">    
+                                                            </table>
+                                                        </div>
+                                                    </dialog>
                                                 </div>
                                                 </div>
                                                 <p id="line_link_date"></p>
@@ -759,6 +791,13 @@
             },
             wc9_close() {
                 document.getElementById("word_cloud9_dialog").close();
+            },
+            
+            line_data_click(){
+                document.getElementById("line_data_dialog").showModal();
+            },
+            line_data_dialog_close(){
+                document.getElementById("line_data_dialog").close();
             },
             
             //==========================================================================================                

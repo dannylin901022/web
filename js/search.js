@@ -56,7 +56,8 @@ var search = {
                 data_SA.positiveNumber,
                 data_SA.negativeNumber,
                 data_SA.posHotArticle,
-                data_SA.negHotArticle
+                data_SA.negHotArticle,
+                data_SA.wordCloudAnalysisResults
             );
 
             const data_WC_all = await this.get_data_WordCloud_all(

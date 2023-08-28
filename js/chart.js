@@ -1,5 +1,6 @@
 var chart = {
-    bar_chart(label, datas,hotArticles) {
+    async bar_chart(label, datas,hotArticles) {
+        await this.draw_map();
         let point_value = 0;
         let index_low = 0, index_high = 0;
         for(var i = 0;i<datas.length;i++){
@@ -147,7 +148,7 @@ var chart = {
         });
         //document.getElementById('bar_chart_div').style.width = label.length * 100 + "";
     },
-    line_chart(label, data1, data2,posHotArticle,negHotArticle) {
+    line_chart(label, data1, data2,posHotArticle,negHotArticle,wordCloudAnalysisResults) {
         var data1_all = data1,
             data2_all = data2,
             label_all = label;
@@ -216,26 +217,44 @@ var chart = {
         var pos_articles = [];
         var pos_url = [];
         var pos_sentimentCount = [];
+        var wordSegment = [];
+        var wordSegmentFrequency = [];
+        var wordSegment_nb = [];
+        var wordSegmentFrequency_nb = [];
+        var wordSegment_adj = [];
+        var wordSegmentFrequency_adj = [];
         
         for(var i = 0;i<label_all.length;i++){
             if(posHotArticle[label_all[i]] != null && posHotArticle[label_all[i]] != ""){
                 pos_articles.push(posHotArticle[label_all[i]][0].articleTitle);
                 pos_url.push(posHotArticle[label_all[i]][0].url);
                 pos_sentimentCount.push(posHotArticle[label_all[i]][0].sentimentCount);
+                wordSegment.push(wordCloudAnalysisResults[i].wordSegment);
+                wordSegmentFrequency.push(wordCloudAnalysisResults[i].wordSegmentFrequency);
+                wordSegment_nb.push(wordCloudAnalysisResults[i].wordSegmentNb);
+                wordSegmentFrequency_nb.push(wordCloudAnalysisResults[i].wordSegmentNbFrequency);
+                wordSegment_adj.push(wordCloudAnalysisResults[i].wordSegmentAdj);
+                wordSegmentFrequency_adj.push(wordCloudAnalysisResults[i].wordSegmentAdjFrequency);
             }
             else{
                 pos_articles.push(null);
                 pos_url.push(null);
                 pos_sentimentCount.push(null);
+                wordSegment.push(null);
+                wordSegmentFrequency.push(null);
+                wordSegment_nb.push(null);
+                wordSegmentFrequency_nb.push(null);
+                wordSegment_adj.push(null);
+                wordSegmentFrequency_adj.push(null);
             }
         }
         
         let pos_point_value = 0;
         let pos_index_low = 0, pos_index_high = 0;
         
-        for(var i = 0;i<data1.length;i++){
-            if((data1[i+1] != null) && data1[i+1]-data1[i] > pos_point_value){
-                pos_point_value = data1[i+1]-data1[i];
+        for(var i = 0;i<data1_all.length;i++){
+            if((data1_all[i+1] != null) && data1_all[i+1]-data1_all[i] > pos_point_value){
+                pos_point_value = data1_all[i+1]-data1_all[i];
                 pos_index_low = i;
                 pos_index_high = i+1;
             }
@@ -261,9 +280,9 @@ var chart = {
         let neg_point_value = 0;
         let neg_index_low = 0, neg_index_high = 0;
         
-        for(var i = 0;i<data2.length;i++){
-            if((data2[i+1] != null) && data2[i+1]-data2[i] > neg_point_value){
-                neg_point_value = data2[i+1]-data2[i];
+        for(var i = 0;i<data2_all.length;i++){
+            if((data2_all[i+1] != null) && data2_all[i+1]-data2_all[i] > neg_point_value){
+                neg_point_value = data2_all[i+1]-data2_all[i];
                 neg_index_low = i;
                 neg_index_high = i+1;
             }
@@ -322,6 +341,29 @@ var chart = {
                         
                         document.getElementById("line_ninfo").innerHTML =
                             "　負向文章分析資訊：　正向情緒：" + neg_sentimentCount[activeEls[0].index].positive + "　負向情緒：" + neg_sentimentCount[activeEls[0].index].negative;
+                         document.getElementById("p_sum").innerHTML =
+                            "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[activeEls[0].index][0] + "：" + wordSegmentFrequency[activeEls[0].index][0] + " 次<br>　2.關鍵字：" + 
+                            wordSegment[activeEls[0].index][1] + "：" + wordSegmentFrequency[activeEls[0].index][1] + " 次<br>　3.關鍵字：" + 
+                            wordSegment[activeEls[0].index][2] + "：" + wordSegmentFrequency[activeEls[0].index][2] + " 次"; 
+                        
+                            let line_table_data_all = "<th>整體關鍵字</th>";
+                            for(let i = 0;i<wordSegment[activeEls[0].index].length;i++){
+                                line_table_data_all = line_table_data_all + "<tr><td>" + wordSegment[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency[activeEls[0].index][i] + "</td></tr>";
+                            }
+                            let line_table_data__nb = "<th>名詞關鍵字</th>";
+                            for(let i = 0;i<wordSegment_nb[activeEls[0].index].length;i++){
+                                line_table_data__nb = line_table_data__nb + "<tr><td>" + wordSegment_nb[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency_nb[activeEls[0].index][i] + "</td></tr>";
+                            }
+                            let line_table_data_adj = "<th>形容詞關鍵字</th>";
+                            for(let i = 0;i<wordSegment_adj[activeEls[0].index].length;i++){
+                                line_table_data_adj = line_table_data_adj + "<tr><td>" + wordSegment_adj[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency_adj[activeEls[0].index][i] + "</td></tr>";
+                            }
+                        
+                            document.getElementById("line_data_btn").style.display = "block";
+                            document.getElementById("line_table_all").innerHTML = line_table_data_all;
+                            document.getElementById("line_table_nb").innerHTML = line_table_data__nb;
+                            document.getElementById("line_table_adj").innerHTML = line_table_data_adj;
+
                         
                         activeEls.length > 0
                             ? (evt.chart.canvas.style.cursor = "pointer")
@@ -363,23 +405,23 @@ var chart = {
             }
         }
         let min_text = label[data1.indexOf(min)];
-//        最大值移掉，想個更好的呈現方式
-        document.getElementById("p_max").innerHTML =
-            "<h5>區間內正向情緒：</h5>" + "<br>　"
-//            + data_key[0] + "：" + data_value[0] + "<br>　" + data_key[1] + "：" + data_value[1] + "<br>　" + data_key[2] + "：" + data_value[2]
-
-        document.getElementById("p_min").innerHTML =
-            "<h5>區間內負向情緒：</h5>" + "<br>　"
-//            + data_key[0] + "：" + data_value[0] + "<br>　" + data_key[1] + "：" + data_value[1] + "<br>　" + data_key[2] + "：" + data_value[2]
+////        最大值移掉，想個更好的呈現方式
+//        document.getElementById("p_sum").innerHTML =
+//            "<h5>區間內正向情緒：</h5>" + "<br>　"
+////            + data_key[0] + "：" + data_value[0] + "<br>　" + data_key[1] + "：" + data_value[1] + "<br>　" + data_key[2] + "：" + data_value[2]
+//
+//        document.getElementById("n_sum").innerHTML =
+//            "<h5>區間內負向情緒：</h5>" + "<br>　"
+////            + data_key[0] + "：" + data_value[0] + "<br>　" + data_key[1] + "：" + data_value[1] + "<br>　" + data_key[2] + "：" + data_value[2]
         
-        document.getElementById("n_max").innerHTML =
+        document.getElementById("p_max").innerHTML =
             "<h5>正向情緒爬升點：</h5>" + "　爬升點日期：" + 
             label[pos_index_high] + "<br>　" + "正向情緒討論數：" + data1[pos_index_high].toLocaleString() + "<br>　" + "正向情緒增加數：" + pos_point_value.toLocaleString();
         
-        document.getElementById("n_min").innerHTML =
+        document.getElementById("n_max").innerHTML =
             "<h5>負向情緒爬升點：</h5>" + "　爬升點日期：" + 
             label[neg_index_high] + "<br>　" + "負向情緒討論數：" + data2[neg_index_high].toLocaleString() + "<br>　" + "負向情緒增加數：" + neg_point_value.toLocaleString();
-
+        
 //        document.getElementById("p_max").innerHTML =
 //            "正向最大值：" +
 //            max.toLocaleString() +
@@ -696,16 +738,19 @@ var chart = {
         var articles = [];
         var url = [];
         var messageCount = [];
+//        var address = [];
         for(var i = 0;i<labels.length;i++){
             if(hotArticles[labels[i]] != null && hotArticles[labels[i]] != ""){
                 articles.push(hotArticles[labels[i]][0].articleTitle);
                 url.push(hotArticles[labels[i]][0].url);
                 messageCount.push(hotArticles[labels[i]][0].messageCount);
+//                address.push(hotArticles[labels[i]][0].messages.address)
             }
             else{
                 articles.push(null);
                 url.push(null);
                 messageCount.push(null);
+//                address.push(null);
             }
         }
 
@@ -754,6 +799,7 @@ var chart = {
                         document.getElementById("message_count").innerHTML = "　該篇文章留言數：" + messageCount[activeEls[0].index];
                         document.getElementById("bar_link").innerHTML =
                             "　相關文章：" + "<a href=" + url[activeEls[0].index] +  " target='_blank'>" + articles[activeEls[0].index] + "</a>";
+//                        document.getElementById("address").innerHTML = "　討論集中區域：" + address[activeEls[0].index];
                         activeEls.length > 0
                             ? (evt.chart.canvas.style.cursor = "pointer")
                             : (evt.chart.canvas.style.cursor = "default");
@@ -778,5 +824,62 @@ var chart = {
             },
         });
     },
+    async draw_map(){
+        const topology = await fetch(
+            'https://code.highcharts.com/mapdata/countries/tw/tw-all.topo.json'
+        ).then(response => response.json());
+
+    const data = [
+        ['tw-pt', 10], ['tw-tn', 11], ['tw-il', 12], ['tw-ch', 13],
+        ['tw-tt', 14], ['tw-ph', 15], ['tw-km', 16], ['tw-lk', 17],
+        ['tw-tw', 18], ['tw-cs', 19], ['tw-th', 20], ['tw-yl', 21],
+        ['tw-kh', 22], ['tw-tp', 23], ['tw-hs', 24], ['tw-hh', 25],
+        ['tw-cl', 26], ['tw-ml', 27], ['tw-ty', 28], ['tw-cg', 29],
+        ['tw-hl', 30], ['tw-nt', 31]
+    ];
+
+    Highcharts.mapChart('map', {
+        chart: {
+            map: topology,
+        },
+        title: {
+            text: '區域分布'
+        },
+
+        colorAxis: {
+            min: 0
+        },
+
+        series: [{
+            data: data,
+            name:'區域資料',
+            states: {
+                hover: {
+                    color: '#BADA55'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}',
+            },
+            events: {
+                click: function(event){           
+                    console.log(event.point.name);
+                    console.log(event.point.options.value);
+                } 
+            }
+        }]
+    });
+        let area = [],datas = [];
+        for(let i = 0;i<data.length;i++){
+            area[i] = data[i][0];
+            datas[i] = data[i][1];
+        }
+        let max = Math.max.apply(null, datas);
+        let max_text = area[datas.indexOf(max)];
+        document.getElementById("address").innerHTML =
+            "討論數集中區域：" + max_text;
+        }
+        
 };
 export default chart;
