@@ -1,6 +1,6 @@
 var chart = {
     async bar_chart(label, datas,hotArticles) {
-        await this.draw_map();
+        await this.draw_map(label, datas,hotArticles);
         let point_value = 0;
         let index_low = 0, index_high = 0;
         for(var i = 0;i<datas.length;i++){
@@ -148,7 +148,7 @@ var chart = {
         });
         //document.getElementById('bar_chart_div').style.width = label.length * 100 + "";
     },
-    line_chart(label, data1, data2,posHotArticle,negHotArticle,wordCloudAnalysisResults) {
+    async line_chart(label, data1, data2,posHotArticle,negHotArticle,wordCloudAnalysisResults,input_data) {
         var data1_all = data1,
             data2_all = data2,
             label_all = label;
@@ -213,6 +213,9 @@ var chart = {
                 ],
             },
         });
+        
+        let new_data_pos = {};
+        let new_data_neg = {};
 
         var pos_articles = [];
         var pos_url = [];
@@ -327,8 +330,14 @@ var chart = {
                             },
                         },
                 },
-                onHover: (evt, activeEls) => {
+                onHover: async (evt, activeEls) => {
                     try {
+                        this.line_chart_pie_chart(label[activeEls[0].index],data1[activeEls[0].index],data2[activeEls[0].index]);
+                        
+                        new_data_pos = await this.get_data_line_pos(input_data,label[activeEls[0].index],label[activeEls[0].index+1]);
+                        
+                        new_data_neg = await this.get_data_line_neg(input_data,label[activeEls[0].index],label[activeEls[0].index+1]);
+                        
                         document.getElementById("line_link_date").innerHTML = "日期：" + label_all[activeEls[0].index]
                         document.getElementById("line_plink").innerHTML =
                             "　正向相關文章：" + "<a href=" + pos_url[activeEls[0].index] +  " target='_blank'>" + pos_articles[activeEls[0].index] + "</a>";
@@ -414,27 +423,22 @@ var chart = {
 //            "<h5>區間內負向情緒：</h5>" + "<br>　"
 ////            + data_key[0] + "：" + data_value[0] + "<br>　" + data_key[1] + "：" + data_value[1] + "<br>　" + data_key[2] + "：" + data_value[2]
         
+//        document.getElementById("p_max").innerHTML =
+//            "<h5>正向情緒爬升點：</h5>" + "　爬升點日期：" + 
+//            label[pos_index_high] + "<br>　" + "正向情緒討論數：" + data1[pos_index_high].toLocaleString() + "<br>　" + "正向情緒增加數：" + pos_point_value.toLocaleString();
+//        
+//        document.getElementById("n_max").innerHTML =
+//            "<h5>負向情緒爬升點：</h5>" + "　爬升點日期：" + 
+//            label[neg_index_high] + "<br>　" + "負向情緒討論數：" + data2[neg_index_high].toLocaleString() + "<br>　" + "負向情緒增加數：" + neg_point_value.toLocaleString();
+         
         document.getElementById("p_max").innerHTML =
-            "<h5>正向情緒爬升點：</h5>" + "　爬升點日期：" + 
-            label[pos_index_high] + "<br>　" + "正向情緒討論數：" + data1[pos_index_high].toLocaleString() + "<br>　" + "正向情緒增加數：" + pos_point_value.toLocaleString();
+            "<h5>區間內正向關鍵字：</h5>" + 
+            new_data_pos.wordSegment[0] + "：" + new_data_pos.wordSegmentFrequency[0];
         
         document.getElementById("n_max").innerHTML =
-            "<h5>負向情緒爬升點：</h5>" + "　爬升點日期：" + 
-            label[neg_index_high] + "<br>　" + "負向情緒討論數：" + data2[neg_index_high].toLocaleString() + "<br>　" + "負向情緒增加數：" + neg_point_value.toLocaleString();
+            "<h5>區間內負向關鍵字：</h5>" + 
+            new_data_neg.wordSegment[0] + "：" + new_data_neg.wordSegmentFrequency[0];
         
-//        document.getElementById("p_max").innerHTML =
-//            "正向最大值：" +
-//            max.toLocaleString() +
-//            "<br>" +
-//            "日期：" +
-//            max_text;
-//        最小值移掉，想個更好的呈現方式        
-//        document.getElementById("p_min").innerHTML =
-//            "正向最小值：" +
-//            min.toLocaleString() +
-//            "<br>" +
-//            "日期：" +
-//            min_text;
 
         max = Math.max.apply(null, data2);
         max_text = label[data2.indexOf(max)];
@@ -445,21 +449,8 @@ var chart = {
             }
         }
         min_text = label[data2.indexOf(min)];
-//        最大值移掉，想個更好的呈現方式
-//        document.getElementById("n_max").innerHTML =
-//            "負向最大值：" +
-//            max.toLocaleString() +
-//            "<br>" +
-//            "日期：" +
-//            max_text;
-////        最小值移掉，想個更好的呈現方式
-//        document.getElementById("n_min").innerHTML =
-//            "負向最小值：" +
-//            min.toLocaleString() +
-//            "<br>" +
-//            "日期：" +
-//            min_text;
     },
+    
     word_chart_all(wordSegment, frequency,wordSegmentNb,wordSegmentNbFrequency,wordSegmentAdj,wordSegmentAdjFrequency) {
         //chart_1
         var data1 = [];
@@ -738,19 +729,16 @@ var chart = {
         var articles = [];
         var url = [];
         var messageCount = [];
-//        var address = [];
         for(var i = 0;i<labels.length;i++){
             if(hotArticles[labels[i]] != null && hotArticles[labels[i]] != ""){
                 articles.push(hotArticles[labels[i]][0].articleTitle);
                 url.push(hotArticles[labels[i]][0].url);
                 messageCount.push(hotArticles[labels[i]][0].messageCount);
-//                address.push(hotArticles[labels[i]][0].messages.address)
             }
             else{
                 articles.push(null);
                 url.push(null);
                 messageCount.push(null);
-//                address.push(null);
             }
         }
 
@@ -824,11 +812,148 @@ var chart = {
             },
         });
     },
-    async draw_map(){
+    line_chart_pie_chart(label,data1,data2){
+        var ctx = document.getElementById("line_chart_pie_chart").getContext("2d");
+        var data_list = [Math.floor(Math.random() * 100),Math.floor(Math.random() * 100)];
+        var graphique = Chart.getChart("line_chart_pie_chart");
+        if (graphique) {
+            graphique.destroy();
+        }
+        new Chart(ctx, {
+            type: "pie",
+            options: {
+                responsive: true,
+                plugins: {
+                    legend:{
+                        position:'top'
+                    },
+                    datalabels: {
+                        color: "#36A2EB",
+                        anchor: "end",
+                        align: "end",
+                        offset: 4,
+                        font: {
+                            size: 0,
+                        },
+                    },
+                    title: {
+                        display: true,
+                        text: label + " 正負情緒百分比",
+                        font: {
+                            size: 20,
+                            family: "NaniFont Light",
+                        },
+                    },
+                },
+            },
+            data: {
+                labels: ['正向','負向'],
+                datasets: [
+                    {
+                        data: data_list,
+                        borderWidth: 1,
+                        backgroundColor: ["#FF5454", "#66FF07"],
+                        datalabels: {
+                            color: "#332233",
+                        },
+                    },
+                ],
+            },
+        });
+    },
+    async draw_map(label, datas,hotArticles){
         const topology = await fetch(
             'https://code.highcharts.com/mapdata/countries/tw/tw-all.topo.json'
         ).then(response => response.json());
 
+        var address = [['Pingtung', 0], ['Tainan', 0], ['Yilan', 0], ['Chiayi', 0],
+        ['Taitung', 0], ['Penghu', 0], ['Kinmen', 0], ['Lienchiang', 0],
+        ['Taipei', 0], ['Chiayi City', 0], ['Taichung', 0], ['Yunlin', 0],
+        ['Kaohsiung', 0], ['New Taipei City', 0], ['Hsinchu City', 0], ['Hsinchu', 0],
+        ['Keelung', 0], ['Miaoli', 0], ['Taoyuan', 0], ['Changhua', 0],
+        ['Hualien', 0], ['Nantou', 0]];
+        
+//    for(var i = 0;i<labels.length;i++){
+//        if(hotArticles[labels[i]] != null && hotArticles[labels[i]] != ""){
+//                switch(hotArticles.message.address) {
+//                    case 'Pingtung':
+//                            address[0][1]++;
+//                            break;
+//                    case 'Tainan':
+//                            address[1][1]++;
+//                            break;
+//                    case 'Yilan':
+//                            address[2][1]++;
+//                            break;
+//                    case 'Chiayi':
+//                            address[3][1]++;
+//                            break;
+//                    case 'Taitung':
+//                            address[4][1]++;
+//                            break;
+//                    case 'Penghu':
+//                            address[5][1]++;
+//                            break;
+//                    case 'Kinmen':
+//                            address[6][1]++;
+//                            break;
+//                    case 'Lienchiang':
+//                            address[7][1]++;
+//                            break;
+//                    case 'Taipei':
+//                            address[8][1]++;
+//                            break;
+//                    case 'Chiayi City':
+//                            address[9][1]++;
+//                            break
+//                    case 'Taichung':
+//                            address[10][1]++;
+//                            break;
+//                    case 'Yunlin':
+//                            address[11][1]++;
+//                            break;
+//                    case 'Kaohsiung':
+//                            address[12][1]++;
+//                            break;
+//                    case 'New Taipei City':
+//                            address[13][1]++;
+//                            break;
+//                    case 'Hsinchu City':
+//                            address[14][1]++;
+//                            break;
+//                    case 'Hsinchu':
+//                            address[15][1]++;
+//                            break;
+//                    case 'Keelung':
+//                            address[16][1]++;
+//                            break;
+//                    case 'Miaoli':
+//                            address[17][1]++;
+//                            break;
+//                    case 'Taoyuan':
+//                            address[18][1]++;
+//                            break;
+//                    case 'Changhua':
+//                            address[19][1]++;
+//                            break;
+//                    case 'Hualien':
+//                            address[20][1]++;
+//                            break;
+//                    case 'Nantou':
+//                            address[21][1]++;
+//                            break;
+//                }
+//        }
+//    }
+//        const data = [
+//        ['tw-pt', address[0][1]], ['tw-tn', address[1][1]], ['tw-il', address[2][1]], ['tw-ch', address[3][1]],
+//        ['tw-tt', address[4][1]], ['tw-ph', address[5][1]], ['tw-km', address[6][1]], ['tw-lk', address[7][1]],
+//        ['tw-tw', address[8][1]], ['tw-cs', address[9][1]], ['tw-th', address[10][1]], ['tw-yl', address[11][1]],
+//        ['tw-kh', address[12][1]], ['tw-tp', address[13][1]], ['tw-hs', address[14][1]], ['tw-hh', address[15][1]],
+//        ['tw-cl', address[16][1]], ['tw-ml', address[17][1]], ['tw-ty', address[18][1]], ['tw-cg', address[19][1]],
+//        ['tw-hl', address[20][1]], ['tw-nt', address[21][1]]
+//    ];
+        
     const data = [
         ['tw-pt', 10], ['tw-tn', 11], ['tw-il', 12], ['tw-ch', 13],
         ['tw-tt', 14], ['tw-ph', 15], ['tw-km', 16], ['tw-lk', 17],
@@ -837,6 +962,7 @@ var chart = {
         ['tw-cl', 26], ['tw-ml', 27], ['tw-ty', 28], ['tw-cg', 29],
         ['tw-hl', 30], ['tw-nt', 31]
     ];
+    
 
     Highcharts.mapChart('map', {
         chart: {
@@ -870,16 +996,96 @@ var chart = {
             }
         }]
     });
-        let area = [],datas = [];
+        let area = [],_data = [];
         for(let i = 0;i<data.length;i++){
             area[i] = data[i][0];
-            datas[i] = data[i][1];
+            _data[i] = data[i][1];
         }
-        let max = Math.max.apply(null, datas);
-        let max_text = area[datas.indexOf(max)];
+        let max = Math.max.apply(null, _data);
+        let max_text = area[_data.indexOf(max)];
         document.getElementById("address").innerHTML =
             "討論數集中區域：" + max_text;
-        }
+        },
+    
+    async get_data_line_pos(input_data,start,end) {
+        var data = {};
+        //fake/
+        await fetch(
+            api_url +
+                "WordCloud/" +
+                input_data.topic +
+                "/StatrDate/" +
+                start +
+                "/EndDate/" +
+                end +
+                "/Positive" +
+                "?DateRange=" +
+                input_data.dateRange +
+                "&IsExactMatch=" +
+                input_data.isEM +
+                "&SearchMode=" +
+                input_data.mode,
+            {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
+                },
+            }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                data = response;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        console.log(data);
+        return data;
+    },
+    
+    async get_data_line_neg(input_data,start,end) {
+        var data = {};
+        //fake/
+        await fetch(
+            api_url +
+                "WordCloud/" +
+                input_data.topic +
+                "/StatrDate/" +
+                start +
+                "/EndDate/" +
+                end +
+                "/Negative" +
+                "?DateRange=" +
+                input_data.dateRange +
+                "&IsExactMatch=" +
+                input_data.isEM +
+                "&SearchMode=" +
+                input_data.mode,
+            {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
+                },
+            }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                data = response;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        console.log(data);
+        return data;
+    },
         
 };
 export default chart;

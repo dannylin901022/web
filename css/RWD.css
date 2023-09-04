@@ -204,7 +204,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-top: 100px;
 }
 #word_cloud_hr{
-    margin-top: 750px;
+    margin-top: 50vh;
 }
 /*display_chart:conten*/
 /*bar chart*/
@@ -241,7 +241,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*line chart*/
 #line_chart_range{
-    display: flex-warp; height: 400px;width: 1200px;
+    display: flex-warp; height: 100vh;width: 1200px;
 }
 #line_chart_title{
     width:1000px;display: flex-warp;
@@ -261,8 +261,8 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #line_chart_zoom_overflow{
     width:700px;overflow:auto;margin-top: 20px;
 }
-#line_chart_div{
-    height:90%;border: 3px solid;border-radius: 4px;border-color:lightgreen
+#line_chart_div,#line_chart_pie_chart_div{
+    height:100%;border: 3px solid;border-radius: 4px;border-color:lightgreen
 }
 #line_chart_info{
     display: flex-warp;margin-top: 20px;margin-left: 50px;

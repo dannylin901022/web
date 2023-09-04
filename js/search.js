@@ -50,6 +50,16 @@ var search = {
                 api_url,
                 token
             );
+            let input_data = {
+                topic:topic,
+                start:start,
+                end:end,
+                dateRange:dateRange,
+                isEM:isEM,
+                mode:mode,
+                api_url:api_url,
+                token:token
+            }
 
             chart.line_chart(
                 data_SA.dates,
@@ -57,7 +67,8 @@ var search = {
                 data_SA.negativeNumber,
                 data_SA.posHotArticle,
                 data_SA.negHotArticle,
-                data_SA.wordCloudAnalysisResults
+                data_SA.wordCloudAnalysisResults,
+                input_data,
             );
 
             const data_WC_all = await this.get_data_WordCloud_all(
