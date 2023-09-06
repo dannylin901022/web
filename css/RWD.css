@@ -136,7 +136,7 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
     border: 1px solid;height: 40px;background-color: white;
 }
 #Popular_Article_show p{
-    margin-top: 10px;
+    font-size:20px;margin-top: 5px;margin-left:10px;
 }
 #isExactMatch_info{
     display: flex-warp;margin-left: 20px;margin-top: 20px;
@@ -154,7 +154,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================result section============================================*/
 #result{
-    max-height:auto;margin-top: -150vh;
+    max-height:auto;margin-top: -125vh;
 }
 /*result_topic*/
 #result_topic{
@@ -268,7 +268,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     height:75%;border: 3px solid;border-radius: 4px;border-color:lightgreen;margin-left: 10px;margin-top: 20px;
 }
 #line_chart_info{
-    margin-top: 20px;margin-left: 30px;overflow: auto;border: 3px solid;border-radius: 4px;border-color: lightgreen;padding: 20px;background-color: white;
+    margin-top: 20px;margin-left: 30px;overflow: auto;border: 3px solid;border-radius: 4px;border-color: lightgreen;padding: 20px;background-color: white;width:280px;
 }
 #n_info{
     margin-top: 40px;

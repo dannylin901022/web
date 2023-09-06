@@ -158,7 +158,10 @@
                                             </div>
                                         </div>
                                         <div id="Popular_Article_info">
-                                            <h3>熱門文章</h3>
+                                            <div style="display: flex;align-items: flex-end;">
+                                                <h3 style="display: flex;">熱門關鍵字　</h3>
+                                                <h5 v-model="recommend_info_title">{{recommend_info_title}}</h5>
+                                            </div>
                                             <div id="Popular_Article_show" v-model="recommend_info">
                                                 <p>{{recommend_info}}</p>
                                             </div>
@@ -575,7 +578,8 @@
                     "isExactMatch": false,
                     "mode": 0,
                 },
-                recommend_info: "熱門關鍵字",
+                recommend_info_title: "分析筆數：",
+                recommend_info: "",
                 account_input: "",
                 password_input: "",
                 email_input: "",
@@ -875,14 +879,15 @@
             //更改推薦
             async change_recommend() {
                 var data = {}
-                var recommend_list = [];
+                var recommend_list = [],recommend_value_list = [];
                 data = await search.get_data_TrendingTopic(api_url.replace("api/",""), token);
+                this.recommend_info_title = this.recommend_info_title + data.articleNumber;
                 for (var i = 0; i < data.trendingTopics.length; i++) {
-                    recommend_list[i] = data.trendingTopics[i];
+                    recommend_list[i] = data.trendingTopics[i].topic;
+                    recommend_value_list[i] = Math.round(data.trendingTopics[i].discussPercentage*10000)/100.00 + "%";
                 }
-                recommend_list = ["熱門關鍵字：關鍵字1","熱門關鍵字：關鍵字2","熱門關鍵字：關鍵字3","熱門關鍵字：關鍵字4","熱門關鍵字：關鍵字5","熱門關鍵字：關鍵字6"]
                 var recommend_change = setInterval(function () {
-                    vm.recommend_info = recommend_list[Math.floor(Math.random() * recommend_list.length)];
+                    vm.recommend_info = "關鍵字：" + recommend_list[Math.floor(Math.random() * recommend_list.length)] + "　　出現率：" + recommend_value_list[Math.floor(Math.random() * recommend_value_list.length)];
                 }, 5000);
             },
 
