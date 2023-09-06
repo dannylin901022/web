@@ -1,6 +1,6 @@
 var chart = {
     async bar_chart(label, datas,hotArticles) {
-        await this.draw_map(label, datas,hotArticles);
+        await this.draw_map(label, datas,null,hotArticles);
         let point_value = 0;
         let index_low = 0, index_high = 0;
         for(var i = 0;i<datas.length;i++){
@@ -107,18 +107,16 @@ var chart = {
                         ? (evt.chart.canvas.style.cursor = "pointer")
                         : (evt.chart.canvas.style.cursor = "default");
                 },
-                onClick: (evt, el, chart) => {
+                onClick: async (evt, el, chart) => {
                     if (el[0]) {
                         document.getElementById("bar_link").innerHTML = "";
                         this.bar_chart_zoom(
                             label,
                             datas,
                             el[0].index,
-                            max,
-                            max_text,
                             hotArticles,
-                            
                         );
+                        await this.draw_map(label, datas,el[0].index,hotArticles);
                     }
                 },
             },
@@ -334,9 +332,9 @@ var chart = {
                     try {
                         this.line_chart_pie_chart(label[activeEls[0].index],data1[activeEls[0].index],data2[activeEls[0].index]);
                         
-                        new_data_pos = await this.get_data_line_pos(input_data,label[activeEls[0].index],label[activeEls[0].index+1]);
+                        await this.get_data_line_pos(input_data,label[activeEls[0].index],label[activeEls[0].index+1]);
                         
-                        new_data_neg = await this.get_data_line_neg(input_data,label[activeEls[0].index],label[activeEls[0].index+1]);
+                        await this.get_data_line_neg(input_data,label[activeEls[0].index],label[activeEls[0].index+1]);
                         
                         document.getElementById("line_link_date").innerHTML = "日期：" + label_all[activeEls[0].index]
                         document.getElementById("line_plink").innerHTML =
@@ -350,6 +348,7 @@ var chart = {
                         
                         document.getElementById("line_ninfo").innerHTML =
                             "　負向文章分析資訊：　正向情緒：" + neg_sentimentCount[activeEls[0].index].positive + "　負向情緒：" + neg_sentimentCount[activeEls[0].index].negative;
+                        
                          document.getElementById("p_sum").innerHTML =
                             "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[activeEls[0].index][0] + "：" + wordSegmentFrequency[activeEls[0].index][0] + " 次<br>　2.關鍵字：" + 
                             wordSegment[activeEls[0].index][1] + "：" + wordSegmentFrequency[activeEls[0].index][1] + " 次<br>　3.關鍵字：" + 
@@ -368,11 +367,10 @@ var chart = {
                                 line_table_data_adj = line_table_data_adj + "<tr><td>" + wordSegment_adj[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency_adj[activeEls[0].index][i] + "</td></tr>";
                             }
                         
-                            document.getElementById("line_data_btn").style.display = "block";
-                            document.getElementById("line_table_all").innerHTML = line_table_data_all;
-                            document.getElementById("line_table_nb").innerHTML = line_table_data__nb;
-                            document.getElementById("line_table_adj").innerHTML = line_table_data_adj;
-
+                            document.getElementById("line_data_btn1").style.display = "block";
+                            document.getElementById("line_table_all_1").innerHTML = line_table_data_all;
+                            document.getElementById("line_table_nb_1").innerHTML = line_table_data__nb;
+                            document.getElementById("line_table_adj_1").innerHTML = line_table_data_adj;
                         
                         activeEls.length > 0
                             ? (evt.chart.canvas.style.cursor = "pointer")
@@ -430,14 +428,6 @@ var chart = {
 //        document.getElementById("n_max").innerHTML =
 //            "<h5>負向情緒爬升點：</h5>" + "　爬升點日期：" + 
 //            label[neg_index_high] + "<br>　" + "負向情緒討論數：" + data2[neg_index_high].toLocaleString() + "<br>　" + "負向情緒增加數：" + neg_point_value.toLocaleString();
-         
-        document.getElementById("p_max").innerHTML =
-            "<h5>區間內正向關鍵字：</h5>" + 
-            new_data_pos.wordSegment[0] + "：" + new_data_pos.wordSegmentFrequency[0];
-        
-        document.getElementById("n_max").innerHTML =
-            "<h5>區間內負向關鍵字：</h5>" + 
-            new_data_neg.wordSegment[0] + "：" + new_data_neg.wordSegmentFrequency[0];
         
 
         max = Math.max.apply(null, data2);
@@ -710,7 +700,7 @@ var chart = {
         chart3_3.draw();
     },
 
-    bar_chart_zoom(label, datas, index, max, max_text,hotArticles) {
+    bar_chart_zoom(label, datas, index,hotArticles) {
         var ctx = document.getElementById("bar_chart_zoom").getContext("2d");
         var data = [
             datas[index - 2],
@@ -741,9 +731,6 @@ var chart = {
                 messageCount.push(null);
             }
         }
-
-        let max_zoom = Math.max.apply(null, data);
-        let min = Math.min.apply(null, data);
 
         var graphique = Chart.getChart("bar_chart_zoom");
         if (graphique) {
@@ -814,7 +801,8 @@ var chart = {
     },
     line_chart_pie_chart(label,data1,data2){
         var ctx = document.getElementById("line_chart_pie_chart").getContext("2d");
-        var data_list = [Math.floor(Math.random() * 100),Math.floor(Math.random() * 100)];
+        var data_list = [data1,data2];
+        var data_sum = data1+data2;
         var graphique = Chart.getChart("line_chart_pie_chart");
         if (graphique) {
             graphique.destroy();
@@ -829,12 +817,15 @@ var chart = {
                     },
                     datalabels: {
                         color: "#36A2EB",
-                        anchor: "end",
-                        align: "end",
+                        anchor: "center",
+                        align: "center",
                         offset: 4,
                         font: {
-                            size: 0,
+                            size: 20,
                         },
+                        formatter: function(value, context) {
+                            return Math.round(value/data_sum*100) + '%';
+                        }
                     },
                     title: {
                         display: true,
@@ -861,7 +852,7 @@ var chart = {
             },
         });
     },
-    async draw_map(label, datas,hotArticles){
+    async draw_map(label, datas,index,hotArticles){
         const topology = await fetch(
             'https://code.highcharts.com/mapdata/countries/tw/tw-all.topo.json'
         ).then(response => response.json());
@@ -992,6 +983,7 @@ var chart = {
                 click: function(event){           
                     console.log(event.point.name);
                     console.log(event.point.options.value);
+                    chart.bar_chart_zoom(label,datas,index,hotArticles);
                 } 
             }
         }]
@@ -1008,10 +1000,13 @@ var chart = {
         },
     
     async get_data_line_pos(input_data,start,end) {
+        if(end==null){
+            end = input_data.end
+        }
         var data = {};
         //fake/
         await fetch(
-            api_url +
+            input_data.api_url +
                 "WordCloud/" +
                 input_data.topic +
                 "/StatrDate/" +
@@ -1027,7 +1022,7 @@ var chart = {
                 input_data.mode,
             {
                 headers: {
-                    Authorization: "Bearer " + token,
+                    Authorization: "Bearer " + input_data.token,
                     "Content-Type": "application/json",
                     Accept: "application/json",
                     'ngrok-skip-browser-warning':true,
@@ -1044,14 +1039,57 @@ var chart = {
                 console.log(error);
             });
         console.log(data);
+        
+        
+        var pos_data1 = [];
+        for (var i = 0; i < data.wordSegment.length; i++) {
+            pos_data1.push({ x: data.wordSegment[i], value: data.wordSegmentFrequency[i] });
+        }
+        
+        var pos_data2 = [];
+        for (var i = 0; i < data.wordSegmentNb.length; i++) {
+            pos_data2.push({ x: data.wordSegmentNb[i], value: data.wordSegmentNbFrequency[i] });
+        }
+        
+        var pos_data3 = [];
+        for (var i = 0; i < data.wordSegmentAdj.length; i++) {
+            pos_data3.push({ x: data.wordSegmentAdj[i], value: data.wordSegmentAdjFrequency[i] });
+        }       
+        
+        
+        document.getElementById("p_max").innerHTML =
+            "<h5>區間內正向關鍵字：</h5>" + "　1.關鍵字：" + 
+            pos_data1[0].x + "：" + pos_data1[0].value + " 次<br>　2.關鍵字：" + pos_data1[1].x + "：" + pos_data1[1].value + " 次<br>　3.關鍵字：" + pos_data1[2].x + "：" + pos_data1[2].value + " 次";
+        
+                            let line_table_data_all = "<th>整體關鍵字</th>";
+                            for(let i = 0;i<pos_data1.length;i++){
+                                line_table_data_all = line_table_data_all + "<tr><td>" + pos_data1[i].x + "：</td><td>" + pos_data1[i].value + "</td></tr>";
+                            }
+                            let line_table_data__nb = "<th>名詞關鍵字</th>";
+                            for(let i = 0;i<pos_data2.length;i++){
+                                line_table_data__nb = line_table_data__nb + "<tr><td>" + pos_data2[i].x + "：</td><td>" + pos_data2[i].value + "</td></tr>";
+                            }
+                            let line_table_data_adj = "<th>形容詞關鍵字</th>";
+                            for(let i = 0;i<pos_data3.length;i++){
+                                line_table_data_adj = line_table_data_adj + "<tr><td>" + pos_data3[i].x + "：</td><td>" + pos_data3[i].value + "</td></tr>";
+                            }
+                        
+                            document.getElementById("line_data_btn2").style.display = "block";
+                            document.getElementById("line_table_all_2").innerHTML = line_table_data_all;
+                            document.getElementById("line_table_nb_2").innerHTML = line_table_data__nb;
+                            document.getElementById("line_table_adj_2").innerHTML = line_table_data_adj;
+        
         return data;
     },
     
     async get_data_line_neg(input_data,start,end) {
+        if(end==null){
+            end = input_data.end
+        }
         var data = {};
         //fake/
         await fetch(
-            api_url +
+            input_data.api_url +
                 "WordCloud/" +
                 input_data.topic +
                 "/StatrDate/" +
@@ -1067,7 +1105,7 @@ var chart = {
                 input_data.mode,
             {
                 headers: {
-                    Authorization: "Bearer " + token,
+                    Authorization: "Bearer " + input_data.token,
                     "Content-Type": "application/json",
                     Accept: "application/json",
                     'ngrok-skip-browser-warning':true,
@@ -1083,6 +1121,46 @@ var chart = {
             .catch((error) => {
                 console.log(error);
             });
+        
+                
+        var neg_data1 = [];
+        for (var i = 0; i < data.wordSegment.length; i++) {
+            neg_data1.push({ x: data.wordSegment[i], value: data.wordSegmentFrequency[i] });
+        }
+        
+        var neg_data2 = [];
+        for (var i = 0; i < data.wordSegmentNb.length; i++) {
+            neg_data2.push({ x: data.wordSegmentNb[i], value: data.wordSegmentNbFrequency[i] });
+        }
+        
+        var neg_data3 = [];
+        for (var i = 0; i < data.wordSegmentAdj.length; i++) {
+            neg_data3.push({ x: data.wordSegmentAdj[i], value: data.wordSegmentAdjFrequency[i] });
+        }
+        
+                
+        document.getElementById("n_max").innerHTML =
+            "<h5>區間內負向關鍵字：</h5>" + "　1.關鍵字：" + 
+            neg_data1[0].x + "：" + neg_data1[0].value + " 次<br>　2.關鍵字：" + neg_data1[1].x + "：" + neg_data1[1].value + " 次<br>　3.關鍵字：" + neg_data1[2].x + "：" + neg_data1[2].value + " 次";
+        
+                            let line_table_data_all = "<th>整體關鍵字</th>";
+                            for(let i = 0;i<neg_data1.length;i++){
+                                line_table_data_all = line_table_data_all + "<tr><td>" + neg_data1[i].x + "：</td><td>" + neg_data1[i].value + "</td></tr>";
+                            }
+                            let line_table_data__nb = "<th>名詞關鍵字</th>";
+                            for(let i = 0;i<neg_data2.length;i++){
+                                line_table_data__nb = line_table_data__nb + "<tr><td>" + neg_data2[i].x + "：</td><td>" + neg_data2[i].value + "</td></tr>";
+                            }
+                            let line_table_data_adj = "<th>形容詞關鍵字</th>";
+                            for(let i = 0;i<neg_data3.length;i++){
+                                line_table_data_adj = line_table_data_adj + "<tr><td>" + neg_data3[i].x + "：</td><td>" + neg_data3[i].value + "</td></tr>";
+                            }
+                        
+                            document.getElementById("line_data_btn3").style.display = "block";
+                            document.getElementById("line_table_all_3").innerHTML = line_table_data_all;
+                            document.getElementById("line_table_nb_3").innerHTML = line_table_data__nb;
+                            document.getElementById("line_table_adj_3").innerHTML = line_table_data_adj;
+        
         console.log(data);
         return data;
     },

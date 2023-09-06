@@ -129,6 +129,7 @@ var search = {
                 get_data_WordCloud_neg.wordSegmentAdj,
                 get_data_WordCloud_neg.wordSegmentAdjFrequency,
             );
+            
             await getSummary()
         }
     },
@@ -371,5 +372,38 @@ var search = {
         console.log(data);
         return data;
     },
+    
+    async get_data_TrendingTopic(
+        api_url,
+         token,
+    ) {
+        var data = {};
+        await fetch(
+            api_url +
+            "TrendingTopic",
+            {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
+                },
+            }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                data = response;
+            })
+            .catch((error) => {
+                            console.log("or there");
+                console.log(error);
+            });
+        console.log(data);
+        return data;
+    },
+
+
 };
 export default search;

@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bubbly-bg@1.0.0/dist/bubbly-bg.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -23,7 +23,7 @@
 
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
-    
+
     <script src="https://code.highcharts.com/maps/highmaps.js"></script>
     <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
 
@@ -34,7 +34,7 @@
 
     <link rel="stylesheet" href="./css/loader_style.css">
     <link rel="stylesheet" href="./css/RWD.css">
-    
+
     <script src="./js/nav.js"></script>
 
     <script src="./js/loader_function.js"></script>
@@ -87,7 +87,8 @@
                 </li>
 -->
                         <li>
-                            <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="collapsed"aria-expanded="false">登入/註冊</a>
+                            <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="collapsed"
+                                aria-expanded="false">登入/註冊</a>
                             <ul id="sublist" class="list-unstyled collapse nav_li">
                                 <li>
                                     <a href="#" id="dropdown_login" onclick="login()">登入</a>
@@ -125,16 +126,16 @@
                                             <input v-model="topic" type="text" id="search_box">
                                             <div id="time_set">
                                                 <div style="display: flex">
-                                                <p>開始時間：</p>
-                                                <input type="date" id="search_start">
+                                                    <p>開始時間：</p>
+                                                    <input type="date" id="search_start">
                                                 </div>
                                                 <div style="display: flex;">
-                                                <p>結束時間：</p>
-                                                <input type="date" id="search_end">
+                                                    <p>結束時間：</p>
+                                                    <input type="date" id="search_end">
                                                 </div>
                                                 <div style="display: flex;">
-                                                <p>日期間隔：</p>
-                                                <input type="text" id="dateRange" placeholder="30天">
+                                                    <p>日期間隔：</p>
+                                                    <input type="text" id="dateRange" placeholder="30天">
                                                 </div>
                                             </div>
                                             <div id="mode_select">
@@ -145,8 +146,8 @@
                                                 </div>
                                             </div>
                                             <div style="display: flex;align-items: center;">
-                                                <button type="button" id="start_search_btn"
-                                                    onclick="result()" @click="search_btn">搜尋</button>
+                                                <button type="button" id="start_search_btn" onclick="result()"
+                                                    @click="search_btn">搜尋</button>
                                                 <div id="isExactMatch_info">
                                                     <h5>是否開啟精準搜尋</h5>
                                                     <label class="switch">
@@ -175,7 +176,8 @@
                                         <div>
                                             <h1 id="result_topic">{{search_input.topic}}</h1>
                                             <div id="result_top">
-                                                <div style="display:flex;flex-direction:column; background-color: white;">
+                                                <div
+                                                    style="display:flex;flex-direction:column; background-color: white;">
                                                     <div id="summary_content">
                                                         <p>{{summary}}</p>
                                                     </div>
@@ -190,11 +192,12 @@
                                                         <button type="button" class="summary_btn" @click="save_btn"><i
                                                                 class="fa-solid fa-heart"></i></button>
                                                         <a href="https://www.google.com/" target="_blank"><button
-                                                                type="button" id="related_link" class="summary_btn">相關連結</button></a>
+                                                                type="button" id="related_link"
+                                                                class="summary_btn">相關連結</button></a>
                                                     </div>
                                                     <div id="b_sum">
                                                     </div>
-<!--
+                                                    <!--
                                                     <div id="GPT_score">
                                                         GPT分數
                                                     </div>
@@ -202,7 +205,8 @@
                                                     <dialog id="collect_info"
                                                         style="justify-content:center;align-items:center;flex-direction:column;">
                                                         <p>請選擇要儲存的資料夾及儲存名稱</p>
-                                                        <select id="select_folder1" @change="folder_change_result"v-html="folder">
+                                                        <select id="select_folder1" @change="folder_change_result"
+                                                            v-html="folder">
                                                         </select>
                                                         <input type="text" id="collect_info_box">
                                                         <div>
@@ -216,7 +220,7 @@
                                             </div>
                                         </div>
                                         <hr id="bar_chart_hr">
-<!--                                        <h2 id="bar_chart_title">主題討論數</h2>-->
+                                        <!--                                        <h2 id="bar_chart_title">主題討論數</h2>-->
                                         <h2 id="bar_chart_title">熱度分析</h2>
                                         <div id="bar_chart_range">
                                             <div class="bar_chart_overflow">
@@ -228,25 +232,26 @@
                                                 <p id=b_reverse></p>
                                                 <p id="b_max"></p>
                                                 <p id="b_min"></p>
-                                                
+
                                             </div>
                                         </div>
                                         <div style="display: flex;">
-                                        <div>
-                                        <div class="bar_chart_overflow">
-                                            <div style="display: flex;justify-content: space-between;">
-                                                <h4>範圍放大</h4>
-                                                <h4 id="address"></h4>
-                                            </div>
-                                            <div id="bar_chart_zoom_div">
-                                                <canvas id="bar_chart_zoom" style="background-color: white;"></canvas>
-                                            </div>
-                                        </div>
-                                            
-                                        <div id="message_count">
-                                        </div>
-                                        <div id="bar_link">
-                                        </div>
+                                            <div>
+                                                <div class="bar_chart_overflow">
+                                                    <div style="display: flex;justify-content: space-between;">
+                                                        <h4>範圍放大</h4>
+                                                        <h4 id="address"></h4>
+                                                    </div>
+                                                    <div id="bar_chart_zoom_div">
+                                                        <canvas id="bar_chart_zoom"
+                                                            style="background-color: white;"></canvas>
+                                                    </div>
+                                                </div>
+
+                                                <div id="message_count">
+                                                </div>
+                                                <div id="bar_link">
+                                                </div>
                                             </div>
                                             <div id="map"></div>
                                         </div>
@@ -255,58 +260,110 @@
                                         <div id="line_chart_range">
                                             <div id="line_chart_title">
                                                 <h6>總體趨勢</h6>
-                                                <div id="line_chart_div_all">    
+                                                <div id="line_chart_div_all">
                                                     <canvas id="line_chart_all"></canvas>
                                                 </div>
                                             </div>
                                             <div id="line_chart_zoom_title">
                                                 <h6 style="width:200px;">放大檢視</h6>
                                                 <div id="line_chart_zoom_height">
-                                                <div id="line_chart_zoom_overflow">
-                                                    <div id="line_chart_div">
-                                                        <canvas id="line_chart" style="background-color: white;"></canvas>
+                                                    <div id="line_chart_zoom_overflow">
+                                                        <div id="line_chart_div">
+                                                            <canvas id="line_chart"
+                                                                style="background-color: white;"></canvas>
+                                                        </div>
+                                                    </div>
+                                                    <div id="line_chart_info">
+                                                        <div id="p_info">
+                                                            <p id="p_sum"></p>
+                                                            <!--                                                    <p id="n_sum"></p>-->
+                                                            <div>
+                                                                <button id="line_data_btn1" @click="line_data1_click"
+                                                                    style="display: none">詳細資料</button>
+                                                            </div>
+                                                        </div>
+                                                        <div id="n_info">
+                                                            <p id="p_max"></p>
+                                                            <div>
+                                                                <button id="line_data_btn2" @click="line_data2_click"
+                                                                    style="display: none">詳細資料</button>
+                                                            </div>
+                                                            <p id="n_max"></p>
+                                                            <div>
+                                                                <button id="line_data_btn3" @click="line_data3_click"
+                                                                    style="display: none">詳細資料</button>
+                                                            </div>
+                                                        </div>
+                                                        <dialog id="line_data_dialog1">
+                                                            <div style="display: flex">
+                                                                <button id="line_data_dialog1_close"
+                                                                    style="display: flex;justify-content: end;"
+                                                                    @click="line_data_dialog1_close">關閉</button>
+                                                                <h5 style="margin-left: 20px;">關鍵字詳細排序</h5>
+                                                            </div>
+                                                            <div id="line_data_1">
+                                                                <table id="line_table_all_1">
+                                                                </table>
+                                                                <table id="line_table_nb_1">
+                                                                </table>
+                                                                <table id="line_table_adj_1">
+                                                                </table>
+                                                            </div>
+                                                        </dialog>
+
+                                                        <dialog id="line_data_dialog2">
+                                                            <div style="display: flex">
+                                                                <button id="line_data_dialog2_close"
+                                                                    style="display: flex;justify-content: end;"
+                                                                    @click="line_data_dialog2_close">關閉</button>
+                                                                <h5 style="margin-left: 20px;">正向關鍵字詳細排序</h5>
+                                                            </div>
+                                                            <div id="line_data_2">
+                                                                <table id="line_table_all_2">
+                                                                </table>
+                                                                <table id="line_table_nb_2">
+                                                                </table>
+                                                                <table id="line_table_adj_2">
+                                                                </table>
+                                                            </div>
+                                                        </dialog>
+
+                                                        <dialog id="line_data_dialog3">
+                                                            <div style="display: flex">
+                                                                <button id="line_data_dialog3_close"
+                                                                    style="display: flex;justify-content: end;"
+                                                                    @click="line_data_dialog3_close">關閉</button>
+                                                                <h5 style="margin-left: 20px;">負向關鍵字詳細排序</h5>
+                                                            </div>
+                                                            <div id="line_data_3">
+                                                                <table id="line_table_all_3">
+                                                                </table>
+                                                                <table id="line_table_nb_3">
+                                                                </table>
+                                                                <table id="line_table_adj_3">
+                                                                </table>
+                                                            </div>
+                                                        </dialog>
                                                     </div>
                                                 </div>
-                                                <div id="line_chart_info">
-                                                    <div id="p_info">
-                                                        <p id="p_sum">區間內關鍵字統計：</p>
-<!--                                                    <p id="n_sum"></p>-->
-                                                    <div>
-                                                        <button id="line_data_btn" @click="line_data_click" style="display: none">詳細資料</button>
+                                                <div style="display: flex">
+                                                    <div style="display: flex-warp">
+                                                        <p id="line_link_date"></p>
+                                                        <div id="line_plink">
+                                                        </div>
+                                                        <div id="line_pinfo">
+                                                        </div>
+                                                        <div id="line_nlink">
+                                                        </div>
+                                                        <div id="line_ninfo">
+                                                        </div>
                                                     </div>
+                                                    <div id="line_chart_pie_chart_div">
+                                                        <canvas id="line_chart_pie_chart"
+                                                            style="background-color: white;"></canvas>
                                                     </div>
-                                                    <div id="n_info">
-                                                        <p id="p_max"></p>
-                                                        <p id="n_max"></p>
-                                                        <div id="line_chart_pie_chart_div">
-                                                            <canvas id="line_chart_pie_chart" style="background-color: white;"></canvas>
-                                                        </div>
-                                                    </div> 
-                                                    <dialog id="line_data_dialog">
-                                                        <div style="display: flex">
-                                                            <button id="line_data_dialog_close" style="display: flex;justify-content: end;"@click="line_data_dialog_close">關閉</button>
-                                                            <h5 style="margin-left: 20px;">關鍵字詳細排序</h5>
-                                                        </div>
-                                                        <div id="line_data">
-                                                            <table id="line_table_all">    
-                                                            </table>
-                                                            <table id="line_table_nb">    
-                                                            </table>
-                                                            <table id="line_table_adj">    
-                                                            </table>
-                                                        </div>
-                                                    </dialog>
                                                 </div>
-                                                </div>
-                                                <p id="line_link_date"></p>
-                                                <div id="line_plink">
-                                                </div>
-                                                <div id="line_pinfo">
-                                                </div>
-                                                <div id="line_nlink">
-                                                </div>
-                                                <div id="line_ninfo">
-                                                </div>
+
                                             </div>
                                         </div>
                                         <hr id="word_cloud_hr">
@@ -385,7 +442,7 @@
                                             <div id="wc9">
                                             </div>
                                         </dialog>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -397,13 +454,10 @@
                                 <div class='row'>
                                     <div class='col-md-12'>
                                         <h1>使用者登入</h1>
-                                        <h3>帳號：<input type="text"
-                                                v-model="account_input"></h3>
-                                        <h3>密碼：<input type="text"
-                                                v-model="password_input"></h3>
+                                        <h3>帳號：<input type="text" v-model="account_input"></h3>
+                                        <h3>密碼：<input type="text" v-model="password_input"></h3>
                                         <div style="display:flex; flex-direction:column; justify-content:center;">
-                                            <button type="button"
-                                                @click="login_btn" onclick="search()">登入</button>
+                                            <button type="button" @click="login_btn" onclick="search()">登入</button>
                                         </div>
                                     </div>
                                 </div>
@@ -415,17 +469,16 @@
                             <div class='container'>
                                 <div class='row'>
                                     <div class='col-md-12'>
-                                        <div style="display:flex; flex-direction:column; justify-content:center;width: 505px;">
+                                        <div
+                                            style="display:flex; flex-direction:column; justify-content:center;width: 505px;">
                                             <h1>使用者註冊</h1>
-                                            <h3>帳號：<input type="text"
-                                                    v-model="account_input"></h3>
-                                            <h3>密碼：<input type="text"
-                                                    v-model="password_input"></h3>
+                                            <h3>帳號：<input type="text" v-model="account_input"></h3>
+                                            <h3>密碼：<input type="text" v-model="password_input"></h3>
                                             <h3 style="margin-left:-55px;">電子信箱：<input type="text"
                                                     v-model="email_input"></h3>
                                             <div style="display:flex; flex-direction:column; justify-content:center;">
-                                                <button type="button"
-                                                    @click="register_btn" onclick="search()">註冊</button>
+                                                <button type="button" @click="register_btn"
+                                                    onclick="search()">註冊</button>
                                             </div>
                                         </div>
                                     </div>
@@ -455,12 +508,13 @@
                                             <p id="delete_item_info">請選擇欲刪除的項目</p>
                                             <select id="select_item" @change="item_change()" v-html="item">
                                             </select>
-                                            <input type="text" id="collect_change_info_box"
-                                                placeholder="輸入新增或修改的名稱">
+                                            <input type="text" id="collect_change_info_box" placeholder="輸入新增或修改的名稱">
                                             <div id="collection_dialog_btn">
                                                 <button id="new_folder" @click="collect_post_folder">新增</button>
-                                                <button id="change_folder_post" @click="collect_post_change_folder">修改名稱</button>
-                                                <button id="change_folder_delete" @click="collect_delete_change_folder">刪除</button>
+                                                <button id="change_folder_post"
+                                                    @click="collect_post_change_folder">修改名稱</button>
+                                                <button id="change_folder_delete"
+                                                    @click="collect_delete_change_folder">刪除</button>
                                                 <button id="cancel_folder" @click="new_collect_cancel">取消</button>
                                             </div>
                                         </dialog>
@@ -492,7 +546,7 @@
     </div>
 </body>
 <script type="module">
-    
+
     import chart from "./js/chart.js";
     import search from "./js/search.js";
     import news from "./js/news.js";
@@ -519,9 +573,9 @@
                     "endDate": "",
                     "dateRange": "",
                     "isExactMatch": false,
-                    "mode":0,
+                    "mode": 0,
                 },
-                recommend_info: "推薦",
+                recommend_info: "熱門關鍵字",
                 account_input: "",
                 password_input: "",
                 email_input: "",
@@ -545,7 +599,7 @@
                     "startDate": document.getElementById("search_start").value,
                     "endDate": document.getElementById("search_end").value,
                     "dateRange": document.getElementById("dateRange").value,
-                    "mode":document.querySelector('input[name="mode"]:checked').value,
+                    "mode": document.querySelector('input[name="mode"]:checked').value,
                 };
                 if (document.getElementById("search_slider").checked) {
                     this.search_input.isExactMatch = true;
@@ -561,7 +615,7 @@
                     document.getElementById("search_slider").checked = false;
                 }
                 else {
-                    search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch,this.search_input.mode, chart, api_url, token);
+                    search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, this.search_input.mode, chart, api_url, token);
                 }
 
             },
@@ -736,7 +790,7 @@
             //最新消息
             news_btn() {
                 this.news_text = "";
-                var news_box = ["小燈泡事件", "ABD"];
+                var news_box = ["最新資訊", "內容更新", "更新資訊", "最新資訊"];
                 this.news_text = news.news(news_box);
             },
             //==========================================================================================                
@@ -795,14 +849,43 @@
             wc9_close() {
                 document.getElementById("word_cloud9_dialog").close();
             },
-            
-            line_data_click(){
-                document.getElementById("line_data_dialog").showModal();
+
+            //==========================================================================================                
+            //關鍵字表格
+            line_data1_click() {
+                document.getElementById("line_data_dialog1").showModal();
             },
-            line_data_dialog_close(){
-                document.getElementById("line_data_dialog").close();
+            line_data2_click() {
+                document.getElementById("line_data_dialog2").showModal();
             },
-            
+            line_data3_click() {
+                document.getElementById("line_data_dialog3").showModal();
+            },
+            line_data_dialog1_close() {
+                document.getElementById("line_data_dialog1").close();
+            },
+            line_data_dialog2_close() {
+                document.getElementById("line_data_dialog2").close();
+            },
+            line_data_dialog3_close() {
+                document.getElementById("line_data_dialog3").close();
+            },
+
+            //==========================================================================================                
+            //更改推薦
+            async change_recommend() {
+                var data = {}
+                var recommend_list = [];
+                data = await search.get_data_TrendingTopic(api_url.replace("api/",""), token);
+                for (var i = 0; i < data.trendingTopics.length; i++) {
+                    recommend_list[i] = data.trendingTopics[i];
+                }
+                recommend_list = ["熱門關鍵字：關鍵字1","熱門關鍵字：關鍵字2","熱門關鍵字：關鍵字3","熱門關鍵字：關鍵字4","熱門關鍵字：關鍵字5","熱門關鍵字：關鍵字6"]
+                var recommend_change = setInterval(function () {
+                    vm.recommend_info = recommend_list[Math.floor(Math.random() * recommend_list.length)];
+                }, 5000);
+            },
+
             //==========================================================================================                
             //其他
             good() {
@@ -813,7 +896,7 @@
             },
         },
         mounted: function () {
-
+            this.change_recommend();
         },
     }).mount('#all_body');
     window.vm = vm

@@ -204,7 +204,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-top: 100px;
 }
 #word_cloud_hr{
-    margin-top: 50vh;
+    margin-top: 60vh;
 }
 /*display_chart:conten*/
 /*bar chart*/
@@ -256,16 +256,19 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-top: 100px; display: flex-warp;
 }
 #line_chart_zoom_height{
-    display: flex;
+    display: flex;height: 50vh;
 }
 #line_chart_zoom_overflow{
     width:700px;overflow:auto;margin-top: 20px;
 }
-#line_chart_div,#line_chart_pie_chart_div{
+#line_chart_div{
     height:100%;border: 3px solid;border-radius: 4px;border-color:lightgreen
 }
+#line_chart_pie_chart_div{
+    height:75%;border: 3px solid;border-radius: 4px;border-color:lightgreen;margin-left: 10px;margin-top: 20px;
+}
 #line_chart_info{
-    display: flex-warp;margin-top: 20px;margin-left: 50px;
+    margin-top: 20px;margin-left: 30px;overflow: auto;border: 3px solid;border-radius: 4px;border-color: lightgreen;padding: 20px;background-color: white;
 }
 #n_info{
     margin-top: 40px;
@@ -280,16 +283,16 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #line_plink,#line_pinfo,#line_nlink,#line_ninfo{
     display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:lightgreen;height: 50px;width:700px;margin-top: 10px;background-color: white;
 }
-#line_table_all,#line_table_nb,#line_table_adj{
+#line_table_all_1,#line_table_nb_1,#line_table_adj_1,#line_table_all_2,#line_table_nb_2,#line_table_adj_2,#line_table_all_3,#line_table_nb_3,#line_table_adj_3{
     margin-top: 10px;margin-left: 20px;
 }
-#line_table_all td,#line_table_nb td,#line_table_adj td{
+#line_table_all_1 td,#line_table_nb_1 td,#line_table_adj_1 td,#line_table_all_2 td,#line_table_nb_2 td,#line_table_adj_2 td,#line_table_all_3 td,#line_table_nb_3 td,#line_table_adj_3 td{
     border: 3px double black;
 }
 #line_data_dialog{
     width: 50vw;
 }
-#line_data{
+#line_data_1,#line_data_2,#line_data_3{
     display: flex;justify-content: center;
 }
 
