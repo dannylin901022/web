@@ -1,5 +1,7 @@
+let article_data = [];
 var chart = {
     async bar_chart(label, datas,hotArticles) {
+//        await this.get_accuracy_img();
         await this.draw_map(label, datas,null,hotArticles);
         let point_value = 0;
         let index_low = 0, index_high = 0;
@@ -147,6 +149,8 @@ var chart = {
         //document.getElementById('bar_chart_div').style.width = label.length * 100 + "";
     },
     async line_chart(label, data1, data2,posHotArticle,negHotArticle,wordCloudAnalysisResults,input_data) {
+//        await this.get_article_table_data();
+        
         var data1_all = data1,
             data2_all = data2,
             label_all = label;
@@ -200,13 +204,14 @@ var chart = {
                         label: "正向評價數",
                         data: data1_all,
                         fill: false,
-                        borderColor: "#FF5454",
+                        borderColor: "#22DD22",
+//                        #66FF07
                     },
                     {
                         label: "負向評價數",
                         data: data2_all,
                         fill: false,
-                        borderColor: "#66FF07",
+                        borderColor: "#FF5454",
                     },
                 ],
             },
@@ -387,13 +392,13 @@ var chart = {
                         label: "正向評價數",
                         data: data1,
                         fill: false,
-                        borderColor: "#FF5454",
+                        borderColor: "22DD22",
                     },
                     {
                         label: "負向評價數",
                         data: data2,
                         fill: false,
-                        borderColor: "#66FF07",
+                        borderColor: "#FF5454",
                     },
                 ],
             },
@@ -843,7 +848,7 @@ var chart = {
                     {
                         data: data_list,
                         borderWidth: 1,
-                        backgroundColor: ["#FF5454", "#66FF07"],
+                        backgroundColor: ["#22DD22", "#FF5454"],
                         datalabels: {
                             color: "#332233",
                         },
@@ -1164,6 +1169,73 @@ var chart = {
         console.log(data);
         return data;
     },
+//    async get_accuracy_img() {
+//        var img_change = setInterval(function () {
+//            fetch("https://dog.ceo/api/breeds/image/random")
+//            .then((response) => {
+//                return response.json();
+//            })
+//            .then((response) => {
+//                document.getElementById("accuracy_img").src = response.message;
+//            })
+//            .catch((error) => {
+//                console.log(error);
+//            });
+//        }, 5000);
+//    },
+    async get_article_table_data() {
+        await fetch(
+            api_url +
+                "SentimentAnalysis/" +
+                topic +
+                "/StatrDate/" +
+                start +
+                "/EndDate/" +
+                end +
+                "?DateRange=" +
+                dateRange +
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode,
+            {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    'ngrok-skip-browser-warning':true,
+                },
+            }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                data = response;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        article_data = data;
+        console.log(data);
+        return data;
+        
+    },
+    get_article_table_pos() {
+        let text = "<tr><td>文章</td><td>正向分數</td><td>負向分數</td></tr><tr>";
+        for(var i = 0;i<article_data.length;i++){
+            text = text + "<td>aaa</td><td>90</td><td>10</td></tr>";
+        }
+        document.getElementById("article_dialog_table").innerHTML = text;
+        
+    },
+    get_article_table_neg() {
+        let text = "<tr><td>文章</td><td>正向分數</td><td>負向分數</td></tr><tr>";
+        for(var i = 0;i<article_data.length;i++){
+            text = text + "<td>aaa</td><td>10</td><td>90</td></tr>";
+        }
+        document.getElementById("article_dialog_table").innerHTML = text;
+    }
         
 };
 export default chart;

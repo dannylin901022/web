@@ -262,13 +262,28 @@
                                         <h2>正負向評價數</h2>
                                         <div id="line_chart_range">
                                             <div id="line_chart_title">
-                                                <h6>總體趨勢</h6>
+                                                <h5>總體趨勢</h5>
                                                 <div id="line_chart_div_all">
                                                     <canvas id="line_chart_all"></canvas>
                                                 </div>
                                             </div>
                                             <div id="line_chart_zoom_title">
-                                                <h6 style="width:200px;">放大檢視</h6>
+                                                <div style="display: flex;">
+                                                    <h5>放大檢視</h5>
+                                                    <button type="button" @click="article_dialog_show(); pos_sort()" style="margin-left: 20px;">文章列表</button>
+                                                </div>
+                                                <dialog id="article_dialog">
+                                                    <div id="article_dialog_btn">
+                                                        <button type="button" @click="article_dialog_close">關閉</button>
+                                                        <button type="button" @click="pos_sort">正向排序</button>
+                                                        <button type="button" @click="neg_sort">負向排序</button>
+                                                    </div>
+                                                    <div id="article_dialog_info" style="display: flex;justify-content: center">
+                                                        <table id="article_dialog_table">
+                                                            
+                                                        </table>
+                                                    </div>
+                                                </dialog>
                                                 <div id="line_chart_zoom_height">
                                                     <div id="line_chart_zoom_overflow">
                                                         <div id="line_chart_div">
@@ -391,6 +406,38 @@
                                                 <div id="word_cloud9" class="word_display" @click="wc9_click"></div>
                                             </div>
                                         </div>
+<!--
+                                        <hr id="accuracy_hr">
+                                            <h2 id="accuracy_title">資料準確度</h2>
+                                            <div id="accuracy_range">
+                                                <div style="display: flex;">
+                                                    <h5 id="accuracy_count">預測筆數：</h5>
+                                                    <h5 id="accuracy_data" style="margin-left: 100px;">準確率：</h5>
+                                                </div>
+                                                <div style="display: flex;">
+                                                    <table>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>實際<p>(負向)</p></td>
+                                                        <td>實際<p>(正向)</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>預測<br><p>(負向)</p></td>
+                                                        <td id="TP"></td>
+                                                        <td id="FP"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>預測<br><p>(正向)</p></td>
+                                                        <td id="FN"></td>
+                                                        <td id="TN"></td>
+                                                    </tr>
+                                                    </table>
+                                                    <img id="accuracy_img" style="margin-left: 20px;height:50vh;width:25vw;">
+                                                </div>
+                                                
+                                            </div>
+-->
+                                        
                                         <dialog id="word_cloud1_dialog">
                                             <button id="wc1_close" style="display: flex;justify-content: end;"
                                                 @click="wc1_close">關閉</button>
@@ -446,6 +493,8 @@
                                             </div>
                                         </dialog>
 
+                                            
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -874,6 +923,18 @@
             line_data_dialog3_close() {
                 document.getElementById("line_data_dialog3").close();
             },
+            article_dialog_show(){
+                document.getElementById("article_dialog").showModal();
+            },
+            article_dialog_close(){
+                document.getElementById("article_dialog").close();
+            },
+            pos_sort(){
+                chart.get_article_table_pos();
+            },
+            neg_sort(){
+                chart.get_article_table_neg();
+            },
 
             //==========================================================================================                
             //更改推薦
@@ -901,7 +962,7 @@
             },
         },
         mounted: function () {
-            this.change_recommend();
+//            this.change_recommend();
         },
     }).mount('#all_body');
     window.vm = vm
