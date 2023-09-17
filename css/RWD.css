@@ -16,7 +16,7 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 /*========================================RWD 1024px================================================*/
 /*最上方橫條*/
 #top{
-    min-width: 1640px;height: 50px;background-color:#9ef1f5;position: fixed;top: 0;z-index: 1;
+    min-width: 100vw;height: 50px;background-color:#9ef1f5;position: fixed;top: 0;z-index: 1;
 }
 
 /*body*/
