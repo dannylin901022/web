@@ -391,7 +391,7 @@ var chart = {
                         label: "正向評價數",
                         data: data1,
                         fill: false,
-                        borderColor: "22DD22",
+                        borderColor: "#22DD22",
                     },
                     {
                         label: "負向評價數",
