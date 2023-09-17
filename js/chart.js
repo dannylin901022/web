@@ -150,7 +150,6 @@ var chart = {
     },
     async line_chart(label, data1, data2,posHotArticle,negHotArticle,wordCloudAnalysisResults,input_data) {
 //        await this.get_article_table_data();
-        
         var data1_all = data1,
             data2_all = data2,
             label_all = label;
@@ -805,10 +804,22 @@ var chart = {
         });
     },
     line_chart_pie_chart(label,data1,data2){
-        var ctx = document.getElementById("line_chart_pie_chart").getContext("2d");
+        var width = window.innerWidth;
+        var ctx = null;
+        var graphique = null;
+        if(width > 768){
+            ctx = document.getElementById("line_chart_pie_chart_1").getContext("2d");
+            graphique = Chart.getChart("line_chart_pie_chart_1");
+        }
+        else{
+            ctx = document.getElementById("line_chart_pie_chart_2").getContext("2d");
+            graphique = Chart.getChart("line_chart_pie_chart_2");
+        }
+
+        
         var data_list = [data1,data2];
         var data_sum = data1+data2;
-        var graphique = Chart.getChart("line_chart_pie_chart");
+        
         if (graphique) {
             graphique.destroy();
         }

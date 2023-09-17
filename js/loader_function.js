@@ -26,7 +26,7 @@ function result() {
         setTimeout(function () {
             document.getElementById("loader").style.display = "none";
             document.getElementById("result").style.display = "block";
-            document.getElementById("c_left").style.height = 750 + "vh";
+//            document.getElementById("c_left").style.height = 750 + "vh";
             all_event();
         }, 3000);
     }
@@ -77,7 +77,7 @@ function display_all() {
     document.getElementById("register").style.display = "none";
     document.getElementById("collection").style.display = "none";
     document.getElementById("news").style.display = "none";
-    document.getElementById("c_left").style.height = 100 + "vh";
+//    document.getElementById("c_left").style.height = 100 + "vh";
 }
 function all_event() {
     var x = document.getElementsByClassName("nav_li");

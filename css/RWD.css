@@ -16,7 +16,7 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 /*========================================RWD 1024px================================================*/
 /*最上方橫條*/
 #top{
-    min-width: 1640px;height: 50px;background-color:#9ef1f5;
+    min-width: 1640px;height: 50px;background-color:#9ef1f5;position: fixed;top: 0;z-index: 1;
 }
 
 /*body*/
@@ -30,7 +30,10 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 /*======================================側邊攔(nav)(左半邊)===========================================*/
 /*slider*/
 #sliderbar_top{
-    height: 50px; background-color:#9ef1f5;
+    height: 50px; background-color:#9ef1f5;position: fixed;top:0;left: 0;transition: 1s;z-index:1;
+}
+#sliderbar_top.active{
+    margin-left: -210px;
 }
 #collapse{
     margin-left: 210px; border: none; font-size: 30px;background-color:#9ef1f5;
@@ -70,6 +73,8 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
     background-color: #f9f9c7;
     min-height:1400px;
     transition: 1s;
+    height: auto;
+    position: fixed;top:0;margin-top:50px;z-index: 1;
 }
 #siderbar{
     width: 250px;
@@ -94,12 +99,15 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 /*===========================================右半邊=================================================*/
 /*整體右半邊*/
 .container-right{
-    margin:0px auto;margin-top: -500px; display: flex; justify-content: center; align-items: center;
+    margin-top: 65vh; display: flex; justify-content: center; position: relative;top:0;left:20vw;transition: 1s;
+}
+.container-right.active{
+    margin-left: -210px;
 }
 
 /*======================================search section===========================================*/
 #search{
-    display: none;margin-top: -300px;
+    display: none;margin-top: -40vh;
 }
 #search .jumbotron{
     height: 50vh;
@@ -153,7 +161,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================result section============================================*/
 #result{
-    max-height:auto;margin-top: -50vh;
+    max-height:auto;margin-top: -40vh;
 /*    margin-top: 75vh;*/
 }
 /*result_topic*/
@@ -238,6 +246,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #map{
     width: 25vw;margin-left:20px;border: 3px solid;border-radius: 4px;border-color:#3CC796;
 }
+#zoom_map{
+    display: flex;
+}
 
 /*line chart*/
 #line_chart_range{
@@ -264,8 +275,11 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #line_chart_div{
     height:100%;border: 3px solid;border-radius: 4px;border-color:lightgreen
 }
-#line_chart_pie_chart_div{
-    height:75%;border: 3px solid;border-radius: 4px;border-color:lightgreen;margin-left: 10px;margin-top: 20px;
+#line_chart_pie_chart_div_1{
+    display: block;height:75%;border: 3px solid;border-radius: 4px;border-color:lightgreen;margin-left: 10px;margin-top: 20px;
+}
+#line_chart_pie_chart_div_2{
+    display: none;
 }
 #line_chart_info{
     margin-top: 20px;margin-left: 30px;overflow: auto;border: 3px solid;border-radius: 4px;border-color: lightgreen;padding: 20px;background-color: white;width:280px;
@@ -297,6 +311,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 #article_dialog_btn{
     display: flex;justify-content: space-around;margin-top: 10px;margin-bottom: 10px;width: 25vw;
+}
+#pie_chart_div_2{
+    display: flex;
 }
 
 /*word cloud*/
@@ -330,6 +347,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 
 /*======================================login section=============================================*/
+#login{
+    display: none;margin-top: -40vh;
+}
 #login input{
     margin-top:20px;height: 50px; width:75%;font-size:30px;
 }
@@ -338,6 +358,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 
 /*======================================register section===========================================*/
+#register{
+    display: none;margin-top: -40vh;
+}
 #register input{
     margin-top:20px;height: 50px; width:75%;font-size:30px;
 }
@@ -346,6 +369,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 
 /*====================================collection section===========================================*/
+#collection{
+    display: none;margin-top: -40vh;
+}
 #collection_list{
     display:flex; flex-direction:column;border:1px solid black;height:70vh;width:150vh;overflow:auto;background-color: white;
 }
@@ -367,6 +393,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 
 /*========================================news section=============================================*/
+#news{
+    display: none;margin-top: -40vh;
+}
 #news hr{
     border:2px dashed #534B52;
 }
@@ -397,7 +426,10 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 /*======================================側邊攔(nav)(左半邊)===========================================*/
 /*slider*/
 #sliderbar_top{
-    height: 50px; background-color:#9ef1f5;
+    margin-left: -210px;height: 50px; background-color:#9ef1f5;
+}
+#sliderbar_top.active{
+    margin-left: 0px;
 }
 #collapse{
     margin-left: 210px; border: none; font-size: 30px;background-color:#9ef1f5;
@@ -464,12 +496,17 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 /*===========================================右半邊=================================================*/
 /*整體右半邊*/
 .container-right{
-    width: 100%; margin:0px auto;margin-top: -400px; display: flex; justify-content: center; align-items: center;
+    margin-left: -110px;margin-top: 80vh; display: flex; justify-content: center; position: relative;top:0;left:15vw;transition: 1s;width: 100vw;
 }
-
+.container-right.active{
+    margin-left: 100px;
+}
+#loader{
+    margin: -20% 0px 0px 0px;
+}
 /*======================================search section===========================================*/
 #search{
-    display: none;margin-top: -410px;
+    display: none;margin-top: -60vh;
 }
 #search .jumbotron{
     height: 50vh;
@@ -526,7 +563,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================result section============================================*/
 #result{
-    max-height:auto;margin-top: -100vh;
+    max-height:auto;margin-top: -60vh;
 }
 /*result_topic*/
 #result_topic{
@@ -573,7 +610,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-top: 100px;
 }
 #word_cloud_hr{
-    margin-top: 650px;
+    margin-top: 110vh;
 }
 /*display_chart:conten*/
 /*bar chart*/
@@ -610,6 +647,12 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #bar_link{
     display: flex;align-items: center;font-size: 18px; border: 3px solid;border-radius: 4px;border-color:#3CC796;height: 50px;width:700px;margin-top: 10px;background-color: white;width: 80vw;
 }
+#zoom_map{
+      display: block;  
+}
+#map {
+    width: 75vw;margin-left: 20px;border: 3px solid;border-radius: 4px;border-color: #3CC796;height: 50vh;margin-top: 10px;
+}
 
 /*line chart*/
 #line_chart_range{
@@ -636,8 +679,14 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #line_chart_div{
     height:200px;border: 3px solid;border-radius: 4px;border-color:lightgreen;width: 80vw;
 }
+#line_chart_pie_chart_div_1{
+    display: none;
+}
+#line_chart_pie_chart_div_2{
+    display: block;height:75%;border: 3px solid;border-radius: 4px;border-color:lightgreen;margin-left: 10px;margin-top: 20px;
+}
 #line_chart_info{
-    margin-top: 10px; margin-left: 0px;width:50%;
+    margin-top: 10px; margin-left: 10px;width:50%;
 }
 #p_info,#n_info{
     display: flex;justify-content: space-between;
@@ -665,7 +714,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================login section=============================================*/
 #login{
-    margin-left:25vw;margin-top:-25vh;
+    margin-left:25vw;margin-top:-60vh;
 }
 #login input{
     margin-top:20px;height: 50px; width:40%;font-size:30px;
@@ -676,7 +725,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================register section===========================================*/
 #register{
-    margin-left:25vw;margin-top:-25vh;
+    margin-left:25vw;margin-top:-60vh;
 }
 #register input{
     margin-top:20px;height: 50px; width:40%;font-size:30px;
@@ -686,6 +735,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 
 /*====================================collection section===========================================*/
+#collection{
+    display: none;margin-top: -60vh;
+}
 #collection_list{
     display:flex; flex-direction:column;border:1px solid black;height:70vh;width:80vw;overflow:auto;background-color: white;
 }
@@ -707,6 +759,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 
 /*========================================news section=============================================*/
+#news{
+    display: none;margin-top: -60vh;
+}
 #news hr{
     border:2px dashed #534B52;
 }
@@ -800,12 +855,18 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 /*===========================================右半邊=================================================*/
 /*整體右半邊*/
 .container-right{
-    width: 90%; margin:0px auto;margin-top: -500px; display: flex; justify-content: center; align-items: center;
+    margin-top: 80vh; display: flex; justify-content: center; position: relative;top:0;left:20vw;transition: 1s;width: 100vw;
+}
+.container-right.active{
+    margin-left: 150px;
+}
+#loader{
+    margin: -30% 0px 0px 10%;
 }
 
 /*======================================search section===========================================*/
 #search{
-    display: none;margin-top: -410px;
+    display: none;margin-top: -65vh;
 }
 #search .jumbotron{
     height: 50vh;
@@ -856,7 +917,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================result section============================================*/
 #result{
-    max-height:auto;margin-top: -60vh;margin-left: -5vw;
+    max-height:auto;margin-top: -65vh;margin-left: 5vw;
 }
 /*result_topic*/
 #result_topic{
@@ -907,7 +968,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-top: 100px;
 }
 #word_cloud_hr{
-    margin-top: 600px;
+    margin-top: 120vh;
 }
 /*display_chart:conten*/
 /*bar chart*/
@@ -938,6 +999,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #bar_link{
     display: flex;align-items: center;font-size: 12px; border: 3px solid;border-radius: 4px;border-color:#3CC796;height: 50px;width:700px;margin-top: 10px;background-color: white;width: 75vw;
 }
+#map{
+    margin-left: 0px;
+}
 
 /*line chart*/
 #line_chart_range{
@@ -958,6 +1022,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #line_chart_zoom_overflow{
     width:75vw;overflow:auto;margin-top: 20px;height:200px;
 }
+#line_chart_zoom_height{
+    height: auto;
+}
 #line_chart_div{
     height:60%;border: 3px solid;border-radius: 4px;border-color:lightgreen;width: 100vw;
 }
@@ -969,7 +1036,10 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 #line_plink,#line_pinfo,#line_nlink,#line_ninfo{
     font-size: 12px;width:75vw;
-}    
+}
+#pie_chart_div_2{
+    display: block;
+}
 
 /*word cloud*/
 #word_cloud_title{
@@ -990,7 +1060,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================login section=============================================*/
 #login{
-    margin-left:10vw;margin-top:-25vh;
+    margin-left:10vw;margin-top: -65vh;margin-left: 5vw;
 }
 #login input{
     margin-top:20px;height: 50px; width:40%;font-size:30px;
@@ -1001,7 +1071,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================register section===========================================*/
 #register{
-    margin-left:10vw;margin-top:-25vh;
+    margin-left:10vw;margin-top: -65vh;margin-left: 5vw;
 }
 #register input{
     margin-top:20px;height: 50px; width:40%;font-size:30px;
@@ -1012,7 +1082,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*====================================collection section===========================================*/
 #collection{
-    margin-left: -5vw;
+    margin-top: -65vh;margin-left: 5vw;
 }
 #collection_list{
     display:flex; flex-direction:column;border:1px solid black;height:70vh;width:75vw;overflow:auto;background-color: white;
@@ -1039,7 +1109,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*========================================news section=============================================*/
 #news{
-    margin-left: -5vw;
+    margin-top: -65vh;margin-left: 5vw;
 }
 #news hr{
     border:2px dashed #534B52;width: 75vw;
