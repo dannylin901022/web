@@ -1,9 +1,5 @@
 /*======================================All font style==============================================*/
 @font-face {
-  font-family: 'HanyiSentyBrushSong';
-  src: url('fonts/HanyiSentyBrushSong.ttf') format("truetype"),url('fonts/HanyiSentyBrushSong.woff') format("woff"),url('fonts/HanyiSentyBrushSong.eot') format("embedded-opentype");
-}
-@font-face {
   font-family: 'NaniFont Light';
   src: url('fonts/NaniFont-Light.woff') format("woff"),url('fonts/NaniFont-Light.ttf') format("truetype"),url('fonts/NaniFont-Light.eot') format("embedded-opentype");
 }
