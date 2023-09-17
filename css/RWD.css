@@ -1,11 +1,11 @@
 /*======================================All font style==============================================*/
 @font-face {
   font-family: 'HanyiSentyBrushSong';
-  src: url('../fonts/HanyiSentyBrushSong.ttf') format("truetype"),
+  src: url('./fonts/HanyiSentyBrushSong.ttf') format("truetype"),
 }
 @font-face {
   font-family: 'NaniFont Light';
-  src: url('../fonts/NaniFont-Light.ttf') format("truetype"),
+  src: url('./fonts/NaniFont-Light.ttf') format("truetype"),
 }
 h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 /*    font-family: 'Noto Sans TC', sans-serif;*/
