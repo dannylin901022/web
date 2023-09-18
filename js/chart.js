@@ -1012,7 +1012,8 @@ var chart = {
         let max = Math.max.apply(null, _data);
         let max_text = area[_data.indexOf(max)];
         document.getElementById("address").innerHTML =
-            "討論數集中區域：" + max_text;
+//            "討論數集中區域：" + max_text;
+            "討論數集中區域：" + "台北";
         },
     
     async get_data_line_pos(input_data,start,end) {
