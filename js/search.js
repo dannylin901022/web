@@ -179,6 +179,7 @@ var search = {
                 console.log(error);
                 console.log("Example Data：");
                 data = example_data.Popularity_data;
+                vm.search_input.topic = "Example Data";
             });
         console.log(data);
         return data;
