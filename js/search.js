@@ -1,4 +1,5 @@
 import { getSummary } from "./summary.js"
+import example_data from "./example_data.js"
 
 var search = {
     async search_btn(
@@ -176,6 +177,8 @@ var search = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.Popularity_data;
             });
         console.log(data);
         return data;
@@ -224,6 +227,8 @@ var search = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.Sentiment_data;
             });
         console.log(data);
         return data;
@@ -272,6 +277,8 @@ var search = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.WordCloud_all_data;
             });
         console.log(data);
         return data;
@@ -320,6 +327,8 @@ var search = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.WordCloud_pos_data;
             });
         console.log(data);
         return data;
@@ -368,6 +377,8 @@ var search = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.WordCloud_neg_data;
             });
         console.log(data);
         return data;
@@ -397,8 +408,9 @@ var search = {
                 data = response;
             })
             .catch((error) => {
-                            console.log("or there");
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.Trending_data;
             });
         console.log(data);
         return data;

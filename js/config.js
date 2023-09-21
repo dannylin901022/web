@@ -1,3 +1,3 @@
 export const summary_api_url = "https://a5ce-35-202-124-27.ngrok.io";
 //export const api_url = "https://localhost:56364/api/";
-export const api_url = "https://c0f9-2001-b011-b808-7ddb-d860-9357-f1-2197.ngrok-free.app/api/";
+export const api_url = "https://9a54-2001-c011-b807-585c-b01d-e7d4-8878-8972.ngrok-free.app/api/";

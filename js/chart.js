@@ -1,3 +1,4 @@
+import example_data from "./example_data.js";
 let article_data = [];
 var chart = {
     async bar_chart(label, datas,hotArticles) {
@@ -1054,6 +1055,8 @@ var chart = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.WordCloud_pos_data
             });
         console.log(data);
         
@@ -1137,6 +1140,8 @@ var chart = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.WordCloud_neg_data
             });
         
                 
@@ -1227,6 +1232,8 @@ var chart = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.Sentiment_data;
             });
         article_data = data;
         console.log(data);

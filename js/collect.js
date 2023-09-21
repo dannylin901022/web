@@ -1,3 +1,5 @@
+import example_data from "./example_data.js";
+
 var collect = {
     //    抓取收藏列表
     async get_data_collect(api_url, token) {
@@ -18,6 +20,8 @@ var collect = {
             })
             .catch((error) => {
                 console.log(error);
+                console.log("Example Data：");
+                data = example_data.FavoriteFolders_data;
             });
         console.log(data);
         var collect_list = await this.display_collect(data);
