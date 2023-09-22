@@ -553,7 +553,7 @@ var chart = {
         var chart1 = anychart.tagCloud(data1);
         chart1.title("整體關鍵字");
         var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#EFADAC", "#EF3344"]);
+        coolor1.colors(["#33CC45", "#EF3344"]);
         chart1.colorScale(coolor1);
         chart1.colorRange(true);
         chart1.colorRange().length("80%");
@@ -565,7 +565,7 @@ var chart = {
         var chart2 = anychart.tagCloud(data2);
         chart2.title("名詞關鍵字");
         var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#EFADAC", "#EF3344"]);
+        coolor2.colors(["#33CC45", "#EF3344"]);
         chart2.colorScale(coolor2);
         chart2.colorRange(true);
         chart2.colorRange().length("80%");
@@ -577,7 +577,7 @@ var chart = {
         var chart3 = anychart.tagCloud(data3);
         chart3.title("形容詞關鍵字");
         var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#EFADAC", "#EF3344"]);
+        coolor3.colors(["#33CC45", "#EF3344"]);
         chart3.colorScale(coolor3);
         chart3.colorRange(true);
         chart3.colorRange().length("80%");
@@ -589,7 +589,7 @@ var chart = {
         var chart2_1 = anychart.tagCloud(data1);
         chart2_1.title("整體關鍵字");
         var coolor2_1 = anychart.scales.linearColor();
-        coolor2_1.colors(["#EFADAC", "#EF3344"]);
+        coolor2_1.colors(["#33CC45", "#22AA44"]);
         chart2_1.colorScale(coolor2_1);
         chart2_1.colorRange(true);
         chart2_1.colorRange().length("80%");
@@ -600,7 +600,7 @@ var chart = {
         var chart2_2 = anychart.tagCloud(data2);
         chart2_2.title("名詞關鍵字");
         var coolor2_2 = anychart.scales.linearColor();
-        coolor2_2.colors(["#EFADAC", "#EF3344"]);
+        coolor2_2.colors(["#33CC45", "#22AA44"]);
         chart2_2.colorScale(coolor2_2);
         chart2_2.colorRange(true);
         chart2_2.colorRange().length("80%");
@@ -611,7 +611,7 @@ var chart = {
         var chart2_3 = anychart.tagCloud(data3);
         chart2_3.title("形容詞關鍵字");
         var coolor2_3 = anychart.scales.linearColor();
-        coolor2_3.colors(["#EFADAC", "#EF3344"]);
+        coolor2_3.colors(["#33CC45", "#22AA44"]);
         chart2_3.colorScale(coolor2_3);
         chart2_3.colorRange(true);
         chart2_3.colorRange().length("80%");
@@ -639,7 +639,7 @@ var chart = {
         var chart1 = anychart.tagCloud(data1);
         chart1.title("整體關鍵字");
         var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#33CC45", "#22AA44"]);
+        coolor1.colors(["#EFADAC", "#EF3344"]);
         chart1.colorScale(coolor1);
         chart1.colorRange(true);
         chart1.colorRange().length("80%");
@@ -651,7 +651,7 @@ var chart = {
         var chart2 = anychart.tagCloud(data2);
         chart2.title("名詞關鍵字");
         var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#33CC45", "#22AA44"]);
+        coolor2.colors(["#EFADAC", "#EF3344"]);
         chart2.colorScale(coolor2);
         chart2.colorRange(true);
         chart2.colorRange().length("80%");
@@ -663,7 +663,7 @@ var chart = {
         var chart3 = anychart.tagCloud(data3);
         chart3.title("形容詞關鍵字");
         var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#33CC45", "#22AA44"]);
+        coolor3.colors(["#EFADAC", "#EF3344"]);
         chart3.colorScale(coolor3);
         chart3.colorRange(true);
         chart3.colorRange().length("80%");
@@ -675,7 +675,7 @@ var chart = {
         var chart3_1 = anychart.tagCloud(data1);
         chart3_1.title("整體關鍵字");
         var coolor3_1 = anychart.scales.linearColor();
-        coolor3_1.colors(["#33CC45", "#22AA44"]);
+        coolor3_1.colors(["#EFADAC", "#EF3344"]);
         chart3_1.colorScale(coolor3_1);
         chart3_1.colorRange(true);
         chart3_1.colorRange().length("80%");
@@ -686,7 +686,7 @@ var chart = {
         var chart3_2 = anychart.tagCloud(data2);
         chart3_2.title("名詞關鍵字");
         var coolor3_2 = anychart.scales.linearColor();
-        coolor3_2.colors(["#33CC45", "#22AA44"]);
+        coolor3_2.colors(["#EFADAC", "#EF3344"]);
         chart3_2.colorScale(coolor3_2);
         chart3_2.colorRange(true);
         chart3_2.colorRange().length("80%");
@@ -697,7 +697,7 @@ var chart = {
         var chart3_3 = anychart.tagCloud(data3);
         chart3_3.title("形容詞關鍵字");
         var coolor3_3 = anychart.scales.linearColor();
-        coolor3_3.colors(["#33CC45", "#22AA44"]);
+        coolor3_3.colors(["#EFADAC", "#EF3344"]);
         chart3_3.colorScale(coolor3_3);
         chart3_3.colorRange(true);
         chart3_3.colorRange().length("80%");
