@@ -1,11 +1,13 @@
 /*======================================All font style==============================================*/
+/*
 @font-face {
   font-family: 'NaniFont Light';
   src: url('fonts/NaniFont-Light.woff') format("woff"),url('fonts/NaniFont-Light.ttf') format("truetype"),url('fonts/NaniFont-Light.eot') format("embedded-opentype");
 }
+*/
 h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
-/*    font-family: 'Noto Sans TC', sans-serif;*/
-    font-family: "NaniFont Light";
+    font-family: 'Noto Sans TC', sans-serif;
+/*    font-family: "NaniFont Light";*/
 }
 
 
@@ -49,8 +51,8 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 }
 .nav_li,#dropdown{
     font-size: 22px;
-/*    font-family: 'Noto Sans TC', sans-serif;*/
-    font-family: "NaniFont Light";
+    font-family: 'Noto Sans TC', sans-serif;
+/*    font-family: "NaniFont Light";*/
     line-height: 3;
     text-decoration: none;
     color:#534B52;
@@ -81,7 +83,8 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 .container-left.active{
     margin-left: -210px;
     border: none;
-    background-color: #f9f9f9; 
+    background-color: #f9f9f9;
+    display: none;
 }
 
 /*hr_css*/
@@ -448,8 +451,8 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 .nav_li,#dropdown{
     font-size: 20px;
-/*    font-family: 'Noto Sans TC', sans-serif;*/
-    font-family: "NaniFont Light";
+    font-family: 'Noto Sans TC', sans-serif;
+/*    font-family: "NaniFont Light";*/
     line-height: 2.5;
     text-decoration: none;
     color:#534B52;
@@ -468,6 +471,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     background-color: #f9f9f9;
     min-height:1400px;
     margin-left: -210px;
+    visibility: hidden;
     transition: 1s;
 }
 #siderbar{
@@ -480,7 +484,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 .container-left.active{
     margin-left: 0px;
     border: none;
-    background-color: #f9f9c7; 
+    background-color: #f9f9c7;
+    display: block;
+    visibility: visible;
 }
 
 /*hr_css*/
@@ -830,6 +836,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     background-color: #f9f9f9;
     min-height:1400px;
     margin-left: -210px;
+    visibility: hidden;
     transition: 1s;
 }
 #siderbar{
@@ -843,6 +850,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-left: 0px;
     border: none;
     background-color: #f9f9c7; 
+    visibility: visible;
 }
 
 /*hr_css*/
