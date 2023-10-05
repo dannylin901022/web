@@ -871,7 +871,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-left: 150px;
 }
 #loader{
-    margin: -30% 0px 0px 10%;
+    margin: -30% 0px 0px 0px;
 }
 
 /*======================================search section===========================================*/

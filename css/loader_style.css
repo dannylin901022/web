@@ -12,6 +12,12 @@
     border-top: 16px solid #3377c4;
     animation: spin 1s linear infinite;
 }
+@media screen and (max-width: 768px){
+#loader{
+    top:65%;
+    left:37%;
+}
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
