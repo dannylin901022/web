@@ -575,7 +575,7 @@ var chart = {
         title1.text("整體關鍵字");
         title1.fontSize(30);
         var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#33CC45", "#22AA44"]);
+        coolor1.colors(["#44FF44", "#22AA44"]);
         chart1.colorScale(coolor1);
         chart1.colorRange(true);
         chart1.colorRange().length("80%");
@@ -590,7 +590,7 @@ var chart = {
         title2.text("名詞關鍵字");
         title2.fontSize(30);
         var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#33CC45", "#22AA44"]);
+        coolor2.colors(["#44FF44", "#22AA44"]);
         chart2.colorScale(coolor2);
         chart2.colorRange(true);
         chart2.colorRange().length("80%");
@@ -605,7 +605,7 @@ var chart = {
         title3.text("形容詞關鍵字");
         title3.fontSize(30);
         var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#33CC45", "#22AA44"]);
+        coolor3.colors(["#44FF44", "#22AA44"]);
         chart3.colorScale(coolor3);
         chart3.colorRange(true);
         chart3.colorRange().length("80%");
@@ -620,7 +620,7 @@ var chart = {
         title2_1.text("整體關鍵字");
         title2_1.fontSize(30);
         var coolor2_1 = anychart.scales.linearColor();
-        coolor2_1.colors(["#33CC45", "#22AA44"]);
+        coolor2_1.colors(["#44FF44", "#22AA44"]);
         chart2_1.colorScale(coolor2_1);
         chart2_1.colorRange(true);
         chart2_1.colorRange().length("80%");
@@ -634,7 +634,7 @@ var chart = {
         title2_2.text("名詞關鍵字");
         title2_2.fontSize(30);
         var coolor2_2 = anychart.scales.linearColor();
-        coolor2_2.colors(["#33CC45", "#22AA44"]);
+        coolor2_2.colors(["#44FF44", "#22AA44"]);
         chart2_2.colorScale(coolor2_2);
         chart2_2.colorRange(true);
         chart2_2.colorRange().length("80%");
@@ -648,7 +648,7 @@ var chart = {
         title2_3.text("形容詞關鍵字");
         title2_3.fontSize(30);
         var coolor2_3 = anychart.scales.linearColor();
-        coolor2_3.colors(["#33CC45", "#22AA44"]);
+        coolor2_3.colors(["#44FF44", "#22AA44"]);
         chart2_3.colorScale(coolor2_3);
         chart2_3.colorRange(true);
         chart2_3.colorRange().length("80%");

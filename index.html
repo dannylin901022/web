@@ -108,6 +108,9 @@
                         <li>
                             <a href="#" id="logout" class="nav_li" style="display: none;" @click="logout_btn">登出</a>
                         </li>
+                        <li>
+                            <input type="text" placeholder="Input api for demo" v-model="test_api">
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -647,12 +650,14 @@
                 item_select: 0,
                 summary: "",
                 topic: "",
+                test_api:"",
             }
         },
         methods: {
             //==========================================================================================                
             //搜尋
             search_btn() {
+                let api = api_url;
                 this.search_input = {
                     "topic": document.getElementById("search_box").value,
                     "startDate": document.getElementById("search_start").value,
@@ -669,12 +674,15 @@
                 if (this.search_input.dateRange == "") {
                     this.search_input.dateRange = 30;
                 }
+                if(this.test_api != ""){
+                    api = this.test_api;
+                }
                 if (this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == "") {
                     alert("請輸入主題、時間，若已更換頁面，請重新輸入");
                     document.getElementById("search_slider").checked = false;
                 }
                 else {
-                    search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, this.search_input.mode, chart, api_url, token);
+                    search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, this.search_input.mode, chart, api, token);
                 }
 
             },
