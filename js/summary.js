@@ -2,7 +2,7 @@ import { summary_api_url, api_url } from "./config.js";
 
 export async function getSummary() {
     const key = await getRedisKey();
-    fetchSummary(key);
+    fetchBardSummary(key);
 }
 
 async function getRedisKey() {
@@ -70,4 +70,14 @@ async function fetchSummary(key) {
                 vm.summary += converter(line.text);
             });
     }
+}
+
+async function fetchBardSummary(key) {
+    const condition = window.vm.search_input;
+
+    const { data } = await axios.post(`${summary_api_url}/summary`, {
+        content: key,
+        topic: condition.topic,
+    });
+    vm.summary = marked.parse(data.summary);
 }
