@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=1">
-    
+
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -30,7 +30,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/cn2t.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.0/marked.min.js"
+        integrity="sha512-4+zFvAejSGVlybiAKYyAz3KMjmbIT7I+wXgx190ZAsT19L2z8S4htBy1scR7CyP9pDKNSaolJMLedCigA/gFVg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="./css/loader_style.css">
@@ -60,10 +62,10 @@
     <div id="all_body">
         <div class="container-all">
             <div id="sliderbar_top">
-                        <button type="button" id="collapse" class="collapse-btn">
-                            <i class="fa-solid fa-bars" style="color: white;"></i>
-                        </button>
-                    </div>
+                <button type="button" id="collapse" class="collapse-btn">
+                    <i class="fa-solid fa-bars" style="color: white;"></i>
+                </button>
+            </div>
             <div id="c_left" class="container-left">
                 <nav id="siderbar">
                     <div style="display: flex" onclick="home()">
@@ -184,8 +186,7 @@
                                             <div id="result_top">
                                                 <div
                                                     style="display:flex;flex-direction:column; background-color: white;">
-                                                    <div id="summary_content">
-                                                        <p>{{summary}}</p>
+                                                    <div id="summary_content" v-html="summary">
                                                     </div>
                                                 </div>
                                                 <div style="display:flex-warp;flex-direction:column;">
@@ -273,7 +274,8 @@
                                             <div id="line_chart_zoom_title">
                                                 <div style="display: flex;">
                                                     <h5>放大檢視</h5>
-                                                    <button type="button" @click="article_dialog_show(); pos_sort()" style="margin-left: 20px;">文章列表</button>
+                                                    <button type="button" @click="article_dialog_show(); pos_sort()"
+                                                        style="margin-left: 20px;">文章列表</button>
                                                 </div>
                                                 <dialog id="article_dialog">
                                                     <div id="article_dialog_btn">
@@ -281,9 +283,10 @@
                                                         <button type="button" @click="pos_sort">正向排序</button>
                                                         <button type="button" @click="neg_sort">負向排序</button>
                                                     </div>
-                                                    <div id="article_dialog_info" style="display: flex;justify-content: center">
+                                                    <div id="article_dialog_info"
+                                                        style="display: flex;justify-content: center">
                                                         <table id="article_dialog_table">
-                                                            
+
                                                         </table>
                                                     </div>
                                                 </dialog>
@@ -295,82 +298,85 @@
                                                         </div>
                                                     </div>
                                                     <div id="pie_chart_div_2">
-                                                    <div id="line_chart_pie_chart_div_2">
-                                                        <canvas id="line_chart_pie_chart_2"
-                                                            style="background-color: white;"></canvas>
-                                                    </div>
-                                                    <div id="line_chart_info">
-                                                        <div id="p_info">
-                                                            <p id="p_sum"></p>
-                                                            <!--                                                    <p id="n_sum"></p>-->
-                                                            <div>
-                                                                <button id="line_data_btn1" @click="line_data1_click"
-                                                                    style="display: none">詳細資料</button>
-                                                            </div>
+                                                        <div id="line_chart_pie_chart_div_2">
+                                                            <canvas id="line_chart_pie_chart_2"
+                                                                style="background-color: white;"></canvas>
                                                         </div>
-                                                        <div id="n_info">
-                                                            <p id="p_max"></p>
-                                                            <div>
-                                                                <button id="line_data_btn2" @click="line_data2_click"
-                                                                    style="display: none">詳細資料</button>
+                                                        <div id="line_chart_info">
+                                                            <div id="p_info">
+                                                                <p id="p_sum"></p>
+                                                                <!--                                                    <p id="n_sum"></p>-->
+                                                                <div>
+                                                                    <button id="line_data_btn1"
+                                                                        @click="line_data1_click"
+                                                                        style="display: none">詳細資料</button>
+                                                                </div>
                                                             </div>
-                                                            <p id="n_max"></p>
-                                                            <div>
-                                                                <button id="line_data_btn3" @click="line_data3_click"
-                                                                    style="display: none">詳細資料</button>
+                                                            <div id="n_info">
+                                                                <p id="p_max"></p>
+                                                                <div>
+                                                                    <button id="line_data_btn2"
+                                                                        @click="line_data2_click"
+                                                                        style="display: none">詳細資料</button>
+                                                                </div>
+                                                                <p id="n_max"></p>
+                                                                <div>
+                                                                    <button id="line_data_btn3"
+                                                                        @click="line_data3_click"
+                                                                        style="display: none">詳細資料</button>
+                                                                </div>
                                                             </div>
+                                                            <dialog id="line_data_dialog1">
+                                                                <div style="display: flex">
+                                                                    <button id="line_data_dialog1_close"
+                                                                        style="display: flex;justify-content: end;"
+                                                                        @click="line_data_dialog1_close">關閉</button>
+                                                                    <h5 style="margin-left: 20px;">關鍵字詳細排序</h5>
+                                                                </div>
+                                                                <div id="line_data_1">
+                                                                    <table id="line_table_all_1">
+                                                                    </table>
+                                                                    <table id="line_table_nb_1">
+                                                                    </table>
+                                                                    <table id="line_table_adj_1">
+                                                                    </table>
+                                                                </div>
+                                                            </dialog>
+
+                                                            <dialog id="line_data_dialog2">
+                                                                <div style="display: flex">
+                                                                    <button id="line_data_dialog2_close"
+                                                                        style="display: flex;justify-content: end;"
+                                                                        @click="line_data_dialog2_close">關閉</button>
+                                                                    <h5 style="margin-left: 20px;">正向關鍵字詳細排序</h5>
+                                                                </div>
+                                                                <div id="line_data_2">
+                                                                    <table id="line_table_all_2">
+                                                                    </table>
+                                                                    <table id="line_table_nb_2">
+                                                                    </table>
+                                                                    <table id="line_table_adj_2">
+                                                                    </table>
+                                                                </div>
+                                                            </dialog>
+
+                                                            <dialog id="line_data_dialog3">
+                                                                <div style="display: flex">
+                                                                    <button id="line_data_dialog3_close"
+                                                                        style="display: flex;justify-content: end;"
+                                                                        @click="line_data_dialog3_close">關閉</button>
+                                                                    <h5 style="margin-left: 20px;">負向關鍵字詳細排序</h5>
+                                                                </div>
+                                                                <div id="line_data_3">
+                                                                    <table id="line_table_all_3">
+                                                                    </table>
+                                                                    <table id="line_table_nb_3">
+                                                                    </table>
+                                                                    <table id="line_table_adj_3">
+                                                                    </table>
+                                                                </div>
+                                                            </dialog>
                                                         </div>
-                                                        <dialog id="line_data_dialog1">
-                                                            <div style="display: flex">
-                                                                <button id="line_data_dialog1_close"
-                                                                    style="display: flex;justify-content: end;"
-                                                                    @click="line_data_dialog1_close">關閉</button>
-                                                                <h5 style="margin-left: 20px;">關鍵字詳細排序</h5>
-                                                            </div>
-                                                            <div id="line_data_1">
-                                                                <table id="line_table_all_1">
-                                                                </table>
-                                                                <table id="line_table_nb_1">
-                                                                </table>
-                                                                <table id="line_table_adj_1">
-                                                                </table>
-                                                            </div>
-                                                        </dialog>
-
-                                                        <dialog id="line_data_dialog2">
-                                                            <div style="display: flex">
-                                                                <button id="line_data_dialog2_close"
-                                                                    style="display: flex;justify-content: end;"
-                                                                    @click="line_data_dialog2_close">關閉</button>
-                                                                <h5 style="margin-left: 20px;">正向關鍵字詳細排序</h5>
-                                                            </div>
-                                                            <div id="line_data_2">
-                                                                <table id="line_table_all_2">
-                                                                </table>
-                                                                <table id="line_table_nb_2">
-                                                                </table>
-                                                                <table id="line_table_adj_2">
-                                                                </table>
-                                                            </div>
-                                                        </dialog>
-
-                                                        <dialog id="line_data_dialog3">
-                                                            <div style="display: flex">
-                                                                <button id="line_data_dialog3_close"
-                                                                    style="display: flex;justify-content: end;"
-                                                                    @click="line_data_dialog3_close">關閉</button>
-                                                                <h5 style="margin-left: 20px;">負向關鍵字詳細排序</h5>
-                                                            </div>
-                                                            <div id="line_data_3">
-                                                                <table id="line_table_all_3">
-                                                                </table>
-                                                                <table id="line_table_nb_3">
-                                                                </table>
-                                                                <table id="line_table_adj_3">
-                                                                </table>
-                                                            </div>
-                                                        </dialog>
-                                                    </div>
                                                     </div>
                                                 </div>
                                                 <div id="line_link">
@@ -415,7 +421,7 @@
                                                 <div id="word_cloud9" class="word_display" @click="wc9_click"></div>
                                             </div>
                                         </div>
-<!--
+                                        <!--
                                         <hr id="accuracy_hr">
                                             <h2 id="accuracy_title">資料準確度</h2>
                                             <div id="accuracy_range">
@@ -446,7 +452,7 @@
                                                 
                                             </div>
 -->
-                                        
+
                                         <dialog id="word_cloud1_dialog">
                                             <button id="wc1_close" style="display: flex;justify-content: end;"
                                                 @click="wc1_close">關閉</button>
@@ -502,8 +508,8 @@
                                             </div>
                                         </dialog>
 
-                                            
-                                        
+
+
                                     </div>
                                 </div>
                             </div>
@@ -650,7 +656,7 @@
                 item_select: 0,
                 summary: "",
                 topic: "",
-                test_api:"",
+                test_api: "",
             }
         },
         methods: {
@@ -674,7 +680,7 @@
                 if (this.search_input.dateRange == "") {
                     this.search_input.dateRange = 30;
                 }
-                if(this.test_api != ""){
+                if (this.test_api != "") {
                     api = this.test_api;
                 }
                 if (this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == "") {
@@ -937,16 +943,16 @@
             line_data_dialog3_close() {
                 document.getElementById("line_data_dialog3").close();
             },
-            article_dialog_show(){
+            article_dialog_show() {
                 document.getElementById("article_dialog").showModal();
             },
-            article_dialog_close(){
+            article_dialog_close() {
                 document.getElementById("article_dialog").close();
             },
-            pos_sort(){
+            pos_sort() {
                 chart.get_article_table_pos();
             },
-            neg_sort(){
+            neg_sort() {
                 chart.get_article_table_neg();
             },
 
@@ -954,12 +960,12 @@
             //更改推薦
             async change_recommend() {
                 var data = {}
-                var recommend_list = [],recommend_value_list = [];
-                data = await search.get_data_TrendingTopic(api_url.replace("api/",""), token);
+                var recommend_list = [], recommend_value_list = [];
+                data = await search.get_data_TrendingTopic(api_url.replace("api/", ""), token);
                 this.recommend_info_title = this.recommend_info_title + data.articleNumber;
                 for (var i = 0; i < data.trendingTopics.length; i++) {
                     recommend_list[i] = data.trendingTopics[i].topic;
-                    recommend_value_list[i] = Math.round(data.trendingTopics[i].discussPercentage*10000)/100.00 + "%";
+                    recommend_value_list[i] = Math.round(data.trendingTopics[i].discussPercentage * 10000) / 100.00 + "%";
                 }
                 var recommend_change = setInterval(function () {
                     vm.recommend_info = "關鍵字：" + recommend_list[Math.floor(Math.random() * recommend_list.length)] + "　　出現率：" + recommend_value_list[Math.floor(Math.random() * recommend_value_list.length)];
