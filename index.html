@@ -680,13 +680,8 @@
                 if (this.search_input.dateRange == "") {
                     this.search_input.dateRange = 30;
                 }
-<<<<<<< HEAD
                 if(this.test_api != ""){
                     api = this.test_api + "/api/";
-=======
-                if (this.test_api != "") {
-                    api = this.test_api;
->>>>>>> 16eb5fc2deb07a54322b91f8028526a33ea30636
                 }
                 if (this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == "") {
                     alert("請輸入主題、時間，若已更換頁面，請重新輸入");
@@ -954,17 +949,10 @@
             article_dialog_close() {
                 document.getElementById("article_dialog").close();
             },
-<<<<<<< HEAD
             pos_atr(){
                 chart.get_article_table_pos();
             },
             neg_atr(){
-=======
-            pos_sort() {
-                chart.get_article_table_pos();
-            },
-            neg_sort() {
->>>>>>> 16eb5fc2deb07a54322b91f8028526a33ea30636
                 chart.get_article_table_neg();
             },
 
