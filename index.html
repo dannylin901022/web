@@ -278,8 +278,8 @@
                                                 <dialog id="article_dialog">
                                                     <div id="article_dialog_btn">
                                                         <button type="button" @click="article_dialog_close">關閉</button>
-                                                        <button type="button" @click="pos_sort">正向排序</button>
-                                                        <button type="button" @click="neg_sort">負向排序</button>
+                                                        <button type="button" @click="pos_atr">正向文章</button>
+                                                        <button type="button" @click="neg_atr">負向文章</button>
                                                     </div>
                                                     <div id="article_dialog_info" style="display: flex;justify-content: center">
                                                         <table id="article_dialog_table">
@@ -675,7 +675,7 @@
                     this.search_input.dateRange = 30;
                 }
                 if(this.test_api != ""){
-                    api = this.test_api;
+                    api = this.test_api + "/api/";
                 }
                 if (this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == "") {
                     alert("請輸入主題、時間，若已更換頁面，請重新輸入");
@@ -943,10 +943,10 @@
             article_dialog_close(){
                 document.getElementById("article_dialog").close();
             },
-            pos_sort(){
+            pos_atr(){
                 chart.get_article_table_pos();
             },
-            neg_sort(){
+            neg_atr(){
                 chart.get_article_table_neg();
             },
 

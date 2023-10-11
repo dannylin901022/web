@@ -1,5 +1,6 @@
 import example_data from "./example_data.js";
-let article_data = [];
+let article_data_pos = [];
+let article_data_neg = [];
 var chart = {
     async bar_chart(label, datas,hotArticles) {
 //        await this.get_accuracy_img();
@@ -230,6 +231,7 @@ var chart = {
         var wordSegmentFrequency_nb = [];
         var wordSegment_adj = [];
         var wordSegmentFrequency_adj = [];
+        var pos_push = [];
         
         for(var i = 0;i<label_all.length;i++){
             if(posHotArticle[label_all[i]] != null && posHotArticle[label_all[i]] != ""){
@@ -242,6 +244,14 @@ var chart = {
                 wordSegmentFrequency_nb.push(wordCloudAnalysisResults[i].wordSegmentNbFrequency);
                 wordSegment_adj.push(wordCloudAnalysisResults[i].wordSegmentAdj);
                 wordSegmentFrequency_adj.push(wordCloudAnalysisResults[i].wordSegmentAdjFrequency);
+                for(var j = 0;j<posHotArticle[label_all[i]][0].pushContents.length;j++){
+                    if(posHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "positive"){
+                        pos_push.push(posHotArticle[label_all[i]][0].pushContents[j].pushContent);
+                    }
+                    if(posHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "negative"){
+                        pos_push.push(negHotArticle[label_all[i]][0].pushContents[j].pushContent);
+                    }
+                }
             }
             else{
                 pos_articles.push(null);
@@ -259,6 +269,7 @@ var chart = {
         let pos_point_value = 0;
         let pos_index_low = 0, pos_index_high = 0;
         
+        
         for(var i = 0;i<data1_all.length;i++){
             if((data1_all[i+1] != null) && data1_all[i+1]-data1_all[i] > pos_point_value){
                 pos_point_value = data1_all[i+1]-data1_all[i];
@@ -270,12 +281,21 @@ var chart = {
         var neg_articles = [];
         var neg_url = [];
         var neg_sentimentCount = [];
+        var neg_push = [];
         
         for(var i = 0;i<label_all.length;i++){
             if(negHotArticle[label_all[i]] != null && negHotArticle[label_all[i]] != ""){
                 neg_articles.push(negHotArticle[label_all[i]][0].articleTitle);
                 neg_url.push(negHotArticle[label_all[i]][0].url);
                 neg_sentimentCount.push(negHotArticle[label_all[i]][0].sentimentCount);
+                for(var j = 0;j<negHotArticle[label_all[i]][0].pushContents.length;j++){
+                    if(negHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "positive"){
+                        neg_push.push(negHotArticle[label_all[i]][0].pushContents[j].pushContent);
+                    }
+                    if(negHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "negative"){
+                        neg_push.push(negHotArticle[label_all[i]][0].pushContents[j].pushContent);
+                    }
+                }
             }
             else{
                 neg_articles.push(null);
@@ -294,6 +314,8 @@ var chart = {
                 neg_index_high = i+1;
             }
         }
+        article_data_pos = pos_push;
+        article_data_neg = neg_push;
         
         ctx = document.getElementById("line_chart");
         graphique = Chart.getChart("line_chart");
@@ -347,13 +369,13 @@ var chart = {
                             "　正向相關文章：" + "<a href=" + pos_url[activeEls[0].index] +  " target='_blank'>" + pos_articles[activeEls[0].index] + "</a>";
                         
                         document.getElementById("line_pinfo").innerHTML =
-                            "　正向文章分析資訊：　正向情緒：" + pos_sentimentCount[activeEls[0].index].positive + "　負向情緒：" + pos_sentimentCount[activeEls[0].index].negative;
+                            "　正向評價：" + pos_push[0].pushContent;
                         
                         document.getElementById("line_nlink").innerHTML =
                             "　負向相關文章：" + "<a href=" + neg_url[activeEls[0].index] +  " target='_blank'>" + neg_articles[activeEls[0].index] + "</a>";
                         
                         document.getElementById("line_ninfo").innerHTML =
-                            "　負向文章分析資訊：　正向情緒：" + neg_sentimentCount[activeEls[0].index].positive + "　負向情緒：" + neg_sentimentCount[activeEls[0].index].negative;
+                            "　負向評價：" + neg_push[0].pushContent;
                         
                          document.getElementById("p_sum").innerHTML =
                             "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[activeEls[0].index][0] + "：" + wordSegmentFrequency[activeEls[0].index][0] + " 次<br>　2.關鍵字：" + 
@@ -445,6 +467,7 @@ var chart = {
             }
         }
         min_text = label[data2.indexOf(min)];
+
     },
     
     word_chart_all(wordSegment, frequency,wordSegmentNb,wordSegmentNbFrequency,wordSegmentAdj,wordSegmentAdjFrequency) {
@@ -1256,58 +1279,58 @@ var chart = {
 //            });
 //        }, 5000);
 //    },
-    async get_article_table_data() {
-        await fetch(
-            api_url +
-                "SentimentAnalysis/" +
-                topic +
-                "/StatrDate/" +
-                start +
-                "/EndDate/" +
-                end +
-                "?DateRange=" +
-                dateRange +
-                "&IsExactMatch=" +
-                isEM +
-                "&SearchMode=" +
-                mode,
-            {
-                headers: {
-                    Authorization: "Bearer " + token,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    'ngrok-skip-browser-warning':true,
-                },
-            }
-        )
-            .then((response) => {
-                return response.json();
-            })
-            .then((response) => {
-                data = response;
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log("Example Data：");
-                data = example_data.Sentiment_data;
-            });
-        article_data = data;
-        console.log(data);
-        return data;
-        
-    },
+//    async get_article_table_data() {
+//        await fetch(
+//            api_url +
+//                "SentimentAnalysis/" +
+//                topic +
+//                "/StatrDate/" +
+//                start +
+//                "/EndDate/" +
+//                end +
+//                "?DateRange=" +
+//                dateRange +
+//                "&IsExactMatch=" +
+//                isEM +
+//                "&SearchMode=" +
+//                mode,
+//            {
+//                headers: {
+//                    Authorization: "Bearer " + token,
+//                    "Content-Type": "application/json",
+//                    Accept: "application/json",
+//                    'ngrok-skip-browser-warning':true,
+//                },
+//            }
+//        )
+//            .then((response) => {
+//                return response.json();
+//            })
+//            .then((response) => {
+//                data = response;
+//            })
+//            .catch((error) => {
+//                console.log(error);
+//                console.log("Example Data：");
+//                data = example_data.Sentiment_data;
+//            });
+//        article_data = data;
+//        console.log(data);
+//        return data;
+//        
+//    },
     get_article_table_pos() {
-        let text = "<tr><td>文章</td><td>正向分數</td><td>負向分數</td></tr><tr>";
-        for(var i = 0;i<article_data.length;i++){
-            text = text + "<td>aaa</td><td>90</td><td>10</td></tr>";
+        let text = "<tr><td style='width:300px;text-align:center;'><h4>正向評價</h4></td></tr>";
+        for(var i = 0;i<article_data_pos.length;i++){
+            text = text + "<tr><td>" + article_data_pos[i] + "</td></tr>";
         }
         document.getElementById("article_dialog_table").innerHTML = text;
         
     },
     get_article_table_neg() {
-        let text = "<tr><td>文章</td><td>正向分數</td><td>負向分數</td></tr><tr>";
-        for(var i = 0;i<article_data.length;i++){
-            text = text + "<td>aaa</td><td>10</td><td>90</td></tr>";
+        let text = "<tr><td style='width:300px;text-align:center;'><h4>負向評價</h4></td></tr>";
+        for(var i = 0;i<article_data_neg.length;i++){
+            text = text + "<tr><td>" + article_data_neg[i] + "</td></tr>";
         }
         document.getElementById("article_dialog_table").innerHTML = text;
     }
