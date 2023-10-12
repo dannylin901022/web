@@ -300,6 +300,12 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #line_plink,#line_pinfo,#line_nlink,#line_ninfo{
     display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:lightgreen;height: 50px;width:700px;margin-top: 10px;background-color: white;
 }
+#line_pinfo{
+    color:#22DD22;
+}
+#line_ninfo{
+    color:#FF5454;
+}
 #line_table_all_1,#line_table_nb_1,#line_table_adj_1,#line_table_all_2,#line_table_nb_2,#line_table_adj_2,#line_table_all_3,#line_table_nb_3,#line_table_adj_3{
     margin-top: 10px;margin-left: 20px;
 }
