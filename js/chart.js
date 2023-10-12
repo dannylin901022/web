@@ -603,7 +603,7 @@ var chart = {
         title1_2.text("名詞關鍵字");
         title1_2.fontSize(30);
         var coolor1_2 = anychart.scales.linearColor();
-        coolor1_1.colors(["#BFCDE0", "#000505"]);
+        coolor1_2.colors(["#BFCDE0", "#000505"]);
         chart1_2.colorScale(coolor1_2);
         chart1_2.colorRange(true);
         chart1_2.colorRange().length("80%");
