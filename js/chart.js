@@ -1371,16 +1371,16 @@ var chart = {
     //    },
     get_article_table_pos() {
         let text = "<tr><td style='width:300px;text-align:center;'><h4>正向評價</h4></td></tr>";
-        for (var i = 0; i < article_data_pos.length; i++) {
-            text = text + "<tr><td>" + article_data_pos[i] + "</td></tr>";
+        for (var i = 0; i < 10; i++) {
+            text = text + "<tr><td>" + article_data_pos[Math.floor(Math.random() * article_data_pos.length)] + "</td></tr>";
         }
         document.getElementById("article_dialog_table").innerHTML = text;
 
     },
     get_article_table_neg() {
         let text = "<tr><td style='width:300px;text-align:center;'><h4>負向評價</h4></td></tr>";
-        for (var i = 0; i < article_data_neg.length; i++) {
-            text = text + "<tr><td>" + article_data_neg[i] + "</td></tr>";
+        for (var i = 0; i < 10; i++) {
+            text = text + "<tr><td>" + article_data_neg[Math.floor(Math.random() * article_data_neg.length)] + "</td></tr>";
         }
         document.getElementById("article_dialog_table").innerHTML = text;
     }
