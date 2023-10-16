@@ -184,10 +184,13 @@
                                         <div>
                                             <h1 id="result_topic">{{search_input.topic}}</h1>
                                             <div id="result_top">
+                                                <div style="display: flex;flex-direction: column;">
+                                                <h2 id="summary_title">摘要</h2>
                                                 <div
                                                     style="display:flex;flex-direction:column; background-color: white;">
                                                     <div id="summary_content" v-html="summary">
                                                     </div>
+                                                </div>
                                                 </div>
                                                 <div style="display:flex-warp;flex-direction:column;">
                                                     <div id="result_btn_list">
@@ -246,7 +249,7 @@
                                             <div>
                                                 <div class="bar_chart_overflow">
                                                     <div style="display: flex;justify-content: space-between;">
-                                                        <h4>範圍放大</h4>
+                                                        <h4>範圍縮小</h4>
                                                         <h4 id="address"></h4>
                                                     </div>
                                                     <div id="bar_chart_zoom_div">
@@ -402,7 +405,7 @@
                                         <hr id="word_cloud_hr">
                                         <h2 id="word_cloud_title">關鍵字文字雲</h2>
                                         <div id="word_cloud_range">
-                                            <p style="font-size:30px">總體文字雲</p>
+                                            <p style="font-size:30px">正向&負向文字雲</p>
                                             <div id="WordCloud_all">
                                                 <div id="word_cloud1" class="word_display" @click="wc1_click"></div>
                                                 <div id="word_cloud4" class="word_display" @click="wc4_click"></div>

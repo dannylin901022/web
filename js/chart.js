@@ -37,8 +37,6 @@ var chart = {
             "<h5>討論熱度轉折點：</h5>" + "　轉折點日期：" +
             label[index_high] + "<br>　" + "該日討論文章數：" + datas[index_high].toLocaleString() + "<br>　" + "討論文章增加數：" + point_value.toLocaleString();
 
-
-
         //        最大值移掉，想個更好的呈現方式
         document.getElementById("b_max").innerHTML =
             "熱度高峰：" +
@@ -60,13 +58,30 @@ var chart = {
         document.getElementById("bar_link").innerHTML = ""
 
         var ctx = document.getElementById("bar_chart").getContext("2d");
-        var gradient = ctx.createLinearGradient(0, 0, 0, 170);
-        gradient.addColorStop(0, "black");
-        gradient.addColorStop(1, "white");
-        ctx.fillStyle = gradient;
+//        var gradient = ctx.createLinearGradient(0, 0, 0, 170);
+//        gradient.addColorStop(0, "black");
+//        gradient.addColorStop(1, "white");
+//        ctx.fillStyle = gradient;
         var graphique = Chart.getChart("bar_chart");
         if (graphique) {
             graphique.destroy();
+        }
+        
+        var data_sort = [];
+        for(var i = 0;i<datas.length;i++){
+            data_sort[i] = datas[i];
+        }
+        data_sort.sort(function(a, b){return b - a});
+        var color_arr = [];
+        var color_n = 100;
+        for(var i = 0;i<data_sort.length;i++){
+            if(i == 0){
+                color_arr[datas.indexOf(data_sort[i])] = 'rgba(225,50,50,1)';
+            }
+            else if(data_sort != 0){
+                color_arr[datas.indexOf(data_sort[i])] = 'rgba(50,' + color_n + ',50,1)';
+                color_n += 20;
+            }
         }
 
         new Chart(ctx, {
@@ -90,9 +105,9 @@ var chart = {
                         color: "#36A2EB",
                         anchor: "end",
                         align: "end",
-                        offset: 4,
+                        offset: -4,
                         font: {
-                            size: 0,
+                            size: 12,
                         },
                         listeners: {
                             enter: function (context, event) {
@@ -131,7 +146,8 @@ var chart = {
                         label: "主題討論數",
                         data: datas,
                         borderWidth: 1,
-                        backgroundColor: ["#05FFA7", "#3CC796", "#58FFC4"],
+                        backgroundColor:color_arr,
+//                        backgroundColor: ["#05FFA7", "#3CC796", "#58FFC4"],
                         //                        backgroundColor: ["#00CACA", "#FF5151", "#4A4AFF","#FF9224"],
                         datalabels: {
                             color: "#332233",
@@ -243,12 +259,6 @@ var chart = {
                 pos_articles.push(posHotArticle[label_all[i]][0].articleTitle);
                 pos_url.push(posHotArticle[label_all[i]][0].url);
                 pos_sentimentCount.push(posHotArticle[label_all[i]][0].sentimentCount);
-                wordSegment.push(wordCloudAnalysisResults[i].wordSegment);
-                wordSegmentFrequency.push(wordCloudAnalysisResults[i].wordSegmentFrequency);
-                wordSegment_nb.push(wordCloudAnalysisResults[i].wordSegmentNb);
-                wordSegmentFrequency_nb.push(wordCloudAnalysisResults[i].wordSegmentNbFrequency);
-                wordSegment_adj.push(wordCloudAnalysisResults[i].wordSegmentAdj);
-                wordSegmentFrequency_adj.push(wordCloudAnalysisResults[i].wordSegmentAdjFrequency);
                 for (var j = 0; j < posHotArticle[label_all[i]][0].pushContents.length; j++) {
                     if (posHotArticle[label_all[i]][0].pushContents[j].pushContent.length >= 10) {
                         if (posHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "positive") {
@@ -264,6 +274,16 @@ var chart = {
                 pos_articles.push(null);
                 pos_url.push(null);
                 pos_sentimentCount.push(null);
+            }
+            if(wordCloudAnalysisResults[i].wordSegment != null){
+                wordSegment.push(wordCloudAnalysisResults[i].wordSegment);
+                wordSegmentFrequency.push(wordCloudAnalysisResults[i].wordSegmentFrequency);
+                wordSegment_nb.push(wordCloudAnalysisResults[i].wordSegmentNb);
+                wordSegmentFrequency_nb.push(wordCloudAnalysisResults[i].wordSegmentNbFrequency);
+                wordSegment_adj.push(wordCloudAnalysisResults[i].wordSegmentAdj);
+                wordSegmentFrequency_adj.push(wordCloudAnalysisResults[i].wordSegmentAdjFrequency);
+            }
+            else{
                 wordSegment.push(null);
                 wordSegmentFrequency.push(null);
                 wordSegment_nb.push(null);
@@ -347,16 +367,19 @@ var chart = {
         document.getElementById("line_nlink").innerHTML =
             "　負向相關文章：" + "<a href=" + neg_url[max_index] + " target='_blank'>" + neg_articles[max_index] + "</a>";
 
+        console.log(wordSegment);
+        console.log(wordSegmentFrequency);
+        
         document.getElementById("p_sum").innerHTML =
             "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[max_index][0] + "：" + wordSegmentFrequency[max_index][0] + " 次<br>　2.關鍵字：" +
             wordSegment[max_index][1] + "：" + wordSegmentFrequency[max_index][1] + " 次<br>　3.關鍵字：" +
             wordSegment[max_index][2] + "：" + wordSegmentFrequency[max_index][2] + " 次";
 
-        let line_table_data_all = "<th>整體關鍵字</th>";
+        let line_table_data_all = "<th>無區分詞性</th>";
         for (let i = 0; i < wordSegment[max_index].length; i++) {
             line_table_data_all = line_table_data_all + "<tr><td>" + wordSegment[max_index][i] + "：</td><td>" + wordSegmentFrequency[max_index][i] + "</td></tr>";
         }
-        let line_table_data__nb = "<th>名詞關鍵字</th>";
+        let line_table_data__nb = "<th>專有名詞關鍵字</th>";
         for (let i = 0; i < wordSegment_nb[max_index].length; i++) {
             line_table_data__nb = line_table_data__nb + "<tr><td>" + wordSegment_nb[max_index][i] + "：</td><td>" + wordSegmentFrequency_nb[max_index][i] + "</td></tr>";
         }
@@ -432,11 +455,11 @@ var chart = {
                             wordSegment[activeEls[0].index][1] + "：" + wordSegmentFrequency[activeEls[0].index][1] + " 次<br>　3.關鍵字：" +
                             wordSegment[activeEls[0].index][2] + "：" + wordSegmentFrequency[activeEls[0].index][2] + " 次";
 
-                        let line_table_data_all = "<th>整體關鍵字</th>";
+                        let line_table_data_all = "<th>無區分詞性</th>";
                         for (let i = 0; i < wordSegment[activeEls[0].index].length; i++) {
                             line_table_data_all = line_table_data_all + "<tr><td>" + wordSegment[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency[activeEls[0].index][i] + "</td></tr>";
                         }
-                        let line_table_data__nb = "<th>名詞關鍵字</th>";
+                        let line_table_data__nb = "<th>專有名詞關鍵字</th>";
                         for (let i = 0; i < wordSegment_nb[activeEls[0].index].length; i++) {
                             line_table_data__nb = line_table_data__nb + "<tr><td>" + wordSegment_nb[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency_nb[activeEls[0].index][i] + "</td></tr>";
                         }
@@ -541,7 +564,7 @@ var chart = {
         var chart1 = anychart.tagCloud(data1);
         var title1 = chart1.title();
         title1.enabled(true);
-        title1.text("整體關鍵字");
+        title1.text("無區分詞性");
         title1.fontSize(30);
         var coolor1 = anychart.scales.linearColor();
         coolor1.colors(["#BFCDE0", "#000505"]);
@@ -556,7 +579,7 @@ var chart = {
         var chart2 = anychart.tagCloud(data2);
         var title2 = chart2.title();
         title2.enabled(true);
-        title2.text("名詞關鍵字");
+        title2.text("專有名詞關鍵字");
         title2.fontSize(30);
         var coolor2 = anychart.scales.linearColor();
         coolor2.colors(["#BFCDE0", "#000505"]);
@@ -586,7 +609,7 @@ var chart = {
         var chart1_1 = anychart.tagCloud(data1);
         var title1_1 = chart1_1.title();
         title1_1.enabled(true);
-        title1_1.text("整體關鍵字");
+        title1_1.text("無區分詞性");
         title1_1.fontSize(30);
         var coolor1_1 = anychart.scales.linearColor();
         coolor1_1.colors(["#BFCDE0", "#000505"]);
@@ -600,7 +623,7 @@ var chart = {
         var chart1_2 = anychart.tagCloud(data2);
         var title1_2 = chart1_2.title();
         title1_2.enabled(true);
-        title1_2.text("名詞關鍵字");
+        title1_2.text("專有名詞關鍵字");
         title1_2.fontSize(30);
         var coolor1_2 = anychart.scales.linearColor();
         coolor1_2.colors(["#BFCDE0", "#000505"]);
@@ -645,7 +668,7 @@ var chart = {
         var chart1 = anychart.tagCloud(data1);
         var title1 = chart1.title();
         title1.enabled(true);
-        title1.text("整體關鍵字");
+        title1.text("無區分詞性");
         title1.fontSize(30);
         var coolor1 = anychart.scales.linearColor();
         coolor1.colors(["#44FF44", "#22AA44"]);
@@ -660,7 +683,7 @@ var chart = {
         var chart2 = anychart.tagCloud(data2);
         var title2 = chart2.title();
         title2.enabled(true);
-        title2.text("名詞關鍵字");
+        title2.text("專有名詞關鍵字");
         title2.fontSize(30);
         var coolor2 = anychart.scales.linearColor();
         coolor2.colors(["#44FF44", "#22AA44"]);
@@ -690,7 +713,7 @@ var chart = {
         var chart2_1 = anychart.tagCloud(data1);
         var title2_1 = chart2_1.title();
         title2_1.enabled(true);
-        title2_1.text("整體關鍵字");
+        title2_1.text("無區分詞性");
         title2_1.fontSize(30);
         var coolor2_1 = anychart.scales.linearColor();
         coolor2_1.colors(["#44FF44", "#22AA44"]);
@@ -704,7 +727,7 @@ var chart = {
         var chart2_2 = anychart.tagCloud(data2);
         var title2_2 = chart2_2.title();
         title2_2.enabled(true);
-        title2_2.text("名詞關鍵字");
+        title2_2.text("專有名詞關鍵字");
         title2_2.fontSize(30);
         var coolor2_2 = anychart.scales.linearColor();
         coolor2_2.colors(["#44FF44", "#22AA44"]);
@@ -749,7 +772,7 @@ var chart = {
         var chart1 = anychart.tagCloud(data1);
         var title1 = chart1.title();
         title1.enabled(true);
-        title1.text("整體關鍵字");
+        title1.text("無區分詞性");
         title1.fontSize(30);
         var coolor1 = anychart.scales.linearColor();
         coolor1.colors(["#EFADAC", "#EF3344"]);
@@ -764,7 +787,7 @@ var chart = {
         var chart2 = anychart.tagCloud(data2);
         var title2 = chart2.title();
         title2.enabled(true);
-        title2.text("名詞關鍵字");
+        title2.text("專有名詞關鍵字");
         title2.fontSize(30);
         var coolor2 = anychart.scales.linearColor();
         coolor2.colors(["#EFADAC", "#EF3344"]);
@@ -794,7 +817,7 @@ var chart = {
         var chart3_1 = anychart.tagCloud(data1);
         var title3_1 = chart3_1.title();
         title3_1.enabled(true);
-        title3_1.text("整體關鍵字");
+        title3_1.text("無區分詞性");
         title3_1.fontSize(30);
         var coolor3_1 = anychart.scales.linearColor();
         coolor3_1.colors(["#EFADAC", "#EF3344"]);
@@ -808,7 +831,7 @@ var chart = {
         var chart3_2 = anychart.tagCloud(data2);
         var title3_2 = chart3_2.title();
         title3_2.enabled(true);
-        title3_2.text("名詞關鍵字");
+        title3_2.text("專有名詞關鍵字");
         title3_2.fontSize(30);
         var coolor3_2 = anychart.scales.linearColor();
         coolor3_2.colors(["#EFADAC", "#EF3344"]);
@@ -869,6 +892,23 @@ var chart = {
         if (graphique) {
             graphique.destroy();
         }
+        
+        var data_sort = [];
+        for(var i = 0;i<data.length;i++){
+            data_sort[i] = data[i];
+        }
+        data_sort.sort(function(a, b){return b - a});
+        var color_arr = [];
+        var color_n = 75;
+        for(var i = 0;i<data_sort.length;i++){
+            if(i == 0){
+                color_arr[data.indexOf(data_sort[i])] = 'rgba(225,50,50,1)';
+            }
+            else if(data_sort != 0){
+                color_arr[data.indexOf(data_sort[i])] = 'rgba(50,' + color_n + ',50,1)';
+                color_n += 50;
+            }
+        }
 
         new Chart(ctx, {
             type: "bar",
@@ -885,7 +925,7 @@ var chart = {
                         color: "#36A2EB",
                         anchor: "end",
                         align: "end",
-                        offset: 4,
+                        offset: -4,
                         font: {
                             size: 16,
                         },
@@ -905,7 +945,7 @@ var chart = {
                     try {
                         document.getElementById("message_count").innerHTML = "　該篇文章留言數：" + messageCount[activeEls[0].index];
                         document.getElementById("bar_link").innerHTML =
-                            "　相關文章：" + "<a href=" + url[activeEls[0].index] + " target='_blank'>" + articles[activeEls[0].index] + "</a>";
+                            "　討論數最高文章：" + "<a href=" + url[activeEls[0].index] + " target='_blank'>" + articles[activeEls[0].index] + "</a>";
                         //                        document.getElementById("address").innerHTML = "　討論集中區域：" + address[activeEls[0].index];
                         activeEls.length > 0
                             ? (evt.chart.canvas.style.cursor = "pointer")
@@ -922,7 +962,7 @@ var chart = {
                         label: "主題討論數",
                         data: data,
                         borderWidth: 1,
-                        backgroundColor: ["#05FFA7", "#3CC796", "#58FFC4"],
+                        backgroundColor: color_arr,
                         //                        backgroundColor: ["#00CACA", "#FF5151", "#4A4AFF","#FF9224"],
                         datalabels: {
                             color: "#332233",
@@ -1210,11 +1250,11 @@ var chart = {
             "<h5>區間內正向關鍵字：</h5>" + "　1.關鍵字：" +
             pos_data1[0].x + "：" + pos_data1[0].value + " 次<br>　2.關鍵字：" + pos_data1[1].x + "：" + pos_data1[1].value + " 次<br>　3.關鍵字：" + pos_data1[2].x + "：" + pos_data1[2].value + " 次";
 
-        let line_table_data_all = "<th>整體關鍵字</th>";
+        let line_table_data_all = "<th>無區分詞性</th>";
         for (let i = 0; i < pos_data1.length; i++) {
             line_table_data_all = line_table_data_all + "<tr><td>" + pos_data1[i].x + "：</td><td>" + pos_data1[i].value + "</td></tr>";
         }
-        let line_table_data__nb = "<th>名詞關鍵字</th>";
+        let line_table_data__nb = "<th>專有名詞關鍵字</th>";
         for (let i = 0; i < pos_data2.length; i++) {
             line_table_data__nb = line_table_data__nb + "<tr><td>" + pos_data2[i].x + "：</td><td>" + pos_data2[i].value + "</td></tr>";
         }
@@ -1294,11 +1334,11 @@ var chart = {
             "<h5>區間內負向關鍵字：</h5>" + "　1.關鍵字：" +
             neg_data1[0].x + "：" + neg_data1[0].value + " 次<br>　2.關鍵字：" + neg_data1[1].x + "：" + neg_data1[1].value + " 次<br>　3.關鍵字：" + neg_data1[2].x + "：" + neg_data1[2].value + " 次";
 
-        let line_table_data_all = "<th>整體關鍵字</th>";
+        let line_table_data_all = "<th>無區分詞性</th>";
         for (let i = 0; i < neg_data1.length; i++) {
             line_table_data_all = line_table_data_all + "<tr><td>" + neg_data1[i].x + "：</td><td>" + neg_data1[i].value + "</td></tr>";
         }
-        let line_table_data__nb = "<th>名詞關鍵字</th>";
+        let line_table_data__nb = "<th>專有名詞關鍵字</th>";
         for (let i = 0; i < neg_data2.length; i++) {
             line_table_data__nb = line_table_data__nb + "<tr><td>" + neg_data2[i].x + "：</td><td>" + neg_data2[i].value + "</td></tr>";
         }
