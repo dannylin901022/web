@@ -1710,17 +1710,37 @@ var chart = {
         },
     get_article_table_pos() {
         let text = "<tr><td style='width:300px;text-align:center;'><h4>正向評價</h4></td><td style='width:300px;text-align:center;'><h4>準確度</h4></td></tr>";
+        let check = [];
         for (var i = 0; i < 10; i++) {
+            let b = false;
             let num = Math.floor(Math.random() * article_data_pos.length);
-            text = text + "<tr><td>" + article_data_pos[num] + "</td><td>" + Math.floor(article_score_pos[num] * Math.pow(10,2) ) / Math.pow(10,2) + "</tr>";
+            for(var j = 0;j<check.length;j++){
+                if(article_data_neg[num] == check[j]){
+                    b = true;
+                }
+            }
+            if(b){
+                continue;
+            }
+            else{
+                check.push(article_data_neg[num]);
+                text = text + "<tr><td>" + article_data_pos[num] + "</td><td>" + Math.floor(article_score_pos[num] * Math.pow(10,2) ) / Math.pow(10,2) + "</tr>";
+            }
         }
         document.getElementById("article_dialog_table").innerHTML = text;
 
     },
     get_article_table_neg() {
         let text = "<tr><td style='width:300px;text-align:center;'><h4>負向評價</h4></td><td style='width:300px;text-align:center;'><h4>準確度</h4></td></tr>";
+        let check = [];
         for (var i = 0; i < 10; i++) {
             let num = Math.floor(Math.random() * article_data_pos.length);
+            for(var j = 0;j<check.length;j++){
+                if(article_data_neg[num] == check[j]){
+                    break;
+                }
+            }
+            check.push(article_data_neg[num]);
             text = text + "<tr><td>" + article_data_neg[num] + "</td><td>" + Math.floor(article_score_neg[num] * Math.pow(10,2) ) / Math.pow(10,2) ; + "</tr>";
         }
         document.getElementById("article_dialog_table").innerHTML = text;
