@@ -110,9 +110,11 @@
                         <li>
                             <a href="#" id="logout" class="nav_li" style="display: none;" @click="logout_btn">登出</a>
                         </li>
+<!--
                         <li>
                             <input type="text" placeholder="Input api for demo" v-model="test_api">
                         </li>
+-->
                     </ul>
                 </nav>
             </div>
@@ -229,6 +231,30 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr id="map_hr">
+                                        <div style="display: flex;">
+                                            <div>
+                                                <div style="width: ˇvw; display: flex;justify-content: space-between;align-items: flex-end;">
+                                                    <h2 id="map_title">地區討論</h2>
+                                                    <h5>可點擊地區進行資料篩選</h5>
+                                                    <button type="button" @click="origin_search" style="margin-bottom: 5px;">還原</button>
+<!--                                                    <h4 id="address"></h4>-->
+                                                </div>
+                                                <div style="height: 500px;overflow: auto">
+                                                    <div id="map"></div>
+                                                </div>
+                                            </div>
+                                            <div style="margin-left: 40px;margin-top: 20px;">
+                                                <h2 id="discuss_num" v-model="discuss_num">討論數量最高地區：{{discuss_num}}</h2>
+                                                <h3 id="discuss_other_num"style="margin-top:10px" v-model="discuss_other_num"><span style="color: red">國外</span>地區討論數：{{discuss_other_num}}</h3>
+                                                <h3 id="now_area" style="margin-top: 10vh">現在點選地區：</h3>
+                                                <h4 id="now_area_num">點選地區數值：</h4>
+                                                <h4 id="now_area_discuss_num_top" style="margin-top: 10vh" v-model="now_area_discuss_num_top">討論密度最高縣市：{{now_area_discuss_num_top}}</h4>
+                                                <h4 id="now_area_discuss_num">討論密度：</h4>
+                                                <h5>討論數/人口數</h5>
+                                                
+                                            </div>
+                                        </div>
                                         <hr id="bar_chart_hr">
                                         <!--                                        <h2 id="bar_chart_title">主題討論數</h2>-->
                                         <h2 id="bar_chart_title">熱度分析</h2>
@@ -250,7 +276,6 @@
                                                 <div class="bar_chart_overflow">
                                                     <div style="display: flex;justify-content: space-between;">
                                                         <h4>範圍縮小</h4>
-                                                        <h4 id="address"></h4>
                                                     </div>
                                                     <div id="bar_chart_zoom_div">
                                                         <canvas id="bar_chart_zoom"
@@ -263,7 +288,6 @@
                                                 <div id="bar_link">
                                                 </div>
                                             </div>
-                                            <div id="map"></div>
                                         </div>
                                         <hr id="line_chart_hr">
                                         <h2>正負向評價數</h2>
@@ -660,6 +684,18 @@
                 summary: "",
                 topic: "",
                 test_api: "",
+                origin_data:{
+                    "topic": "",
+                    "startDate": "",
+                    "endDate": "",
+                    "dateRange": "",
+                    "isExactMatch": false,
+                    "mode": 0
+                },
+                discuss_num_set:true,
+                discuss_num:"",
+                discuss_other_num:"",
+                now_area_discuss_num_top:"",
             }
         },
         methods: {
@@ -673,6 +709,7 @@
                     "endDate": document.getElementById("search_end").value,
                     "dateRange": document.getElementById("dateRange").value,
                     "mode": document.querySelector('input[name="mode"]:checked').value,
+                    "address":null,
                 };
                 if (document.getElementById("search_slider").checked) {
                     this.search_input.isExactMatch = true;
@@ -691,9 +728,21 @@
                     document.getElementById("search_slider").checked = false;
                 }
                 else {
-                    search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, this.search_input.mode, chart, api, token);
+                    this.origin_data = this.search_input;
+                    search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, this.search_input.mode, chart, api, token,this.search_input.address);
                 }
 
+            },
+            
+            origin_search(){
+                document.getElementById('now_area').innerHTML = "現在點選位置：";
+                document.getElementById('now_area_num').innerHTML = "點選地區數值：";
+                
+                let api = api_url;
+                if (this.test_api != "") {
+                    api = this.test_api + "/api/";
+                }
+                search.search_btn(this.origin_data.topic, this.origin_data.startDate, this.origin_data.endDate, this.origin_data.dateRange, this.origin_data.isExactMatch, this.origin_data.mode, chart, api, token,this.origin_data.address);
             },
             //==========================================================================================                
             //登入登出

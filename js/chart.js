@@ -1,10 +1,12 @@
 import example_data from "./example_data.js";
-let article_data_pos = [];
-let article_data_neg = [];
+import search from "./search.js";
+
+let article_data_pos = [],article_data_neg = [],article_score_pos = [],article_score_neg = [];
+
 var chart = {
-    async bar_chart(label, datas, hotArticles) {
+    async bar_chart(label, datas, hotArticles,addressDiscussNumber) {
         //        await this.get_accuracy_img();
-        await this.draw_map(label, datas, null, hotArticles);
+//        await this.draw_map(label, datas, null, hotArticles,addressDiscussNumber);
         let point_value = 0;
         let index_low = 0, index_high = 0;
         for (var i = 0; i < datas.length; i++) {
@@ -31,7 +33,7 @@ var chart = {
         }
 
         document.getElementById("b_sum").innerHTML =
-            "文章總數：" + sum.toLocaleString();
+            "總討論數：" + sum.toLocaleString();
 
         document.getElementById("b_reverse").innerHTML =
             "<h5>討論熱度轉折點：</h5>" + "　轉折點日期：" +
@@ -135,7 +137,7 @@ var chart = {
                             el[0].index,
                             hotArticles,
                         );
-                        await this.draw_map(label, datas, el[0].index, hotArticles);
+                        await this.draw_map(label, datas, el[0].index, hotArticles,addressDiscussNumber);
                     }
                 },
             },
@@ -209,7 +211,7 @@ var chart = {
                         color: "#36A2EB",
                         anchor: "end",
                         align: "end",
-                        offset: 4,
+                        offset: -4,
                         font: {
                             size: 0,
                         },
@@ -252,7 +254,9 @@ var chart = {
         var wordSegment_adj = [];
         var wordSegmentFrequency_adj = [];
         var pos_push = [];
+        var pos_score = [];
         var neg_push = [];
+        var neg_score = [];
 
         for (var i = 0; i < label_all.length; i++) {
             if (posHotArticle[label_all[i]] != null && posHotArticle[label_all[i]] != "") {
@@ -263,9 +267,11 @@ var chart = {
                     if (posHotArticle[label_all[i]][0].pushContents[j].pushContent.length >= 10) {
                         if (posHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "positive") {
                             pos_push.push(posHotArticle[label_all[i]][0].pushContents[j].pushContent);
+                            pos_score.push(posHotArticle[label_all[i]][0].pushContents[j].pushContentSentimentScore);
                         }
                         if (posHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "negative") {
                             neg_push.push(posHotArticle[label_all[i]][0].pushContents[j].pushContent);
+                            neg_score.push(posHotArticle[label_all[i]][0].pushContents[j].pushContentSentimentScore);
                         }
                     }
                 }
@@ -318,9 +324,11 @@ var chart = {
                     if (negHotArticle[label_all[i]][0].pushContents[j].pushContent.length >= 10) {
                         if (negHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "positive") {
                             pos_push.push(negHotArticle[label_all[i]][0].pushContents[j].pushContent);
+                            pos_score.push(negHotArticle[label_all[i]][0].pushContents[j].pushContentSentimentScore);
                         }
                         if (negHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "negative") {
                             neg_push.push(negHotArticle[label_all[i]][0].pushContents[j].pushContent);
+                            neg_score.push(negHotArticle[label_all[i]][0].pushContents[j].pushContentSentimentScore);
                         }
                     }
                 }
@@ -344,6 +352,8 @@ var chart = {
         }
         article_data_pos = pos_push;
         article_data_neg = neg_push;
+        article_score_pos = pos_score;
+        article_score_neg = neg_score;
 
         var change_info = setInterval(function () {
             document.getElementById("line_pinfo").innerHTML =
@@ -366,9 +376,6 @@ var chart = {
 
         document.getElementById("line_nlink").innerHTML =
             "　負向相關文章：" + "<a href=" + neg_url[max_index] + " target='_blank'>" + neg_articles[max_index] + "</a>";
-
-        console.log(wordSegment);
-        console.log(wordSegmentFrequency);
         
         document.getElementById("p_sum").innerHTML =
             "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[max_index][0] + "：" + wordSegmentFrequency[max_index][0] + " 次<br>　2.關鍵字：" +
@@ -543,7 +550,7 @@ var chart = {
 
     },
 
-    word_chart_all(wordSegment, frequency, wordSegmentNb, wordSegmentNbFrequency, wordSegmentAdj, wordSegmentAdjFrequency) {
+    word_chart_all(relatedArticle,wordSegment, frequency, wordSegmentNb, wordSegmentNbFrequency, wordSegmentAdj, wordSegmentAdjFrequency) {
         //chart_1
         var data1 = [];
         for (var i = 0; i < wordSegment.length; i++) {
@@ -574,6 +581,7 @@ var chart = {
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud1");
         chart1.draw();
+        chart1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("word_cloud4").innerHTML = null;
         var chart2 = anychart.tagCloud(data2);
@@ -589,6 +597,7 @@ var chart = {
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud4");
         chart2.draw();
+        chart2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("word_cloud5").innerHTML = null;
         var chart3 = anychart.tagCloud(data3);
@@ -604,6 +613,7 @@ var chart = {
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud5");
         chart3.draw();
+        chart3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc1").innerHTML = null;
         var chart1_1 = anychart.tagCloud(data1);
@@ -618,6 +628,33 @@ var chart = {
         chart1_1.colorRange().length("80%");
         chart1_1.container("wc1");
         chart1_1.draw();
+        chart1_1.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart1_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc4").innerHTML = null;
         var chart1_2 = anychart.tagCloud(data2);
@@ -632,6 +669,33 @@ var chart = {
         chart1_2.colorRange().length("80%");
         chart1_2.container("wc4");
         chart1_2.draw();
+        chart1_2.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart1_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc5").innerHTML = null;
         var chart1_3 = anychart.tagCloud(data3);
@@ -646,8 +710,35 @@ var chart = {
         chart1_3.colorRange().length("80%");
         chart1_3.container("wc5");
         chart1_3.draw();
+        chart1_3.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart1_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
     },
-    word_chart_positive(wordSegment, frequency, wordSegmentNb, wordSegmentNbFrequency, wordSegmentAdj, wordSegmentAdjFrequency) {
+    word_chart_positive(relatedArticle,wordSegment, frequency, wordSegmentNb, wordSegmentNbFrequency, wordSegmentAdj, wordSegmentAdjFrequency) {
         //chart_2
         var data1 = [];
         for (var i = 0; i < wordSegment.length; i++) {
@@ -678,6 +769,7 @@ var chart = {
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud2");
         chart1.draw();
+        chart1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("word_cloud6").innerHTML = null;
         var chart2 = anychart.tagCloud(data2);
@@ -693,6 +785,7 @@ var chart = {
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud6");
         chart2.draw();
+        chart2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("word_cloud7").innerHTML = null;
         var chart3 = anychart.tagCloud(data3);
@@ -708,6 +801,7 @@ var chart = {
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud7");
         chart3.draw();
+        chart3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc2").innerHTML = null;
         var chart2_1 = anychart.tagCloud(data1);
@@ -722,6 +816,33 @@ var chart = {
         chart2_1.colorRange().length("80%");
         chart2_1.container("wc2");
         chart2_1.draw();
+        chart2_1.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart2_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc6").innerHTML = null;
         var chart2_2 = anychart.tagCloud(data2);
@@ -736,6 +857,33 @@ var chart = {
         chart2_2.colorRange().length("80%");
         chart2_2.container("wc6");
         chart2_2.draw();
+        chart2_2.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart2_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc7").innerHTML = null;
         var chart2_3 = anychart.tagCloud(data3);
@@ -750,8 +898,35 @@ var chart = {
         chart2_3.colorRange().length("80%");
         chart2_3.container("wc7");
         chart2_3.draw();
+        chart2_3.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart2_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
     },
-    word_chart_negative(wordSegment, frequency, wordSegmentNb, wordSegmentNbFrequency, wordSegmentAdj, wordSegmentAdjFrequency) {
+    word_chart_negative(relatedArticle,wordSegment, frequency, wordSegmentNb, wordSegmentNbFrequency, wordSegmentAdj, wordSegmentAdjFrequency) {
         //chart_3
         var data1 = [];
         for (var i = 0; i < wordSegment.length; i++) {
@@ -782,6 +957,7 @@ var chart = {
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud3");
         chart1.draw();
+        chart1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("word_cloud8").innerHTML = null;
         var chart2 = anychart.tagCloud(data2);
@@ -797,6 +973,7 @@ var chart = {
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud8");
         chart2.draw();
+        chart2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("word_cloud9").innerHTML = null;
         var chart3 = anychart.tagCloud(data3);
@@ -812,6 +989,7 @@ var chart = {
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud9");
         chart3.draw();
+        chart3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc3").innerHTML = null;
         var chart3_1 = anychart.tagCloud(data1);
@@ -826,6 +1004,33 @@ var chart = {
         chart3_1.colorRange().length("80%");
         chart3_1.container("wc3");
         chart3_1.draw();
+        chart3_1.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart3_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc8").innerHTML = null;
         var chart3_2 = anychart.tagCloud(data2);
@@ -840,6 +1045,33 @@ var chart = {
         chart3_2.colorRange().length("80%");
         chart3_2.container("wc8");
         chart3_2.draw();
+        chart3_2.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart3_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
 
         document.getElementById("wc9").innerHTML = null;
         var chart3_3 = anychart.tagCloud(data3);
@@ -854,6 +1086,33 @@ var chart = {
         chart3_3.colorRange().length("80%");
         chart3_3.container("wc9");
         chart3_3.draw();
+        chart3_3.listen("pointClick", function(e){
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            for(i in relatedArticle){
+                if(i == e.point.get("x")){
+                    for(let j = 0;j<relatedArticle[i].length;j++){
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
+                        article.push(relatedArticle[i][j].articleTitle);
+                        content_score.push(relatedArticle[i][j].contentSentimentScore);
+                        if(relatedArticle[i][j].articleContent.length > 100){
+                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
+                        }
+                        else{
+                            content.push(relatedArticle[i][j].articleContent);
+                        }
+                        contentSentiment.push(relatedArticle[i][j].contentSentiment)
+                        url.push(relatedArticle[i][j].url);
+                    }
+                }
+            }
+            let ran = Math.floor(Math.random() * article.length);
+            if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                
+                window.open(url[ran]);
+            }
+        });
+        chart3_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
     },
 
     bar_chart_zoom(label, datas, index, hotArticles) {
@@ -1038,109 +1297,133 @@ var chart = {
             },
         });
     },
-    async draw_map(label, datas, index, hotArticles) {
+    async draw_map(label, datas, index, hotArticles,addressDiscussNumber,input_data) {
         const topology = await fetch(
             'https://code.highcharts.com/mapdata/countries/tw/tw-all.topo.json'
         ).then(response => response.json());
 
-        var address = [['Pingtung', 0], ['Tainan', 0], ['Yilan', 0], ['Chiayi', 0],
-        ['Taitung', 0], ['Penghu', 0], ['Kinmen', 0], ['Lienchiang', 0],
-        ['Taipei', 0], ['Chiayi City', 0], ['Taichung', 0], ['Yunlin', 0],
-        ['Kaohsiung', 0], ['New Taipei City', 0], ['Hsinchu City', 0], ['Hsinchu', 0],
-        ['Keelung', 0], ['Miaoli', 0], ['Taoyuan', 0], ['Changhua', 0],
-        ['Hualien', 0], ['Nantou', 0]];
+        var address = [['Pingtung', 0,799000,'屏東縣'], ['Tainan', 0,1853000,'臺南市'], ['Yilan', 0,449000,'宜蘭縣'], ['Chiayi', 0,488000,'嘉義縣'],['Taitung', 0,213000,'臺東縣'], ['Penghu', 0,107000,'澎湖縣'], ['Kinmen', 0,141000,'金門縣'], ['Lienchiang', 0,14000,'連江縣'],['Taipei', 0,2481000,'臺北市'], ['ChiayiCity', 0,263000,'嘉義市'], ['Taichung', 0,2814000,'臺中市'], ['Yunlin', 0,664000,'雲林縣'],['Kaohsiung', 0,2728000,'高雄市'], ['NewTaipeiCity', 0, 3996000,'新北市'], ['HsinchuCity', 0,452000,'新竹市'], ['Hsinchu', 0,581000,'新竹縣'],['Keelung', 0,362000,'基隆市'], ['Miaoli', 0,535000,'苗栗縣'], ['Taoyuan', 0,2281000,'桃園市'], ['Changhua', 0,1245000,'彰化縣'],['Hualien', 0,319000,'花蓮縣'], ['Nantou', 0,480000,'南投縣'],['Other',0]];
 
-        //    for(var i = 0;i<labels.length;i++){
-        //        if(hotArticles[labels[i]] != null && hotArticles[labels[i]] != ""){
-        //                switch(hotArticles.message.address) {
-        //                    case 'Pingtung':
-        //                            address[0][1]++;
-        //                            break;
-        //                    case 'Tainan':
-        //                            address[1][1]++;
-        //                            break;
-        //                    case 'Yilan':
-        //                            address[2][1]++;
-        //                            break;
-        //                    case 'Chiayi':
-        //                            address[3][1]++;
-        //                            break;
-        //                    case 'Taitung':
-        //                            address[4][1]++;
-        //                            break;
-        //                    case 'Penghu':
-        //                            address[5][1]++;
-        //                            break;
-        //                    case 'Kinmen':
-        //                            address[6][1]++;
-        //                            break;
-        //                    case 'Lienchiang':
-        //                            address[7][1]++;
-        //                            break;
-        //                    case 'Taipei':
-        //                            address[8][1]++;
-        //                            break;
-        //                    case 'Chiayi City':
-        //                            address[9][1]++;
-        //                            break
-        //                    case 'Taichung':
-        //                            address[10][1]++;
-        //                            break;
-        //                    case 'Yunlin':
-        //                            address[11][1]++;
-        //                            break;
-        //                    case 'Kaohsiung':
-        //                            address[12][1]++;
-        //                            break;
-        //                    case 'New Taipei City':
-        //                            address[13][1]++;
-        //                            break;
-        //                    case 'Hsinchu City':
-        //                            address[14][1]++;
-        //                            break;
-        //                    case 'Hsinchu':
-        //                            address[15][1]++;
-        //                            break;
-        //                    case 'Keelung':
-        //                            address[16][1]++;
-        //                            break;
-        //                    case 'Miaoli':
-        //                            address[17][1]++;
-        //                            break;
-        //                    case 'Taoyuan':
-        //                            address[18][1]++;
-        //                            break;
-        //                    case 'Changhua':
-        //                            address[19][1]++;
-        //                            break;
-        //                    case 'Hualien':
-        //                            address[20][1]++;
-        //                            break;
-        //                    case 'Nantou':
-        //                            address[21][1]++;
-        //                            break;
-        //                }
-        //        }
-        //    }
-        //        const data = [
-        //        ['tw-pt', address[0][1]], ['tw-tn', address[1][1]], ['tw-il', address[2][1]], ['tw-ch', address[3][1]],
-        //        ['tw-tt', address[4][1]], ['tw-ph', address[5][1]], ['tw-km', address[6][1]], ['tw-lk', address[7][1]],
-        //        ['tw-tw', address[8][1]], ['tw-cs', address[9][1]], ['tw-th', address[10][1]], ['tw-yl', address[11][1]],
-        //        ['tw-kh', address[12][1]], ['tw-tp', address[13][1]], ['tw-hs', address[14][1]], ['tw-hh', address[15][1]],
-        //        ['tw-cl', address[16][1]], ['tw-ml', address[17][1]], ['tw-ty', address[18][1]], ['tw-cg', address[19][1]],
-        //        ['tw-hl', address[20][1]], ['tw-nt', address[21][1]]
-        //    ];
+            for(var i in addressDiscussNumber){
+                        switch(i) {
+                            case 'Pingtung':
+                                    address[0][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Tainan':
+                                    address[1][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Yilan':
+                                    address[2][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Chiayi':
+                                    address[3][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Taitung':
+                                    address[4][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Penghu':
+                                    address[5][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Kinmen':
+                                    address[6][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Lienchiang':
+                                    address[7][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Taipei':
+                                    address[8][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'TaipeiCity':
+                                    address[8][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'ChiayiCity':
+                                    address[9][1] = addressDiscussNumber[i];
+                                    break
+                            case 'Taichung':
+                                    address[10][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Yunlin':
+                                    address[11][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Kaohsiung':
+                                    address[12][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'NewTaipeiCity':
+                                    address[13][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'HsinchuCity':
+                                    address[14][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Hsinchu':
+                                    address[15][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Keelung':
+                                    address[16][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Miaoli':
+                                    address[17][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Taoyuan':
+                                    address[18][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Changhua':
+                                    address[19][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Hualien':
+                                    address[20][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Nantou':
+                                    address[21][1] = addressDiscussNumber[i];
+                                    break;
+                            case 'Other':
+                                    address[22][1] = addressDiscussNumber[i];
+                                    break;
+                        }
+                }
+        
+        
+        let max_area = 0,max_num = 0,max_address = "",discuss_num = 0,discuss_num_top = "";
+        for(let i = 0;i<address.length;i++){
+            if(address[i][1] > max_area){
+                max_area = address[i][1];
+                max_address = address[i][3];
+            }
+        }
+        for(let i = 0;i<address.length;i++){
+            if(address[i][1] > max_num && address[i][1]!=max_area){
+                max_num = address[i][1];
+            }
+        }
+        
+        
+        for(let i = 0;i<address.length;i++){
+            if(address[i][1]/address[i][2] > discuss_num){
+                discuss_num = address[i][1]/address[i][2];
+                discuss_num_top = address[i][3];
+            }
+        }
+        
+        if(vm.discuss_num_set){
+            vm.discuss_num = max_address;
+            vm.discuss_other_num = address[22][1];
+            vm.now_area_discuss_num_top = discuss_num_top;
+            vm.discuss_num_set = false;
+        }
 
-        const data = [
-            ['tw-pt', 10], ['tw-tn', 11], ['tw-il', 12], ['tw-ch', 13],
-            ['tw-tt', 14], ['tw-ph', 15], ['tw-km', 16], ['tw-lk', 17],
-            ['tw-tw', 18], ['tw-cs', 19], ['tw-th', 20], ['tw-yl', 21],
-            ['tw-kh', 22], ['tw-tp', 23], ['tw-hs', 24], ['tw-hh', 25],
-            ['tw-cl', 26], ['tw-ml', 27], ['tw-ty', 28], ['tw-cg', 29],
-            ['tw-hl', 30], ['tw-nt', 31]
-        ];
+            
+                const data = [
+                ['tw-pt', address[0][1]], ['tw-tn', address[1][1]], ['tw-il', address[2][1]], ['tw-ch', address[3][1]],
+                ['tw-tt', address[4][1]], ['tw-ph', address[5][1]], ['tw-km', address[6][1]], ['tw-lk', address[7][1]],
+                ['tw-tw', address[8][1]], ['tw-cs', address[9][1]], ['tw-th', address[10][1]], ['tw-yl', address[11][1]],
+                ['tw-kh', address[12][1]], ['tw-tp', address[13][1]], ['tw-hs', address[14][1]], ['tw-hh', address[15][1]],
+                ['tw-cl', address[16][1]], ['tw-ml', address[17][1]], ['tw-ty', address[18][1]], ['tw-cg', address[19][1]],
+                ['tw-hl', address[20][1]], ['tw-nt', address[21][1]]
+            ];
 
 
+                var address_name = {'Tainan City': [11,'臺南市'],'Yilan': [12,'宜蘭縣'],'Chiayi': [13,'嘉義縣'],'Taitung': [14,'臺東縣'],'Penghu': [15,'澎湖縣'],'Kinmen': [16,'金門縣'],'Lienchiang': [17,'連江縣'],'Taipei City': [18,'臺北市'],'Taipei':[18,'臺北市'],'Chiayi City': [19,'嘉義市'],'Taichung City': [20,'臺中市'],'Yunlin': [21,'雲林縣'],'Kaohsiung City': [22,'高雄市'],'New Taipei City': [23,'新北市'],'Hsinchu City': [24,'新竹市'],'Hsinchu': [25,'新竹縣'],'Keelung City': [26,'基隆市'],'Miaoli': [27,'苗栗縣'],'Taoyuan': [28,'桃園市'],'Changhua': [29,'彰化縣'],'Hualien': [30,'花蓮縣'],'Nantou': [31,'南投縣'],'Other':[100,'國外'],'Pingtung':[null,'屏東縣']}
+                
+            
         Highcharts.mapChart('map', {
             chart: {
                 map: topology,
@@ -1148,9 +1431,10 @@ var chart = {
             title: {
                 text: '區域分布'
             },
-
+            
             colorAxis: {
-                min: 0
+                min: 0,
+                max:max_num + 50
             },
 
             series: [{
@@ -1167,9 +1451,24 @@ var chart = {
                 },
                 events: {
                     click: function (event) {
+                        var address_num = 0;
                         console.log(event.point.name);
                         console.log(event.point.options.value);
-                        chart.bar_chart_zoom(label, datas, index, hotArticles);
+                         
+                        for(i in address_name){
+                            if(i == event.point.name){
+                                address_num = address_name[i][0];
+                                document.getElementById('now_area').innerHTML = "現在點選位置：" + address_name[i][1];
+                                for(let j = 0;j<address.length;j++){
+                                    if(address_name[i][1] == address[j][3]){
+                                        document.getElementById('now_area_discuss_num').innerHTML = "討論密度：" + Math.floor(event.point.options.value/address[j][2] * Math.pow(10000,2) ) / Math.pow(10000,2);
+                                    }
+                                }
+                            }
+                        }
+                        document.getElementById('now_area_num').innerHTML = "點選地區數值：" + event.point.options.value;
+                        search.search_btn(input_data.topic,input_data.start,input_data.end,input_data.dateRange,input_data.isEM,input_data.mode,chart,input_data.api_url,input_data.token,address_num);
+//                        chart.bar_chart_zoom(label, datas, index, hotArticles);
                     }
                 }
             }]
@@ -1181,9 +1480,9 @@ var chart = {
         }
         let max = Math.max.apply(null, _data);
         let max_text = area[_data.indexOf(max)];
-        document.getElementById("address").innerHTML =
-            //            "討論數集中區域：" + max_text;
-            "討論數集中區域：" + "台北";
+//        document.getElementById("address").innerHTML =
+//            //            "討論數集中區域：" + max_text;
+//            "討論數集中區域：" + "台北";
     },
 
     async get_data_line_pos(input_data, start, end) {
@@ -1355,72 +1654,74 @@ var chart = {
         console.log(data);
         return data;
     },
-    //    async get_accuracy_img() {
-    //        var img_change = setInterval(function () {
-    //            fetch("https://dog.ceo/api/breeds/image/random")
-    //            .then((response) => {
-    //                return response.json();
-    //            })
-    //            .then((response) => {
-    //                document.getElementById("accuracy_img").src = response.message;
-    //            })
-    //            .catch((error) => {
-    //                console.log(error);
-    //            });
-    //        }, 5000);
-    //    },
-    //    async get_article_table_data() {
-    //        await fetch(
-    //            api_url +
-    //                "SentimentAnalysis/" +
-    //                topic +
-    //                "/StatrDate/" +
-    //                start +
-    //                "/EndDate/" +
-    //                end +
-    //                "?DateRange=" +
-    //                dateRange +
-    //                "&IsExactMatch=" +
-    //                isEM +
-    //                "&SearchMode=" +
-    //                mode,
-    //            {
-    //                headers: {
-    //                    Authorization: "Bearer " + token,
-    //                    "Content-Type": "application/json",
-    //                    Accept: "application/json",
-    //                    'ngrok-skip-browser-warning':true,
-    //                },
-    //            }
-    //        )
-    //            .then((response) => {
-    //                return response.json();
-    //            })
-    //            .then((response) => {
-    //                data = response;
-    //            })
-    //            .catch((error) => {
-    //                console.log(error);
-    //                console.log("Example Data：");
-    //                data = example_data.Sentiment_data;
-    //            });
-    //        article_data = data;
-    //        console.log(data);
-    //        return data;
-    //        
-    //    },
+//        async get_accuracy_img() {
+//            var img_change = setInterval(function () {
+//                fetch("https://dog.ceo/api/breeds/image/random")
+//                .then((response) => {
+//                    return response.json();
+//                })
+//                .then((response) => {
+//                    document.getElementById("accuracy_img").src = response.message;
+//                })
+//                .catch((error) => {
+//                    console.log(error);
+//                });
+//            }, 5000);
+//        },
+        async get_article_table_data() {
+            await fetch(
+                api_url +
+                    "SentimentAnalysis/" +
+                    topic +
+                    "/StatrDate/" +
+                    start +
+                    "/EndDate/" +
+                    end +
+                    "?DateRange=" +
+                    dateRange +
+                    "&IsExactMatch=" +
+                    isEM +
+                    "&SearchMode=" +
+                    mode,
+                {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        'ngrok-skip-browser-warning':true,
+                    },
+                }
+            )
+                .then((response) => {
+                    return response.json();
+                })
+                .then((response) => {
+                    data = response;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log("Example Data：");
+                    data = example_data.Sentiment_data;
+                });
+            article_data = data;
+            console.log(data);
+            return data;
+            
+        },
     get_article_table_pos() {
-        let text = "<tr><td style='width:300px;text-align:center;'><h4>正向評價</h4></td></tr>";
+        let text = "<tr><td style='width:300px;text-align:center;'><h4>正向評價</h4></td><td style='width:300px;text-align:center;'><h4>準確度</h4></td></tr>";
         for (var i = 0; i < 10; i++) {
-            text = text + "<tr><td>" + article_data_pos[Math.floor(Math.random() * article_data_pos.length)] + "</td></tr>";
+            let num = Math.floor(Math.random() * article_data_pos.length);
+            text = text + "<tr><td>" + article_data_pos[num] + "</td><td>" + Math.floor(article_score_pos[num] * Math.pow(10,2) ) / Math.pow(10,2) + "</tr>";
         }
         document.getElementById("article_dialog_table").innerHTML = text;
 
     },
     get_article_table_neg() {
-        let text = "<tr><td style='width:300px;text-align:center;'><h4>負向評價</h4></td></tr>";
+        let text = "<tr><td style='width:300px;text-align:center;'><h4>負向評價</h4></td><td style='width:300px;text-align:center;'><h4>準確度</h4></td></tr>";
         for (var i = 0; i < 10; i++) {
-            text = text + "<tr><td>" + article_data_neg[Math.floor(Math.random() * article_data_neg.length)] + "</td></tr>";
+            let num = Math.floor(Math.random() * article_data_pos.length);
+            text = text + "<tr><td>" + article_data_neg[num] + "</td><td>" + Math.floor(article_score_neg[num] * Math.pow(10,2) ) / Math.pow(10,2) ; + "</tr>";
         }
         document.getElementById("article_dialog_table").innerHTML = text;
     }

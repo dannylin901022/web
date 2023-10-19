@@ -11,8 +11,22 @@ var search = {
         mode,
         chart,
         api_url,
-        token
-    ) {
+        token,
+        address
+    ) 
+    {
+        let input_data = {
+                topic:topic,
+                start:start,
+                end:end,
+                dateRange:dateRange,
+                isEM:isEM,
+                mode:mode,
+                api_url:api_url,
+                token:token,
+                address:address
+            }
+        
         if (start > end) {
             alert("結束日期小於開始日期，請重新輸入");
             document.getElementById("search_start").value = "";
@@ -37,9 +51,12 @@ var search = {
                 isEM,
                 mode,
                 api_url,
-                token
+                token,
+                address
             );
-            chart.bar_chart(data_PA.dates, data_PA.discussNumber,data_PA.hotArticles);
+            chart.bar_chart(data_PA.dates, data_PA.discussNumber,data_PA.hotArticles,data_PA.addressDiscussNumber);
+            
+            chart.draw_map(data_PA.dates, data_PA.discussNumber,null,data_PA.hotArticles,data_PA.addressDiscussNumber,input_data); 
 
             const data_SA = await this.get_data_SentimentAnalysis(
                 topic,
@@ -49,18 +66,9 @@ var search = {
                 isEM,
                 mode,
                 api_url,
-                token
+                token,
+                address
             );
-            let input_data = {
-                topic:topic,
-                start:start,
-                end:end,
-                dateRange:dateRange,
-                isEM:isEM,
-                mode:mode,
-                api_url:api_url,
-                token:token
-            }
 
             chart.line_chart(
                 data_SA.dates,
@@ -80,7 +88,8 @@ var search = {
                 isEM,
                 mode,
                 api_url,
-                token
+                token,
+                address
             );
             const get_data_WordCloud_pos =
                 await this.get_data_WordCloud_positive(
@@ -91,7 +100,8 @@ var search = {
                     isEM,
                     mode,
                     api_url,
-                    token
+                    token,
+                    address
                 );
             const get_data_WordCloud_neg =
                 await this.get_data_WordCloud_negative(
@@ -102,10 +112,12 @@ var search = {
                     isEM,
                     mode,
                     api_url,
-                    token
+                    token,
+                    address
                 );
 
             chart.word_chart_all(
+                data_WC_all.relatedArticle,
                 data_WC_all.wordSegment,
                 data_WC_all.wordSegmentFrequency,
                 data_WC_all.wordSegmentNb,
@@ -115,6 +127,7 @@ var search = {
                 
             );
             chart.word_chart_positive(
+                get_data_WordCloud_pos.relatedArticle,
                 get_data_WordCloud_pos.wordSegment,
                 get_data_WordCloud_pos.wordSegmentFrequency,
                 get_data_WordCloud_pos.wordSegmentNb,
@@ -123,6 +136,7 @@ var search = {
                 get_data_WordCloud_pos.wordSegmentAdjFrequency,
             );
             chart.word_chart_negative(
+                get_data_WordCloud_neg.relatedArticle,
                 get_data_WordCloud_neg.wordSegment,
                 get_data_WordCloud_neg.wordSegmentFrequency,
                 get_data_WordCloud_neg.wordSegmentNb,
@@ -142,11 +156,12 @@ var search = {
         isEM,
         mode,
         api_url,
-        token
+        token,
+        address
     ) {
         var data = {};
         //fake/
-        await fetch(
+        await fetch(address == null ? 
             api_url +
                 "PopularityAnalysis/" +
                 topic +
@@ -159,8 +174,24 @@ var search = {
                 "&IsExactMatch=" +
                 isEM +
                 "&SearchMode=" +
-                mode,
-            {
+                mode:
+                    
+            api_url +
+                "PopularityAnalysis/" +
+                topic +
+                "/StatrDate/" +
+                start +
+                "/EndDate/" +
+                end +
+                "?DateRange=" +
+                dateRange +
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode +
+                "&AddressTypes=" +
+                address
+            ,{
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
@@ -193,11 +224,12 @@ var search = {
         isEM,
         mode,
         api_url,
-        token
+        token,
+        address
     ) {
         var data = {};
         //fake/
-        await fetch(
+        await fetch(address == null ? 
             api_url +
                 "SentimentAnalysis/" +
                 topic +
@@ -210,8 +242,24 @@ var search = {
                 "&IsExactMatch=" +
                 isEM +
                 "&SearchMode=" +
-                mode,
-            {
+                mode :
+                    
+                api_url +   
+                "SentimentAnalysis/" +
+                topic +
+                "/StatrDate/" +
+                start +
+                "/EndDate/" +
+                end +
+                "?DateRange=" +
+                dateRange +
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode +
+                "&AddressTypes=" +
+                address   
+            ,{
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
@@ -243,11 +291,12 @@ var search = {
         isEM,
         mode,
         api_url,
-        token
+        token,
+        address
     ) {
         var data = {};
         //fake/
-        await fetch(
+        await fetch(address == null ? 
             api_url +
                 "WordCloud/" +
                 topic +
@@ -260,8 +309,24 @@ var search = {
                 "&IsExactMatch=" +
                 isEM +
                 "&SearchMode=" +
-                mode,
-            {
+                mode:
+                    
+                api_url +
+                "WordCloud/" +
+                topic +
+                "/StatrDate/" +
+                start +
+                "/EndDate/" +
+                end +
+                "?DateRange=" +
+                dateRange +
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode +
+                "&AddressTypes=" +
+                address
+            ,{
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
@@ -292,11 +357,12 @@ var search = {
         isEM,
         mode,
         api_url,
-        token
+        token,
+        address
     ) {
         var data = {};
 
-        await fetch(
+        await fetch(address == null ? 
             api_url +
                 "WordCloud/" +
                 topic +
@@ -310,8 +376,25 @@ var search = {
                 "&IsExactMatch=" +
                 isEM +
                 "&SearchMode=" +
-                mode,
-            {
+                mode:
+                    
+                api_url +
+                "WordCloud/" +
+                topic +
+                "/StatrDate/" +
+                start +
+                "/EndDate/" +
+                end +
+                "/Positive" +
+                "?DateRange=" +
+                dateRange +
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode +
+                "&AddressTypes=" +
+                address
+            ,{
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
@@ -342,11 +425,12 @@ var search = {
         isEM,
         mode,
         api_url,
-        token
+        token,
+        address
     ) {
         var data = {};
 
-        await fetch(
+        await fetch(address == null ? 
             api_url +
                 "WordCloud/" +
                 topic +
@@ -360,7 +444,24 @@ var search = {
                 "&IsExactMatch=" +
                 isEM +
                 "&SearchMode=" +
-                mode,
+                mode:
+                    
+                api_url +
+                "WordCloud/" +
+                topic +
+                "/StatrDate/" +
+                start +
+                "/EndDate/" +
+                end +
+                "/Negative" +
+                "?DateRange=" +
+                dateRange +
+                "&IsExactMatch=" +
+                isEM +
+                "&SearchMode=" +
+                mode +
+                "&AddressTypes=" +
+                address,
             {
                 headers: {
                     Authorization: "Bearer " + token,
