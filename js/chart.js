@@ -1466,7 +1466,7 @@ var chart = {
                                 }
                             }
                         }
-                        document.getElementById('now_area_num').innerHTML = "點選地區數值：" + event.point.options.value;
+//                        document.getElementById('now_area_num').innerHTML = "點選地區數值：" + event.point.options.value;
                         search.search_btn(input_data.topic,input_data.start,input_data.end,input_data.dateRange,input_data.isEM,input_data.mode,chart,input_data.api_url,input_data.token,address_num);
 //                        chart.bar_chart_zoom(label, datas, index, hotArticles);
                     }
