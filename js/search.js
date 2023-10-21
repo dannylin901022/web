@@ -33,6 +33,7 @@ var search = {
             document.getElementById("search_end").value = "";
             document.getElementById("dateRange").value = "";
         } else {
+            vm.summary = ""
             document.getElementById("search_box").value = "";
             document.getElementById("search_start").value = "";
             document.getElementById("search_end").value = "";
@@ -145,7 +146,7 @@ var search = {
                 get_data_WordCloud_neg.wordSegmentAdjFrequency,
             );
             
-            await getSummary()
+            await getSummary(address)
         }
     },
     async get_data_PopularityAnalysis(
