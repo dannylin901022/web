@@ -18,10 +18,12 @@ var chart = {
         }
         
         let label_month = [];
+        let year_index = [];
         if(input_data.dateRange >= 30){
             for(var i = 0;i<label.length;i++){
-                if(label[i].substr(5,2) == '01'){
+                if(label[i].substr(5,2) == '01' || i == 0){
                     label_month[i] = label[i].substr(0,4)+"年"+label[i].substr(5,2)+"月";
+                    year_index.push(i);
                 }
                 else{
                     label_month[i] = label[i].substr(5,2)+"月";
@@ -117,12 +119,14 @@ var chart = {
         const arbitraryLine = {
             id:'arbitraryLine',
             beforeDraw(chart,args,options){
-                const{ctx, chartArea:{top, right, bottom, left, width, height},scales:{x,y}} = chart;
-                ctx.save();
+                for(var i = 0;i<options.xPosition.length;i++){
+                    const{ctx, chartArea:{top, right, bottom, left, width, height},scales:{xAxes,y}} = chart;
+                    ctx.save();
                 
-                ctx.strokeStyle = 'blue';
-                ctx.strokeRect(options.xPosition, top,0,height);
-                ctx.restore();
+                    ctx.fillStyle = options.arbitraryLine;
+                    ctx.fillRect(xAxes.getPixelForValue(options.xPosition[i])-20, top,2,height);
+                    ctx.restore();
+                }
             }
         }
         
@@ -144,8 +148,8 @@ var chart = {
                 maintainAspectRatio: false,
                 plugins: {
                     arbitraryLine:{
-                        arbitraryLine:'blue',
-                        xPosition:500
+                        arbitraryLine:'#555555',
+                        xPosition:year_index
                     },
                     datalabels: {
                         color: "#36A2EB",
@@ -678,12 +682,14 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -719,12 +725,12 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -760,12 +766,12 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -866,12 +872,12 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -907,12 +913,12 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -948,12 +954,12 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -1054,12 +1060,12 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -1095,12 +1101,12 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -1136,12 +1142,12 @@ var chart = {
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
-                        if(relatedArticle[i][j].articleContent.length > 100){
-                            content.push(relatedArticle[i][j].articleContent.substr(0, 100) + "...");
-                        }
-                        else{
-                            content.push(relatedArticle[i][j].articleContent);
-                        }
+                        
+                        var word = relatedArticle[i][j].articleContent.split(' '||'　'||'，'||'：'||':'||'');
+                        var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
+                        var indexWord = word[numberIndex];
+                        content.push(indexWord);
+                        
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
