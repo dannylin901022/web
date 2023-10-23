@@ -54,7 +54,7 @@ var search = {
                 token,
                 address
             );
-            chart.bar_chart(data_PA.dates, data_PA.discussNumber,data_PA.hotArticles,data_PA.addressDiscussNumber);
+            chart.bar_chart(data_PA.dates, data_PA.discussNumber,data_PA.hotArticles,data_PA.addressDiscussNumber,input_data);
             
             chart.draw_map(data_PA.dates, data_PA.discussNumber,null,data_PA.hotArticles,data_PA.addressDiscussNumber,input_data); 
 

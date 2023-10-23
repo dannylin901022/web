@@ -4,7 +4,7 @@ import search from "./search.js";
 let article_data_pos = [],article_data_neg = [],article_score_pos = [],article_score_neg = [];
 
 var chart = {
-    async bar_chart(label, datas, hotArticles,addressDiscussNumber) {
+    async bar_chart(label, datas, hotArticles,addressDiscussNumber,input_data) {
         //        await this.get_accuracy_img();
 //        await this.draw_map(label, datas, null, hotArticles,addressDiscussNumber);
         let point_value = 0;
@@ -16,43 +16,70 @@ var chart = {
                 index_high = i + 1;
             }
         }
+        
+        let label_month = [];
+        if(input_data.dateRange >= 30){
+            for(var i = 0;i<label.length;i++){
+                if(label[i].substr(5,2) == '01'){
+                    label_month[i] = label[i].substr(0,4)+"年"+label[i].substr(5,2)+"月";
+                }
+                else{
+                    label_month[i] = label[i].substr(5,2)+"月";
+                }
+            }
+        }
+        else{
+            label_month = label;
+        }
+        
+        
         let max = Math.max.apply(null, datas);
         let max_index = datas.indexOf(max);
-        let max_text = label[datas.indexOf(max)];
+        let max_text = label_month[datas.indexOf(max)];
         let min = max;
         for (var i = 0; i < datas.length; i++) {
             if (datas[i] < min && datas[i] != 0) {
                 min = datas[i];
             }
         }
-        let min_text = label[datas.indexOf(min)];
-
+        let min_text = label_month[datas.indexOf(min)];
+        let up_table_data = [],up_table_label = [];
+        for(var i = 0;i<datas.length;i++){
+            if(datas[i+1] > datas[i] && datas[i+1]!=null){
+                up_table_data.push(datas[i+1]);
+                up_table_label.push(label_month[i+1]);
+            }
+        }
+        
+        
         let sum = 0;
         for (var i = 0; i < datas.length; i++) {
             sum += datas[i];
         }
+        
+        
+        
 
         document.getElementById("b_sum").innerHTML =
             "總討論數：" + sum.toLocaleString();
 
         document.getElementById("b_reverse").innerHTML =
-            "<h5>討論熱度轉折點：</h5>" + "　轉折點日期：" +
-            label[index_high] + "<br>　" + "該日討論文章數：" + datas[index_high].toLocaleString() + "<br>　" + "討論文章增加數：" + point_value.toLocaleString();
+            "<h5>討論熱度轉折點：</h5>" + "　討論數轉折點：" +
+            label_month[index_high] + "<br>　" + "期間內討論文章數：" + datas[index_high].toLocaleString() + "<br>　" + "討論文章增加數：" + point_value.toLocaleString();
 
         //        最大值移掉，想個更好的呈現方式
         document.getElementById("b_max").innerHTML =
             "熱度高峰：" +
             max.toLocaleString() +
             "<br>" +
-            "日期：" +
+            "資料區間：" +
             max_text;
-        //        最小值移掉，想個更好的呈現方式        
-        document.getElementById("b_min").innerHTML =
-            "熱度低谷：" +
-            min.toLocaleString() +
-            "<br>" +
-            "日期：" +
-            min_text;
+        //        最小值移掉，想個更好的呈現方式  
+        let b_table = "<tr><th style='font-size:20px;border:1px solid black;'>期間</th><th style='font-size:20px;border:1px solid black;'>討論增加數量</th></tr>";
+        for(var i = 0;i<up_table_data.length;i++){
+            b_table = b_table + "<tr><td style='border:1px solid black;'>" + up_table_label[i] + "</td><td style='border:1px solid black;'>" + up_table_data[i] + "</td></tr>";
+        }
+        document.getElementById("b_min_table").innerHTML = b_table;
 
         this.bar_chart_zoom(label, datas, max_index, hotArticles);
 
@@ -76,6 +103,7 @@ var chart = {
         data_sort.sort(function(a, b){return b - a});
         var color_arr = [];
         var color_n = 100;
+        
         for(var i = 0;i<data_sort.length;i++){
             if(i == 0){
                 color_arr[datas.indexOf(data_sort[i])] = 'rgba(225,50,50,1)';
@@ -86,6 +114,18 @@ var chart = {
             }
         }
 
+        const arbitraryLine = {
+            id:'arbitraryLine',
+            beforeDraw(chart,args,options){
+                const{ctx, chartArea:{top, right, bottom, left, width, height},scales:{x,y}} = chart;
+                ctx.save();
+                
+                ctx.strokeStyle = 'blue';
+                ctx.strokeRect(options.xPosition, top,0,height);
+                ctx.restore();
+            }
+        }
+        
         new Chart(ctx, {
             type: "bar",
             options: {
@@ -103,6 +143,10 @@ var chart = {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
+                    arbitraryLine:{
+                        arbitraryLine:'blue',
+                        xPosition:500
+                    },
                     datalabels: {
                         color: "#36A2EB",
                         anchor: "end",
@@ -142,7 +186,7 @@ var chart = {
                 },
             },
             data: {
-                labels: label,
+                labels: label_month,
                 datasets: [
                     {
                         label: "主題討論數",
@@ -153,19 +197,17 @@ var chart = {
                         //                        backgroundColor: ["#00CACA", "#FF5151", "#4A4AFF","#FF9224"],
                         datalabels: {
                             color: "#332233",
-                            //                            listeners: {
-                            //                                click: function (context) {
-                            //                                    console.log(
-                            //                                        "label " +
-                            //                                            context.dataIndex +
-                            //                                            " 被按到了!"
-                            //                                    );
-                            //                                },
-                            //                            },
                         },
+                    },
+                    {
+                        label: "最高討論區間",
+                        data: null,
+                        borderWidth: 1,
+                        backgroundColor:'rgba(225,50,50,1)',
                     },
                 ],
             },
+            plugins: [arbitraryLine],
         });
         //document.getElementById('bar_chart_div').style.width = label.length * 100 + "";
     },
@@ -575,7 +617,7 @@ var chart = {
         title1.fontSize(30);
         var coolor1 = anychart.scales.linearColor();
         coolor1.colors(["#BFCDE0", "#000505"]);
-        chart1.colorScale(coolor1);
+//        chart1.colorScale(coolor1);
         chart1.colorRange(true);
         chart1.colorRange().length("80%");
         chart1.background().fill("#f9f9f9");
@@ -591,7 +633,7 @@ var chart = {
         title2.fontSize(30);
         var coolor2 = anychart.scales.linearColor();
         coolor2.colors(["#BFCDE0", "#000505"]);
-        chart2.colorScale(coolor2);
+//        chart2.colorScale(coolor2);
         chart2.colorRange(true);
         chart2.colorRange().length("80%");
         chart2.background().fill("#f9f9f9");
@@ -607,7 +649,7 @@ var chart = {
         title3.fontSize(30);
         var coolor3 = anychart.scales.linearColor();
         coolor3.colors(["#BFCDE0", "#000505"]);
-        chart3.colorScale(coolor3);
+//        chart3.colorScale(coolor3);
         chart3.colorRange(true);
         chart3.colorRange().length("80%");
         chart3.background().fill("#f9f9f9");
@@ -623,7 +665,7 @@ var chart = {
         title1_1.fontSize(30);
         var coolor1_1 = anychart.scales.linearColor();
         coolor1_1.colors(["#BFCDE0", "#000505"]);
-        chart1_1.colorScale(coolor1_1);
+//        chart1_1.colorScale(coolor1_1);
         chart1_1.colorRange(true);
         chart1_1.colorRange().length("80%");
         chart1_1.container("wc1");
@@ -664,7 +706,7 @@ var chart = {
         title1_2.fontSize(30);
         var coolor1_2 = anychart.scales.linearColor();
         coolor1_2.colors(["#BFCDE0", "#000505"]);
-        chart1_2.colorScale(coolor1_2);
+//        chart1_2.colorScale(coolor1_2);
         chart1_2.colorRange(true);
         chart1_2.colorRange().length("80%");
         chart1_2.container("wc4");
@@ -705,7 +747,7 @@ var chart = {
         title1_3.fontSize(30);
         var coolor1_3 = anychart.scales.linearColor();
         coolor1_3.colors(["#BFCDE0", "#000505"]);
-        chart1_3.colorScale(coolor1_3);
+//        chart1_3.colorScale(coolor1_3);
         chart1_3.colorRange(true);
         chart1_3.colorRange().length("80%");
         chart1_3.container("wc5");
@@ -1226,6 +1268,14 @@ var chart = {
                         datalabels: {
                             color: "#332233",
                         },
+                    },
+                    {
+                        label: "最高討論區間",
+                        data: null,
+                        borderWidth: 1,
+                        barPercentage: 0.1,
+                        categoryPrecentage:1,
+                        backgroundColor:'rgba(225,50,50,1)',
                     },
                 ],
             },
