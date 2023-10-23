@@ -34,6 +34,7 @@ var search = {
             document.getElementById("dateRange").value = "";
         } else {
             vm.summary = ""
+            vm.discuss_rank_address = []
             document.getElementById("search_box").value = "";
             document.getElementById("search_start").value = "";
             document.getElementById("search_end").value = "";

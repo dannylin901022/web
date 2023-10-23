@@ -54,6 +54,75 @@
             margin-bottom: 2rem;
             border-radius: .3rem;
         }
+        .discuss-rank-address-block{
+            margin-left: 40px;
+            margin-top: 10px;
+        }
+        .discuss-rank-address-block span {
+            font-size: 20px;
+        }
+
+        .discuss_rank_address{
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns:  repeat(3, 1fr);
+            grid-template-rows: repeat(4, 50px);
+        }
+        .discuss_rank_address > div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .discuss_rank_address .full-color{
+            background-color: #3cc796;
+            color: white;
+        }
+        .discuss_rank_address .first i{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2px;
+        }
+        .summary-wrapper{
+            position: relative;
+        }
+
+        .summary-loader {
+            display: none;
+        }
+
+        .summary-loader.active {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: block;
+            margin:15px auto;
+            position: relative;
+            color: #3cc796;
+            box-sizing: border-box;
+            animation: animloader 1s linear infinite alternate;
+            position: absolute;
+            right: 50%;
+            top: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        @keyframes animloader {
+            0% {
+                box-shadow: -38px -6px, -14px 6px,  14px -6px;
+            }
+            33% {
+                box-shadow: -38px 6px, -14px -6px,  14px 6px;
+            }
+            66% {
+                box-shadow: -38px -6px, -14px 6px, 14px -6px;
+            }
+            100% {
+                box-shadow: -38px 6px, -14px -6px, 14px 6px;
+        }
+        }
     </style>
 </head>
 
@@ -188,9 +257,13 @@
                                             <div id="result_top">
                                                 <div style="display: flex;flex-direction: column;">
                                                 <h2 id="summary_title">摘要</h2>
-                                                <div
-                                                    style="display:flex;flex-direction:column; background-color: white;">
-                                                    <div id="summary_content" v-html="summary">
+                                                <div class="summary-wrapper" style="display:flex;flex-direction:column; background-color: white;">
+                                                    <span class="summary-loader" :class="{'active': summary === ''}"></span>
+
+                                                    <div 
+                                                        id="summary_content" 
+                                                        v-html="summary" 
+                                                    >
                                                     </div>
                                                 </div>
                                                 </div>
@@ -209,11 +282,29 @@
                                                     </div>
                                                     <div id="b_sum">
                                                     </div>
-                                                    <!--
-                                                    <div id="GPT_score">
-                                                        GPT分數
+                                                    <div 
+                                                        class="discuss-rank-address-block" 
+                                                        v-if="discuss_rank_address?.length > 0"
+                                                    >
+                                                        <span>討論地區前三名</span>
+                                                        <div class="discuss_rank_address">
+                                                            <div></div>
+                                                            <div class="first">
+                                                                <i class="fa-solid fa-crown" style="color: #ffe431;"></i> 
+                                                                {{ discuss_rank_address[0] }}
+                                                            </div>
+                                                            <div></div>
+                                                            <div> {{ discuss_rank_address[1] }} </div>
+                                                            <div class="full-color">1st</div>
+                                                            <div></div>
+                                                            <div class="full-color">2nd</div>
+                                                            <div class="full-color"></div>
+                                                            <div> {{ discuss_rank_address[2] }} </div>
+                                                            <div class="full-color"></div>
+                                                            <div class="full-color"></div>
+                                                            <div class="full-color">3rd</div>
+                                                        </ㄎ>
                                                     </div>
--->
                                                     <dialog id="collect_info"
                                                         style="justify-content:center;align-items:center;flex-direction:column;">
                                                         <p>請選擇要儲存的資料夾及儲存名稱</p>
@@ -699,6 +790,7 @@
                 discuss_num:"",
                 discuss_other_num:"",
                 now_area_discuss_num_top:"",
+                discuss_rank_address: []
             }
         },
         methods: {

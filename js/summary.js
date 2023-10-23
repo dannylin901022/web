@@ -40,4 +40,7 @@ async function fetchBardSummary(key, address) {
         }
     );
     vm.summary = marked.parse(data.summary);
+    if (!address) {
+        vm.discuss_rank_address = data.address
+    }
 }
