@@ -166,8 +166,10 @@ var chart = {
                 scales: {
                     y: {
                         beginAtZero: true,
+                        stacked:true,
                     },
                     xAxes: {
+                        stacked:true,
                         ticks: {
                             maxTicksLimit: 50,
                             //autoSkip: false
@@ -232,6 +234,9 @@ var chart = {
                         //                        backgroundColor: ["#00CACA", "#FF5151", "#4A4AFF","#FF9224"],
                         datalabels: {
                             color: "#332233",
+                            formatter: (value) => {
+                                    return value > 0 ? value : '';
+                            },
                         },
                     },
                     {
@@ -499,21 +504,21 @@ var chart = {
             "　負向相關文章：" + "<a href=" + neg_url[max_index] + " target='_blank'>" + neg_articles[max_index] + "</a>";
         
         document.getElementById("p_sum").innerHTML =
-            "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[max_index][0] + "：" + wordSegmentFrequency[max_index][0] + " 次<br>　2.關鍵字：" +
-            wordSegment[max_index][1] + "：" + wordSegmentFrequency[max_index][1] + " 次<br>　3.關鍵字：" +
-            wordSegment[max_index][2] + "：" + wordSegmentFrequency[max_index][2] + " 次";
+            "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[max_index][0] + "：" + wordSegmentFrequency[max_index][0].toLocaleString() + " 次<br>　2.關鍵字：" +
+            wordSegment[max_index][1] + "：" + wordSegmentFrequency[max_index][1].toLocaleString() + " 次<br>　3.關鍵字：" +
+            wordSegment[max_index][2] + "：" + wordSegmentFrequency[max_index][2].toLocaleString() + " 次";
 
         let line_table_data_all = "<th>無區分詞性</th>";
         for (let i = 0; i < wordSegment[max_index].length; i++) {
-            line_table_data_all = line_table_data_all + "<tr><td>" + wordSegment[max_index][i] + "：</td><td>" + wordSegmentFrequency[max_index][i] + "</td></tr>";
+            line_table_data_all = line_table_data_all + "<tr><td>" + wordSegment[max_index][i] + "：</td><td>" + wordSegmentFrequency[max_index][i].toLocaleString() + "</td></tr>";
         }
         let line_table_data__nb = "<th>專有名詞關鍵字</th>";
         for (let i = 0; i < wordSegment_nb[max_index].length; i++) {
-            line_table_data__nb = line_table_data__nb + "<tr><td>" + wordSegment_nb[max_index][i] + "：</td><td>" + wordSegmentFrequency_nb[max_index][i] + "</td></tr>";
+            line_table_data__nb = line_table_data__nb + "<tr><td>" + wordSegment_nb[max_index][i] + "：</td><td>" + wordSegmentFrequency_nb[max_index][i].toLocaleString() + "</td></tr>";
         }
         let line_table_data_adj = "<th>形容詞關鍵字</th>";
         for (let i = 0; i < wordSegment_adj[max_index].length; i++) {
-            line_table_data_adj = line_table_data_adj + "<tr><td>" + wordSegment_adj[max_index][i] + "：</td><td>" + wordSegmentFrequency_adj[max_index][i] + "</td></tr>";
+            line_table_data_adj = line_table_data_adj + "<tr><td>" + wordSegment_adj[max_index][i] + "：</td><td>" + wordSegmentFrequency_adj[max_index][i].toLocaleString() + "</td></tr>";
         }
 
         document.getElementById("line_data_btn1").style.display = "block";
@@ -583,21 +588,21 @@ var chart = {
 
 
                         document.getElementById("p_sum").innerHTML =
-                            "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[activeEls[0].index][0] + "：" + wordSegmentFrequency[activeEls[0].index][0] + " 次<br>　2.關鍵字：" +
-                            wordSegment[activeEls[0].index][1] + "：" + wordSegmentFrequency[activeEls[0].index][1] + " 次<br>　3.關鍵字：" +
-                            wordSegment[activeEls[0].index][2] + "：" + wordSegmentFrequency[activeEls[0].index][2] + " 次";
+                            "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[activeEls[0].index][0] + "：" + wordSegmentFrequency[activeEls[0].index][0].toLocaleString() + " 次<br>　2.關鍵字：" +
+                            wordSegment[activeEls[0].index][1] + "：" + wordSegmentFrequency[activeEls[0].index][1].toLocaleString() + " 次<br>　3.關鍵字：" +
+                            wordSegment[activeEls[0].index][2] + "：" + wordSegmentFrequency[activeEls[0].index][2].toLocaleString() + " 次";
 
                         let line_table_data_all = "<th>無區分詞性</th>";
                         for (let i = 0; i < wordSegment[activeEls[0].index].length; i++) {
-                            line_table_data_all = line_table_data_all + "<tr><td>" + wordSegment[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency[activeEls[0].index][i] + "</td></tr>";
+                            line_table_data_all = line_table_data_all + "<tr><td>" + wordSegment[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency[activeEls[0].index][i].toLocaleString() + "</td></tr>";
                         }
                         let line_table_data__nb = "<th>專有名詞關鍵字</th>";
                         for (let i = 0; i < wordSegment_nb[activeEls[0].index].length; i++) {
-                            line_table_data__nb = line_table_data__nb + "<tr><td>" + wordSegment_nb[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency_nb[activeEls[0].index][i] + "</td></tr>";
+                            line_table_data__nb = line_table_data__nb + "<tr><td>" + wordSegment_nb[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency_nb[activeEls[0].index][i].toLocaleString() + "</td></tr>";
                         }
                         let line_table_data_adj = "<th>形容詞關鍵字</th>";
                         for (let i = 0; i < wordSegment_adj[activeEls[0].index].length; i++) {
-                            line_table_data_adj = line_table_data_adj + "<tr><td>" + wordSegment_adj[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency_adj[activeEls[0].index][i] + "</td></tr>";
+                            line_table_data_adj = line_table_data_adj + "<tr><td>" + wordSegment_adj[activeEls[0].index][i] + "：</td><td>" + wordSegmentFrequency_adj[activeEls[0].index][i].toLocaleString() + "</td></tr>";
                         }
 
                         document.getElementById("line_data_btn1").style.display = "block";
@@ -1315,6 +1320,9 @@ var chart = {
                     y: {
                         beginAtZero: true,
                     },
+                    x:{
+                        stacked:true,
+                    }
                 },
                 responsive: true,
                 maintainAspectRatio: false,
@@ -1694,19 +1702,19 @@ var chart = {
 
         document.getElementById("p_max").innerHTML =
             "<h5>區間內正向關鍵字：</h5>" + "　1.關鍵字：" +
-            pos_data1[0].x + "：" + pos_data1[0].value + " 次<br>　2.關鍵字：" + pos_data1[1].x + "：" + pos_data1[1].value + " 次<br>　3.關鍵字：" + pos_data1[2].x + "：" + pos_data1[2].value + " 次";
+            pos_data1[0].x + "：" + pos_data1[0].value.toLocaleString() + " 次<br>　2.關鍵字：" + pos_data1[1].x + "：" + pos_data1[1].value.toLocaleString() + " 次<br>　3.關鍵字：" + pos_data1[2].x + "：" + pos_data1[2].value.toLocaleString() + " 次";
 
         let line_table_data_all = "<th>無區分詞性</th>";
         for (let i = 0; i < pos_data1.length; i++) {
-            line_table_data_all = line_table_data_all + "<tr><td>" + pos_data1[i].x + "：</td><td>" + pos_data1[i].value + "</td></tr>";
+            line_table_data_all = line_table_data_all + "<tr><td>" + pos_data1[i].x + "：</td><td>" + pos_data1[i].value.toLocaleString() + "</td></tr>";
         }
         let line_table_data__nb = "<th>專有名詞關鍵字</th>";
         for (let i = 0; i < pos_data2.length; i++) {
-            line_table_data__nb = line_table_data__nb + "<tr><td>" + pos_data2[i].x + "：</td><td>" + pos_data2[i].value + "</td></tr>";
+            line_table_data__nb = line_table_data__nb + "<tr><td>" + pos_data2[i].x + "：</td><td>" + pos_data2[i].value.toLocaleString() + "</td></tr>";
         }
         let line_table_data_adj = "<th>形容詞關鍵字</th>";
         for (let i = 0; i < pos_data3.length; i++) {
-            line_table_data_adj = line_table_data_adj + "<tr><td>" + pos_data3[i].x + "：</td><td>" + pos_data3[i].value + "</td></tr>";
+            line_table_data_adj = line_table_data_adj + "<tr><td>" + pos_data3[i].x + "：</td><td>" + pos_data3[i].value.toLocaleString() + "</td></tr>";
         }
 
         document.getElementById("line_data_btn2").style.display = "block";
@@ -1778,19 +1786,19 @@ var chart = {
 
         document.getElementById("n_max").innerHTML =
             "<h5>區間內負向關鍵字：</h5>" + "　1.關鍵字：" +
-            neg_data1[0].x + "：" + neg_data1[0].value + " 次<br>　2.關鍵字：" + neg_data1[1].x + "：" + neg_data1[1].value + " 次<br>　3.關鍵字：" + neg_data1[2].x + "：" + neg_data1[2].value + " 次";
+            neg_data1[0].x + "：" + neg_data1[0].value.toLocaleString() + " 次<br>　2.關鍵字：" + neg_data1[1].x + "：" + neg_data1[1].value.toLocaleString() + " 次<br>　3.關鍵字：" + neg_data1[2].x + "：" + neg_data1[2].value.toLocaleString() + " 次";
 
         let line_table_data_all = "<th>無區分詞性</th>";
         for (let i = 0; i < neg_data1.length; i++) {
-            line_table_data_all = line_table_data_all + "<tr><td>" + neg_data1[i].x + "：</td><td>" + neg_data1[i].value + "</td></tr>";
+            line_table_data_all = line_table_data_all + "<tr><td>" + neg_data1[i].x + "：</td><td>" + neg_data1[i].value.toLocaleString() + "</td></tr>";
         }
         let line_table_data__nb = "<th>專有名詞關鍵字</th>";
         for (let i = 0; i < neg_data2.length; i++) {
-            line_table_data__nb = line_table_data__nb + "<tr><td>" + neg_data2[i].x + "：</td><td>" + neg_data2[i].value + "</td></tr>";
+            line_table_data__nb = line_table_data__nb + "<tr><td>" + neg_data2[i].x + "：</td><td>" + neg_data2[i].value.toLocaleString() + "</td></tr>";
         }
         let line_table_data_adj = "<th>形容詞關鍵字</th>";
         for (let i = 0; i < neg_data3.length; i++) {
-            line_table_data_adj = line_table_data_adj + "<tr><td>" + neg_data3[i].x + "：</td><td>" + neg_data3[i].value + "</td></tr>";
+            line_table_data_adj = line_table_data_adj + "<tr><td>" + neg_data3[i].x + "：</td><td>" + neg_data3[i].value.toLocaleString() + "</td></tr>";
         }
 
         document.getElementById("line_data_btn3").style.display = "block";
