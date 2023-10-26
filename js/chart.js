@@ -777,7 +777,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -802,7 +802,6 @@ var chart = {
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
-                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -810,7 +809,7 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
-                        
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -818,7 +817,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -843,7 +842,6 @@ var chart = {
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
-                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -851,7 +849,7 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
-                        
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -859,7 +857,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -949,7 +947,6 @@ var chart = {
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
-                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -957,7 +954,7 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
-                        
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -965,7 +962,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -990,7 +987,6 @@ var chart = {
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
-                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -998,7 +994,7 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
-                        
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -1006,7 +1002,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -1031,7 +1027,6 @@ var chart = {
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
-                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1039,7 +1034,7 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
-                        
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -1047,7 +1042,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -1137,7 +1132,6 @@ var chart = {
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
-                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1145,7 +1139,7 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
-                        
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -1153,7 +1147,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -1178,7 +1172,6 @@ var chart = {
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
-                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1186,7 +1179,7 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
-                        
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -1194,7 +1187,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -1219,7 +1212,6 @@ var chart = {
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
-                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1227,7 +1219,7 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
-                        
+                                     
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
                     }
@@ -1235,7 +1227,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
