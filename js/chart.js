@@ -28,7 +28,12 @@ var chart = {
             }
         }
         else{
-            label_month = label;
+            for(var i = 0;i<label.length;i++){
+                label_month[i] = [label[i],""];
+                if( i == 0 || label_month[i][0] != label_month[i-1][0]){
+                    year_index.push(i);
+                }
+            }
         }
         let month = [];
         for(let i = 0;i<label_month.length;i++){
@@ -39,6 +44,7 @@ var chart = {
                 month.push(label_month[i][1]);
             }
         }
+        
         
         
         let max = Math.max.apply(null, datas);
