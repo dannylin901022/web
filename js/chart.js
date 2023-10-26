@@ -29,7 +29,7 @@ var chart = {
         }
         else{
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i],""];
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -160,7 +160,18 @@ var chart = {
                     ctx.save();
                 
                     ctx.fillStyle = options.arbitraryLine;
-                    ctx.fillRect(xAxes.getPixelForValue(options.xPosition[i])-20, top,2,height);
+                    let n = 0;
+                    if(datas.length < 20){
+                        n = 20;
+                    }
+                    else if(datas.length > 20 && datas.length < 40){
+                        n = 10;
+                    }
+                    else{
+                        n = 0;
+                    }
+                    
+                    ctx.fillRect(xAxes.getPixelForValue(options.xPosition[i])-n, top,2,height);
                     ctx.restore();
                 }
             }
@@ -278,7 +289,12 @@ var chart = {
             }
         }
         else{
-            label_month = label;
+            for(var i = 0;i<label.length;i++){
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
+                if( i == 0 || label_month[i][0] != label_month[i-1][0]){
+                    year_index.push(i);
+                }
+            }
         }
         let month = [];
         for(let i = 0;i<label_month.length;i++){
@@ -495,7 +511,7 @@ var chart = {
         }, 5000);
 
 
-        this.line_chart_pie_chart(label[max_index], data1[max_index], data2[max_index]);
+        this.line_chart_pie_chart(month[max_index], data1[max_index], data2[max_index]);
 
         await this.get_data_line_pos(input_data, label[max_index], label[max_index + 1]);
 
@@ -503,11 +519,11 @@ var chart = {
 
         document.getElementById("line_link_date").innerHTML = "選取區間：" + label_month[max_index][0] + label_month[max_index][1];
         document.getElementById("line_plink").innerHTML =
-            "　正向相關文章：" + "<a href=" + pos_url[max_index] + " target='_blank'>" + pos_articles[max_index] + "</a>";
+            "　正向相關文章：" + "<a href=" + pos_url[max_index] + " target='_blank'>" + (pos_articles[max_index] == null ? "無" : pos_articles[max_index]) + "</a>";
 
 
         document.getElementById("line_nlink").innerHTML =
-            "　負向相關文章：" + "<a href=" + neg_url[max_index] + " target='_blank'>" + neg_articles[max_index] + "</a>";
+            "　負向相關文章：" + "<a href=" + neg_url[max_index] + " target='_blank'>" + (neg_articles[max_index] == null ? "無" : neg_articles[max_index]) + "</a>";
         
         document.getElementById("p_sum").innerHTML =
             "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[max_index][0] + "：" + wordSegmentFrequency[max_index][0].toLocaleString() + " 次<br>　2.關鍵字：" +
@@ -578,7 +594,7 @@ var chart = {
                 },
                 onHover: async (evt, activeEls) => {
                     try {
-                        this.line_chart_pie_chart(label[activeEls[0].index], data1[activeEls[0].index], data2[activeEls[0].index]);
+                        this.line_chart_pie_chart(month[activeEls[0].index], data1[activeEls[0].index], data2[activeEls[0].index]);
 
                         await this.get_data_line_pos(input_data, label[activeEls[0].index], label[activeEls[0].index + 1]);
 
@@ -586,11 +602,11 @@ var chart = {
 
                         document.getElementById("line_link_date").innerHTML = "選取區間：" + month[activeEls[0].index]
                         document.getElementById("line_plink").innerHTML =
-                            "　正向相關文章：" + "<a href=" + pos_url[activeEls[0].index] + " target='_blank'>" + pos_articles[activeEls[0].index] + "</a>";
+                            "　正向相關文章：" + "<a href=" + pos_url[activeEls[0].index] + " target='_blank'>" + (pos_articles[activeEls[0].index] == null ? "無" : pos_articles[activeEls[0].index]) + "</a>";
 
 
                         document.getElementById("line_nlink").innerHTML =
-                            "　負向相關文章：" + "<a href=" + neg_url[activeEls[0].index] + " target='_blank'>" + neg_articles[activeEls[0].index] + "</a>";
+                            "　負向相關文章：" + "<a href=" + neg_url[activeEls[0].index] + " target='_blank'>" + (neg_articles[activeEls[0].index] == null ? "無" : neg_articles[activeEls[0].index]) + "</a>";
 
 
                         document.getElementById("p_sum").innerHTML =
@@ -1355,9 +1371,16 @@ var chart = {
                 },
                 onHover: (evt, activeEls) => {
                     try {
-                        document.getElementById("message_count").innerHTML = "　該篇文章留言數：" + messageCount[activeEls[0].index];
-                        document.getElementById("bar_link").innerHTML =
+                        if(messageCount[activeEls[0].index] == null){
+                            document.getElementById("message_count").innerHTML = "　該篇文章留言數：" + "無"
+                            document.getElementById("bar_link").innerHTML =
+                            "　討論數最高文章：" + "無";
+                        }
+                        else{
+                            document.getElementById("message_count").innerHTML = "　該篇文章留言數：" + messageCount[activeEls[0].index];
+                            document.getElementById("bar_link").innerHTML =
                             "　討論數最高文章：" + "<a href=" + url[activeEls[0].index] + " target='_blank'>" + articles[activeEls[0].index] + "</a>";
+                        }
                         //                        document.getElementById("address").innerHTML = "　討論集中區域：" + address[activeEls[0].index];
                         activeEls.length > 0
                             ? (evt.chart.canvas.style.cursor = "pointer")
@@ -1404,6 +1427,14 @@ var chart = {
             ctx = document.getElementById("line_chart_pie_chart_2").getContext("2d");
             graphique = Chart.getChart("line_chart_pie_chart_2");
         }
+        
+        if(ctx == document.getElementById("line_chart_pie_chart_1").getContext("2d")){
+            document.getElementById("line_chart_pie_chart_1").style.display = "block";
+        }
+        else{
+            document.getElementById("line_chart_pie_chart_2").style.display = "block";
+        }
+        
 
 
         var data_list = [data1, data2];
@@ -1412,8 +1443,9 @@ var chart = {
         if (graphique) {
             graphique.destroy();
         }
-
-        new Chart(ctx, {
+        
+        if(data_sum != 0){
+            new Chart(ctx, {
             type: "pie",
             options: {
                 responsive: true,
@@ -1457,6 +1489,15 @@ var chart = {
                 ],
             },
         });
+        }
+        else{
+            if(ctx == document.getElementById("line_chart_pie_chart_1").getContext("2d")){
+                document.getElementById("line_chart_pie_chart_1").style.display = "none";
+            }
+            else{
+                document.getElementById("line_chart_pie_chart_2").style.display = "none";
+            }
+        }
     },
     async draw_map(label, datas, index, hotArticles,addressDiscussNumber,input_data) {
         const topology = await fetch(

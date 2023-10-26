@@ -1115,7 +1115,7 @@
                 var data = {}
                 var recommend_list = [], recommend_value_list = [];
                 data = await search.get_data_TrendingTopic(api_url.replace("api/", ""), token);
-                this.recommend_info_title = this.recommend_info_title + data.articleNumber;
+                this.recommend_info_title = this.recommend_info_title + data.articleNumber.toLocaleString();
                 for (var i = 0; i < data.trendingTopics.length; i++) {
                     recommend_list[i] = data.trendingTopics[i].topic;
                     recommend_value_list[i] = Math.round(data.trendingTopics[i].discussPercentage * 10000) / 100.00 + "%";
