@@ -21,35 +21,49 @@ var chart = {
         let year_index = [];
         if(input_data.dateRange >= 30){
             for(var i = 0;i<label.length;i++){
-                if(label[i].substr(5,2) == '01' || i == 0){
-                    label_month[i] = label[i].substr(0,4)+"年"+label[i].substr(5,2)+"月";
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+                if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
-                }
-                else{
-                    label_month[i] = label[i].substr(5,2)+"月";
                 }
             }
         }
         else{
             label_month = label;
         }
+        let month = [];
+        for(let i = 0;i<label_month.length;i++){
+            if(i == 0 || label_month[i][0] != label_month[i-1][0]){
+                month.push(label_month[i][0]+label_month[i][1]);
+            }
+            else{
+                month.push(label_month[i][1]);
+            }
+        }
         
         
         let max = Math.max.apply(null, datas);
         let max_index = datas.indexOf(max);
-        let max_text = label_month[datas.indexOf(max)];
+        let max_text = label_month[datas.indexOf(max)][0] + label_month[datas.indexOf(max)][1];
         let min = max;
         for (var i = 0; i < datas.length; i++) {
             if (datas[i] < min && datas[i] != 0) {
                 min = datas[i];
             }
         }
-        let min_text = label_month[datas.indexOf(min)];
+        let min_text = month[datas.indexOf(min)];
         let up_table_data = [],up_table_label = [];
         for(var i = 0;i<datas.length;i++){
-            if(datas[i+1] > datas[i] && datas[i+1]!=null){
-                up_table_data.push(datas[i+1]);
+            if(datas[i+1] > datas[i] && datas[i+1]!=null && datas[i+1]-datas[i] > 100){
+                up_table_data.push(datas[i+1]-datas[i]);
                 up_table_label.push(label_month[i+1]);
+            }
+        }
+        
+        let down_table_data = [],down_table_label = [];
+        for(var i = 0;i<datas.length;i++){
+            if(datas[i+1] < datas[i] && datas[i+1]!=null && datas[i]-datas[i+1] > 100){
+                down_table_data.push(datas[i]-datas[i+1]);
+                down_table_label.push(label_month[i+1]);
             }
         }
         
@@ -67,7 +81,7 @@ var chart = {
 
         document.getElementById("b_reverse").innerHTML =
             "<h5>討論熱度轉折點：</h5>" + "　討論數轉折點：" +
-            label_month[index_high] + "<br>　" + "期間內討論文章數：" + datas[index_high].toLocaleString() + "<br>　" + "討論文章增加數：" + point_value.toLocaleString();
+            label_month[index_high][0]+label_month[index_high][1] + "<br>　" + "期間內討論文章數：" + datas[index_high].toLocaleString() + "<br>　" + "討論文章增加數：" + point_value.toLocaleString();
 
         //        最大值移掉，想個更好的呈現方式
         document.getElementById("b_max").innerHTML =
@@ -79,11 +93,27 @@ var chart = {
         //        最小值移掉，想個更好的呈現方式  
         let b_table = "<tr><th style='font-size:20px;border:1px solid black;'>期間</th><th style='font-size:20px;border:1px solid black;'>討論增加數量</th></tr>";
         for(var i = 0;i<up_table_data.length;i++){
-            b_table = b_table + "<tr><td style='border:1px solid black;'>" + up_table_label[i] + "</td><td style='border:1px solid black;'>" + up_table_data[i] + "</td></tr>";
+            if(i == 0 || up_table_label[i][0] != up_table_label[i-1][0]){
+                b_table = b_table + "<tr><td style='border:1px solid black;'>" + up_table_label[i][0] + up_table_label[i][1] + "</td><td style='border:1px solid black;'>" + up_table_data[i].toLocaleString() + "</td></tr>";
+            }
+            else{
+                b_table = b_table + "<tr><td style='border:1px solid black;'>" + up_table_label[i][1] + "</td><td style='border:1px solid black;'>" + up_table_data[i].toLocaleString() + "</td></tr>";
+            }
         }
         document.getElementById("b_min_table").innerHTML = b_table;
+        
+        let b_down_table = "<tr><th style='font-size:20px;border:1px solid black;'>期間</th><th style='font-size:20px;border:1px solid black;'>討論減少數量</th></tr>";
+        for(var i = 0;i<down_table_data.length;i++){
+            if(i == 0 || down_table_label[i][0] != down_table_label[i-1][0]){
+                b_down_table = b_down_table + "<tr><td style='border:1px solid black;'>" + down_table_label[i][0] + down_table_label[i][1] + "</td><td style='border:1px solid black;'>" + down_table_data[i].toLocaleString() + "</td></tr>";
+            }
+            else{
+                b_down_table = b_down_table + "<tr><td style='border:1px solid black;'>" + down_table_label[i][1] + "</td><td style='border:1px solid black;'>" + down_table_data[i].toLocaleString() + "</td></tr>";
+            }
+        }
+        document.getElementById("b_down_table").innerHTML = b_down_table;
 
-        this.bar_chart_zoom(label, datas, max_index, hotArticles);
+        this.bar_chart_zoom(label, datas, max_index, hotArticles,label_month);
 
         document.getElementById("message_count").innerHTML = ""
         document.getElementById("bar_link").innerHTML = ""
@@ -184,13 +214,14 @@ var chart = {
                             datas,
                             el[0].index,
                             hotArticles,
+                            label_month
                         );
                         await this.draw_map(label, datas, el[0].index, hotArticles,addressDiscussNumber);
                     }
                 },
             },
             data: {
-                labels: label_month,
+                labels: month,
                 datasets: [
                     {
                         label: "主題討論數",
@@ -224,6 +255,30 @@ var chart = {
         var data1_all = data1,
             data2_all = data2,
             label_all = label;
+        
+        let label_month = [];
+        let year_index = [];
+        if(input_data.dateRange >= 30){
+            for(var i = 0;i<label.length;i++){
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+                if( i == 0 || label_month[i][0] != label_month[i-1][0]){
+                    year_index.push(i);
+                }
+            }
+        }
+        else{
+            label_month = label;
+        }
+        let month = [];
+        for(let i = 0;i<label_month.length;i++){
+            if(i == 0 || label_month[i][0] != label_month[i-1][0]){
+                month.push(label_month[i][0]+label_month[i][1]);
+            }
+            else{
+                month.push(label_month[i][1]);
+            }
+        }
+        
         //        for (var i = 0; i < data1.length; i++) {
         //            if (data1_all[i] == 0 && data2_all[i] == 0) {
         //                data1_all.splice(i, i + 1);
@@ -242,6 +297,21 @@ var chart = {
         if (graphique) {
             graphique.destroy();
         }
+        
+        const arbitraryLine = {
+            id:'arbitraryLine',
+            beforeDraw(chart,args,options){
+                for(var i = 0;i<options.xPosition.length;i++){
+                    const{ctx, chartArea:{top, right, bottom, left, width, height},scales:{x,y}} = chart;
+                    ctx.save();
+                
+                    ctx.fillStyle = options.arbitraryLine;
+                    ctx.fillRect(x.getPixelForValue(options.xPosition[i]), top,2,height);
+                    ctx.restore();
+                }
+            }
+        }
+        
         var myChart = new Chart(ctx, {
             type: "line",
             options: {
@@ -253,6 +323,10 @@ var chart = {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
+                    arbitraryLine:{
+                        arbitraryLine:'#555555',
+                        xPosition:year_index
+                    },
                     datalabels: {
                         color: "#36A2EB",
                         anchor: "end",
@@ -268,7 +342,7 @@ var chart = {
                 },
             },
             data: {
-                labels: label_all,
+                labels: month,
                 datasets: [
                     {
                         label: "正向評價數",
@@ -285,6 +359,7 @@ var chart = {
                     },
                 ],
             },
+            plugins: [arbitraryLine]
         });
 
         let new_data_pos = {};
@@ -415,7 +490,7 @@ var chart = {
 
         await this.get_data_line_neg(input_data, label[max_index], label[max_index + 1]);
 
-        document.getElementById("line_link_date").innerHTML = "日期：" + label_all[max_index]
+        document.getElementById("line_link_date").innerHTML = "選取區間：" + label_month[max_index][0] + label_month[max_index][1];
         document.getElementById("line_plink").innerHTML =
             "　正向相關文章：" + "<a href=" + pos_url[max_index] + " target='_blank'>" + pos_articles[max_index] + "</a>";
 
@@ -463,6 +538,10 @@ var chart = {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
+                    arbitraryLine:{
+                        arbitraryLine:'#555555',
+                        xPosition:year_index
+                    },
                     datalabels: {
                         color: "#36A2EB",
                         anchor: "end",
@@ -494,7 +573,7 @@ var chart = {
 
                         await this.get_data_line_neg(input_data, label[activeEls[0].index], label[activeEls[0].index + 1]);
 
-                        document.getElementById("line_link_date").innerHTML = "日期：" + label_all[activeEls[0].index]
+                        document.getElementById("line_link_date").innerHTML = "選取區間：" + month[activeEls[0].index]
                         document.getElementById("line_plink").innerHTML =
                             "　正向相關文章：" + "<a href=" + pos_url[activeEls[0].index] + " target='_blank'>" + pos_articles[activeEls[0].index] + "</a>";
 
@@ -535,7 +614,7 @@ var chart = {
                 },
             },
             data: {
-                labels: label,
+                labels: month,
                 datasets: [
                     {
                         label: "正向評價數",
@@ -551,6 +630,7 @@ var chart = {
                     },
                 ],
             },
+            plugins: [arbitraryLine]
         });
         if (label.length > 20) {
             document.getElementById("line_chart_div").style.width =
@@ -620,8 +700,8 @@ var chart = {
         title1.text("無區分詞性");
         title1.fontSize(30);
         var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#BFCDE0", "#000505"]);
-//        chart1.colorScale(coolor1);
+        coolor1.colors(["#FFCC00", "#00CCFF"]);
+        chart1.colorScale(coolor1);
         chart1.colorRange(true);
         chart1.colorRange().length("80%");
         chart1.background().fill("#f9f9f9");
@@ -636,8 +716,8 @@ var chart = {
         title2.text("專有名詞關鍵字");
         title2.fontSize(30);
         var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#BFCDE0", "#000505"]);
-//        chart2.colorScale(coolor2);
+        coolor2.colors(["#FFCC00", "#00CCFF"]);
+        chart2.colorScale(coolor2);
         chart2.colorRange(true);
         chart2.colorRange().length("80%");
         chart2.background().fill("#f9f9f9");
@@ -652,8 +732,8 @@ var chart = {
         title3.text("形容詞關鍵字");
         title3.fontSize(30);
         var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#BFCDE0", "#000505"]);
-//        chart3.colorScale(coolor3);
+        coolor3.colors(["#FFCC00", "#00CCFF"]);
+        chart3.colorScale(coolor3);
         chart3.colorRange(true);
         chart3.colorRange().length("80%");
         chart3.background().fill("#f9f9f9");
@@ -668,8 +748,8 @@ var chart = {
         title1_1.text("無區分詞性");
         title1_1.fontSize(30);
         var coolor1_1 = anychart.scales.linearColor();
-        coolor1_1.colors(["#BFCDE0", "#000505"]);
-//        chart1_1.colorScale(coolor1_1);
+        coolor1_1.colors(["#FFCC00", "#00CCFF"]);
+        chart1_1.colorScale(coolor1_1);
         chart1_1.colorRange(true);
         chart1_1.colorRange().length("80%");
         chart1_1.container("wc1");
@@ -697,7 +777,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -711,8 +791,8 @@ var chart = {
         title1_2.text("專有名詞關鍵字");
         title1_2.fontSize(30);
         var coolor1_2 = anychart.scales.linearColor();
-        coolor1_2.colors(["#BFCDE0", "#000505"]);
-//        chart1_2.colorScale(coolor1_2);
+        coolor1_2.colors(["#FFCC00", "#00CCFF"]);
+        chart1_2.colorScale(coolor1_2);
         chart1_2.colorRange(true);
         chart1_2.colorRange().length("80%");
         chart1_2.container("wc4");
@@ -738,7 +818,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -752,8 +832,8 @@ var chart = {
         title1_3.text("形容詞關鍵字");
         title1_3.fontSize(30);
         var coolor1_3 = anychart.scales.linearColor();
-        coolor1_3.colors(["#BFCDE0", "#000505"]);
-//        chart1_3.colorScale(coolor1_3);
+        coolor1_3.colors(["#FFCC00", "#00CCFF"]);
+        chart1_3.colorScale(coolor1_3);
         chart1_3.colorRange(true);
         chart1_3.colorRange().length("80%");
         chart1_3.container("wc5");
@@ -779,7 +859,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -810,7 +890,7 @@ var chart = {
         title1.text("無區分詞性");
         title1.fontSize(30);
         var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#44FF44", "#22AA44"]);
+        coolor1.colors(["#66FF66", "#116611"]);
         chart1.colorScale(coolor1);
         chart1.colorRange(true);
         chart1.colorRange().length("80%");
@@ -826,7 +906,7 @@ var chart = {
         title2.text("專有名詞關鍵字");
         title2.fontSize(30);
         var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#44FF44", "#22AA44"]);
+        coolor2.colors(["#66FF66", "#116611"]);
         chart2.colorScale(coolor2);
         chart2.colorRange(true);
         chart2.colorRange().length("80%");
@@ -842,7 +922,7 @@ var chart = {
         title3.text("形容詞關鍵字");
         title3.fontSize(30);
         var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#44FF44", "#22AA44"]);
+        coolor3.colors(["#66FF66", "#116611"]);
         chart3.colorScale(coolor3);
         chart3.colorRange(true);
         chart3.colorRange().length("80%");
@@ -858,7 +938,7 @@ var chart = {
         title2_1.text("無區分詞性");
         title2_1.fontSize(30);
         var coolor2_1 = anychart.scales.linearColor();
-        coolor2_1.colors(["#44FF44", "#22AA44"]);
+        coolor2_1.colors(["#66FF66", "#116611"]);
         chart2_1.colorScale(coolor2_1);
         chart2_1.colorRange(true);
         chart2_1.colorRange().length("80%");
@@ -885,7 +965,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -899,7 +979,7 @@ var chart = {
         title2_2.text("專有名詞關鍵字");
         title2_2.fontSize(30);
         var coolor2_2 = anychart.scales.linearColor();
-        coolor2_2.colors(["#44FF44", "#22AA44"]);
+        coolor2_2.colors(["#66FF66", "#116611"]);
         chart2_2.colorScale(coolor2_2);
         chart2_2.colorRange(true);
         chart2_2.colorRange().length("80%");
@@ -926,7 +1006,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -940,7 +1020,7 @@ var chart = {
         title2_3.text("形容詞關鍵字");
         title2_3.fontSize(30);
         var coolor2_3 = anychart.scales.linearColor();
-        coolor2_3.colors(["#44FF44", "#22AA44"]);
+        coolor2_3.colors(["#66FF66", "#116611"]);
         chart2_3.colorScale(coolor2_3);
         chart2_3.colorRange(true);
         chart2_3.colorRange().length("80%");
@@ -967,7 +1047,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -998,7 +1078,7 @@ var chart = {
         title1.text("無區分詞性");
         title1.fontSize(30);
         var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#EFADAC", "#EF3344"]);
+        coolor1.colors(["#EEBBAA", "#DD2222"]);
         chart1.colorScale(coolor1);
         chart1.colorRange(true);
         chart1.colorRange().length("80%");
@@ -1014,7 +1094,7 @@ var chart = {
         title2.text("專有名詞關鍵字");
         title2.fontSize(30);
         var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#EFADAC", "#EF3344"]);
+        coolor2.colors(["#EEBBAA", "#DD2222"]);
         chart2.colorScale(coolor2);
         chart2.colorRange(true);
         chart2.colorRange().length("80%");
@@ -1030,7 +1110,7 @@ var chart = {
         title3.text("形容詞關鍵字");
         title3.fontSize(30);
         var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#EFADAC", "#EF3344"]);
+        coolor3.colors(["#EEBBAA", "#DD2222"]);
         chart3.colorScale(coolor3);
         chart3.colorRange(true);
         chart3.colorRange().length("80%");
@@ -1046,7 +1126,7 @@ var chart = {
         title3_1.text("無區分詞性");
         title3_1.fontSize(30);
         var coolor3_1 = anychart.scales.linearColor();
-        coolor3_1.colors(["#EFADAC", "#EF3344"]);
+        coolor3_1.colors(["#EEBBAA", "#DD2222"]);
         chart3_1.colorScale(coolor3_1);
         chart3_1.colorRange(true);
         chart3_1.colorRange().length("80%");
@@ -1073,7 +1153,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -1087,7 +1167,7 @@ var chart = {
         title3_2.text("專有名詞關鍵字");
         title3_2.fontSize(30);
         var coolor3_2 = anychart.scales.linearColor();
-        coolor3_2.colors(["#EFADAC", "#EF3344"]);
+        coolor3_2.colors(["#EEBBAA", "#DD2222"]);
         chart3_2.colorScale(coolor3_2);
         chart3_2.colorRange(true);
         chart3_2.colorRange().length("80%");
@@ -1114,7 +1194,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -1128,7 +1208,7 @@ var chart = {
         title3_3.text("形容關鍵字");
         title3_3.fontSize(30);
         var coolor3_3 = anychart.scales.linearColor();
-        coolor3_3.colors(["#EFADAC", "#EF3344"]);
+        coolor3_3.colors(["#EEBBAA", "#DD2222"]);
         chart3_3.colorScale(coolor3_3);
         chart3_3.colorRange(true);
         chart3_3.colorRange().length("80%");
@@ -1155,7 +1235,7 @@ var chart = {
             }
             let ran = Math.floor(Math.random() * article.length);
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n文章留言：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n文章準確度：" + article_score[ran] + "\n\n關鍵字出現段落：" + content[ran] + "\n\n" + (contentSentiment[ran]=='positive'?"正向留言":"負向留言") + "　留言準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
             }
@@ -1163,7 +1243,7 @@ var chart = {
         chart3_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
     },
 
-    bar_chart_zoom(label, datas, index, hotArticles) {
+    bar_chart_zoom(label, datas, index, hotArticles,label_month) {
         var ctx = document.getElementById("bar_chart_zoom").getContext("2d");
         var data = [
             datas[index - 2],
@@ -1177,8 +1257,27 @@ var chart = {
             label[index - 1],
             label[index],
             label[index + 1],
-            label[index + 2],
+            label[index + 2]
         ];
+        var labels_month = [
+            [label_month[index - 2][0],label_month[index - 2][1]],
+            [label_month[index - 1][0],label_month[index - 1][1]],
+            [label_month[index][0],label_month[index][1]],
+            [label_month[index + 1][0],label_month[index + 1][1]],
+            [label_month[index + 2][0],label_month[index + 2][1]],
+        ];
+        
+        var months = [];
+        
+        for(let i = 0; i < labels_month.length;i++){
+            if(i == 0 || labels_month[i][0] != labels_month[i-1][0]){
+                months.push(labels_month[i][0]+labels_month[i][1]);
+            }
+            else{
+                months.push(labels_month[i][1]);
+            }
+        }
+        
         var articles = [];
         var url = [];
         var messageCount = [];
@@ -1263,7 +1362,7 @@ var chart = {
                 },
             },
             data: {
-                labels: labels,
+                labels: months,
                 datasets: [
                     {
                         label: "主題討論數",
