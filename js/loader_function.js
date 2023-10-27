@@ -1,3 +1,4 @@
+let return_home = true;
 function search() {
     display_all();
     setTimeout(function () {
@@ -11,6 +12,13 @@ function home() {
     setTimeout(function () {
         document.getElementById("loader").style.display = "none";
         document.getElementById("search").style.display = "block";
+        let text = document.getElementById("top_data").innerHTML;
+        if(return_home){
+            document.getElementById("top_data").innerHTML = "上次搜尋：　" + text; 
+            return_home = false;
+        }
+        document.getElementById("top_data").style.display = "block";
+        vm.topic = "";
         all_event();
     }, 3000);
 }
@@ -77,6 +85,7 @@ function display_all() {
     document.getElementById("register").style.display = "none";
     document.getElementById("collection").style.display = "none";
     document.getElementById("news").style.display = "none";
+    document.getElementById("top_data").style.display = "none";
 //    document.getElementById("c_left").style.height = 100 + "vh";
 }
 function all_event() {

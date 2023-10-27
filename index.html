@@ -127,7 +127,7 @@
 </head>
 
 <body onload="search()">
-    <div id="top"></div>
+    <div id="top"><span id="top_data" style="margin-right: 30px;font-size: 20px;"></span></div>
     <div id="all_body">
         <div class="container-all">
             <div id="sliderbar_top">
@@ -303,7 +303,7 @@
                                                             <div class="full-color"></div>
                                                             <div class="full-color"></div>
                                                             <div class="full-color">3rd</div>
-                                                        </ㄎ>
+                                                        </div>
                                                     </div>
                                                     <dialog id="collect_info"
                                                         style="justify-content:center;align-items:center;flex-direction:column;">
@@ -829,8 +829,16 @@
                     document.getElementById("search_slider").checked = false;
                 }
                 else {
+                    if(this.search_input.dateRange < 30){
+                        alert("輸入日期間隔小於30天，圖表座標軸將改為日期顯示\n每一日期代表與前個日期之間的間隔期間");
+                    }
+                    this.discuss_num_set = true;
                     this.origin_data = this.search_input;
                     search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, this.search_input.mode, chart, api, token,this.search_input.address);
+                    
+                    document.getElementById("top_data").innerHTML = "主題：" + this.search_input.topic + "　　期間：" + this.search_input.startDate + " ~ " + this.search_input.endDate + "　　日期間隔：" + this.search_input.dateRange + "天";
+                    
+                    document.getElementById("top_data").style.display = "block";
                 }
 
             },

@@ -14,7 +14,7 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 /*========================================RWD 1024px================================================*/
 /*最上方橫條*/
 #top{
-    min-width: 100vw;height: 50px;background-color:#9ef1f5;position: fixed;top: 0;z-index: 1;
+    min-width: 100vw;height: 50px;background-color:#9ef1f5;position: fixed;top: 0;z-index: 1;display: flex;justify-content: flex-end;align-items: center;
 }
 
 /*body*/
@@ -247,7 +247,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:#3CC796;height: 50px;width:700px;margin-top: 10px;background-color: white;
 }
 #bar_link{
-    display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:#3CC796;height: 50px;width:700px;margin-top: 10px;background-color: white;
+    display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:#3CC796;height: 50px;width:700px;margin-top: 10px;background-color: white;overflow: auto;
 }
 #map{
     height:1000px ; width: 500px;border: 3px solid;border-radius: 4px;border-color:#3CC796;
@@ -301,7 +301,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-top: 30px;font-size: 20px;
 }
 #line_plink,#line_pinfo,#line_nlink,#line_ninfo{
-    display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:lightgreen;height: 50px;width:700px;margin-top: 10px;background-color: white;
+    display: flex;align-items: center;font-size: 20px; border: 3px solid;border-radius: 4px;border-color:lightgreen;height: 50px;width:700px;margin-top: 10px;background-color: white;overflow: auto;
 }
 #line_pinfo{
     color:#22DD22;

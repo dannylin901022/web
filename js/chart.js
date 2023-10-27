@@ -1607,7 +1607,7 @@ var chart = {
         
         if(vm.discuss_num_set){
             vm.discuss_num = max_address;
-            vm.discuss_other_num = address[22][1];
+            vm.discuss_other_num = address[22][1].toLocaleString();
             vm.now_area_discuss_num_top = discuss_num_top;
             vm.discuss_num_set = false;
         }
