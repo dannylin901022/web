@@ -106,7 +106,7 @@ var chart = {
                 b_table = b_table + "<tr><td style='border:1px solid black;'>" + up_table_label[i][1] + "</td><td style='border:1px solid black;'>" + up_table_data[i].toLocaleString() + "</td></tr>";
             }
         }
-        document.getElementById("b_min_table").innerHTML = b_table;
+//        document.getElementById("b_min_table").innerHTML = b_table;
         
         let b_down_table = "<tr><th style='font-size:20px;border:1px solid black;'>期間</th><th style='font-size:20px;border:1px solid black;'>討論減少數量</th></tr>";
         for(var i = 0;i<down_table_data.length;i++){
@@ -117,7 +117,7 @@ var chart = {
                 b_down_table = b_down_table + "<tr><td style='border:1px solid black;'>" + down_table_label[i][1] + "</td><td style='border:1px solid black;'>" + down_table_data[i].toLocaleString() + "</td></tr>";
             }
         }
-        document.getElementById("b_down_table").innerHTML = b_down_table;
+//        document.getElementById("b_down_table").innerHTML = b_down_table;
 
         this.bar_chart_zoom(label, datas, max_index, hotArticles,label_month);
 
