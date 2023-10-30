@@ -730,8 +730,8 @@ var chart = {
 //        coolor1.colors(["#FFCC00", "#00CCFF"]);
 //        chart1.colorScale(coolor1);
         chart1.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
-        chart1.colorRange(true);
-        chart1.colorRange().length("80%");
+//        chart1.colorRange(true);
+//        chart1.colorRange().length("80%");
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud1");
         chart1.draw();
@@ -747,8 +747,8 @@ var chart = {
 //        coolor2.colors(["#FFCC00", "#00CCFF"]);
 //        chart2.colorScale(coolor2);
         chart2.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
-        chart2.colorRange(true);
-        chart2.colorRange().length("80%");
+//        chart2.colorRange(true);
+//        chart2.colorRange().length("80%");
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud4");
         chart2.draw();
@@ -764,8 +764,8 @@ var chart = {
 //        coolor3.colors(["#FFCC00", "#00CCFF"]);
 //        chart3.colorScale(coolor3);
         chart3.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
-        chart3.colorRange(true);
-        chart3.colorRange().length("80%");
+//        chart3.colorRange(true);
+//        chart3.colorRange().length("80%");
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud5");
         chart3.draw();
@@ -781,8 +781,8 @@ var chart = {
 //        coolor1_1.colors(["#FFCC00", "#00CCFF"]);
 //        chart1_1.colorScale(coolor1_1);
         chart1_1.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
-        chart1_1.colorRange(true);
-        chart1_1.colorRange().length("80%");
+//        chart1_1.colorRange(true);
+//        chart1_1.colorRange().length("80%");
         chart1_1.container("wc1");
         chart1_1.draw();
         chart1_1.listen("pointClick", function(e){
@@ -825,8 +825,8 @@ var chart = {
 //        coolor1_2.colors(["#66FF66", "#116611"]);
 //        chart1_2.colorScale(coolor1_2);
         chart1_2.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
-        chart1_2.colorRange(true);
-        chart1_2.colorRange().length("80%");
+//        chart1_2.colorRange(true);
+//        chart1_2.colorRange().length("80%");
         chart1_2.container("wc4");
         chart1_2.draw();
         chart1_2.listen("pointClick", function(e){
@@ -866,8 +866,8 @@ var chart = {
 //        coolor1_3.colors(["#FFCC00", "#00CCFF"]);
 //        chart1_3.colorScale(coolor1_3);
         chart1_3.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
-        chart1_3.colorRange(true);
-        chart1_3.colorRange().length("80%");
+//        chart1_3.colorRange(true);
+//        chart1_3.colorRange().length("80%");
         chart1_3.container("wc5");
         chart1_3.draw();
         chart1_3.listen("pointClick", function(e){
@@ -924,8 +924,8 @@ var chart = {
 //        coolor1.colors(["#66FF66", "#116611"]);
 //        chart1.colorScale(coolor1);
         chart1.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
-        chart1.colorRange(true);
-        chart1.colorRange().length("80%");
+//        chart1.colorRange(true);
+//        chart1.colorRange().length("80%");
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud2");
         chart1.draw();
@@ -941,8 +941,8 @@ var chart = {
 //        coolor2.colors(["#66FF66", "#116611"]);
 //        chart2.colorScale(coolor2);
         chart2.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
-        chart2.colorRange(true);
-        chart2.colorRange().length("80%");
+//        chart2.colorRange(true);
+//        chart2.colorRange().length("80%");
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud6");
         chart2.draw();
@@ -958,8 +958,8 @@ var chart = {
 //        coolor3.colors(["#66FF66", "#116611"]);
 //        chart3.colorScale(coolor3);
         chart3.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
-        chart3.colorRange(true);
-        chart3.colorRange().length("80%");
+//        chart3.colorRange(true);
+//        chart3.colorRange().length("80%");
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud7");
         chart3.draw();
@@ -975,8 +975,8 @@ var chart = {
 //        coolor2_1.colors(["#66FF66", "#116611"]);
 //        chart2_1.colorScale(coolor2_1);
         chart2_1.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
-        chart2_1.colorRange(true);
-        chart2_1.colorRange().length("80%");
+//        chart2_1.colorRange(true);
+//        chart2_1.colorRange().length("80%");
         chart2_1.container("wc2");
         chart2_1.draw();
         chart2_1.listen("pointClick", function(e){
@@ -1016,8 +1016,8 @@ var chart = {
 //        coolor2_2.colors(["#66FF66", "#116611"]);
 //        chart2_2.colorScale(coolor2_2);
         chart2_2.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
-        chart2_2.colorRange(true);
-        chart2_2.colorRange().length("80%");
+//        chart2_2.colorRange(true);
+//        chart2_2.colorRange().length("80%");
         chart2_2.container("wc6");
         chart2_2.draw();
         chart2_2.listen("pointClick", function(e){
@@ -1057,8 +1057,8 @@ var chart = {
 //        coolor2_3.colors(["#66FF66", "#116611"]);
 //        chart2_3.colorScale(coolor2_3);
         chart2_3.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
-        chart2_3.colorRange(true);
-        chart2_3.colorRange().length("80%");
+//        chart2_3.colorRange(true);
+//        chart2_3.colorRange().length("80%");
         chart2_3.container("wc7");
         chart2_3.draw();
         chart2_3.listen("pointClick", function(e){
@@ -1115,8 +1115,8 @@ var chart = {
 //        coolor1.colors(["#EEBBAA", "#DD2222"]);
 //        chart1.colorScale(coolor1);
         chart1.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
-        chart1.colorRange(true);
-        chart1.colorRange().length("80%");
+//        chart1.colorRange(true);
+//        chart1.colorRange().length("80%");
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud3");
         chart1.draw();
@@ -1132,8 +1132,8 @@ var chart = {
 //        coolor2.colors(["#EEBBAA", "#DD2222"]);
 //        chart2.colorScale(coolor2);
         chart2.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
-        chart2.colorRange(true);
-        chart2.colorRange().length("80%");
+//        chart2.colorRange(true);
+//        chart2.colorRange().length("80%");
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud8");
         chart2.draw();
@@ -1149,8 +1149,8 @@ var chart = {
 //        coolor3.colors(["#EEBBAA", "#DD2222"]);
 //        chart3.colorScale(coolor3);
         chart3.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
-        chart3.colorRange(true);
-        chart3.colorRange().length("80%");
+//        chart3.colorRange(true);
+//        chart3.colorRange().length("80%");
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud9");
         chart3.draw();
@@ -1166,8 +1166,8 @@ var chart = {
 //        coolor3_1.colors(["#EEBBAA", "#DD2222"]);
 //        chart3_1.colorScale(coolor3_1);
         chart3_1.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
-        chart3_1.colorRange(true);
-        chart3_1.colorRange().length("80%");
+//        chart3_1.colorRange(true);
+//        chart3_1.colorRange().length("80%");
         chart3_1.container("wc3");
         chart3_1.draw();
         chart3_1.listen("pointClick", function(e){
@@ -1207,8 +1207,8 @@ var chart = {
 //        coolor3_2.colors(["#EEBBAA", "#DD2222"]);
 //        chart3_2.colorScale(coolor3_2);
         chart3_2.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
-        chart3_2.colorRange(true);
-        chart3_2.colorRange().length("80%");
+//        chart3_2.colorRange(true);
+//        chart3_2.colorRange().length("80%");
         chart3_2.container("wc8");
         chart3_2.draw();
         chart3_2.listen("pointClick", function(e){
@@ -1248,8 +1248,8 @@ var chart = {
 //        coolor3_3.colors(["#EEBBAA", "#DD2222"]);
 //        chart3_3.colorScale(coolor3_3);
         chart3_3.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
-        chart3_3.colorRange(true);
-        chart3_3.colorRange().length("80%");
+//        chart3_3.colorRange(true);
+//        chart3_3.colorRange().length("80%");
         chart3_3.container("wc9");
         chart3_3.draw();
         chart3_3.listen("pointClick", function(e){
