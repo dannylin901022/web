@@ -19,9 +19,23 @@ var chart = {
         
         let label_month = [];
         let year_index = [];
-        if(input_data.dateRange >= 30){
+        let ind = parseInt(label[0].substr(5,2),10);
+        if(input_data.dateRange == 30 || input_data.dateRange == 31){
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+//                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+                label_month[i] = [label[i].substr(0,4)+"年",ind < 10? "0" + ind + "月" : ind + "月"];
+                ind++;
+                if(ind > 12){
+                    ind = 1;
+                }
+                if( i == 0 || label_month[i][0] != label_month[i-1][0]){
+                    year_index.push(i);
+                }
+            }
+        }
+        else if(input_data.dateRange < 30){
+            for(var i = 0;i<label.length;i++){
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -29,7 +43,7 @@ var chart = {
         }
         else{
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -161,7 +175,16 @@ var chart = {
                 
                     ctx.fillStyle = options.arbitraryLine;
                     let n = 0;
-                    if(datas.length < 20){
+                    if(datas.length < 5){
+                        n = 50;
+                    }
+                    else if(datas.length < 10){
+                        n = 40;
+                    }
+                    else if(datas.length < 15){
+                        n = 30;
+                    }
+                    else if(datas.length < 20){
                         n = 20;
                     }
                     else if(datas.length > 20 && datas.length < 40){
@@ -280,9 +303,23 @@ var chart = {
         
         let label_month = [];
         let year_index = [];
-        if(input_data.dateRange >= 30){
+        let ind = parseInt(label[0].substr(5,2),10);
+        if(input_data.dateRange == 30 || input_data.dateRange == 31){
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+//                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+                label_month[i] = [label[i].substr(0,4)+"年",ind < 10? "0" + ind + "月" : ind + "月"];
+                ind++;
+                if(ind > 12){
+                    ind = 1;
+                }
+                if( i == 0 || label_month[i][0] != label_month[i-1][0]){
+                    year_index.push(i);
+                }
+            }
+        }
+        else if(input_data.dateRange < 30){
+            for(var i = 0;i<label.length;i++){
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -290,7 +327,7 @@ var chart = {
         }
         else{
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -807,10 +844,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart1_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -848,10 +890,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart1_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -889,10 +936,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart1_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -998,10 +1050,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart2_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1039,10 +1096,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart2_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1080,10 +1142,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart2_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1189,10 +1256,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart3_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1230,10 +1302,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart3_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1271,10 +1348,15 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart3_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
