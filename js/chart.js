@@ -19,9 +19,23 @@ var chart = {
         
         let label_month = [];
         let year_index = [];
-        if(input_data.dateRange >= 30){
+        let ind = parseInt(label[0].substr(5,2),10);
+        if(input_data.dateRange == 30 || input_data.dateRange == 31){
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+//                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+                label_month[i] = [label[i].substr(0,4)+"年",ind < 10? "0" + ind + "月" : ind + "月"];
+                ind++;
+                if(ind > 12){
+                    ind = 1;
+                }
+                if( i == 0 || label_month[i][0] != label_month[i-1][0]){
+                    year_index.push(i);
+                }
+            }
+        }
+        else if(input_data.dateRange < 30){
+            for(var i = 0;i<label.length;i++){
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -29,7 +43,7 @@ var chart = {
         }
         else{
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -161,7 +175,16 @@ var chart = {
                 
                     ctx.fillStyle = options.arbitraryLine;
                     let n = 0;
-                    if(datas.length < 20){
+                    if(datas.length < 5){
+                        n = 50;
+                    }
+                    else if(datas.length < 10){
+                        n = 40;
+                    }
+                    else if(datas.length < 15){
+                        n = 30;
+                    }
+                    else if(datas.length < 20){
                         n = 20;
                     }
                     else if(datas.length > 20 && datas.length < 40){
@@ -280,9 +303,23 @@ var chart = {
         
         let label_month = [];
         let year_index = [];
-        if(input_data.dateRange >= 30){
+        let ind = parseInt(label[0].substr(5,2),10);
+        if(input_data.dateRange == 30 || input_data.dateRange == 31){
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+//                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
+                label_month[i] = [label[i].substr(0,4)+"年",ind < 10? "0" + ind + "月" : ind + "月"];
+                ind++;
+                if(ind > 12){
+                    ind = 1;
+                }
+                if( i == 0 || label_month[i][0] != label_month[i-1][0]){
+                    year_index.push(i);
+                }
+            }
+        }
+        else if(input_data.dateRange < 30){
+            for(var i = 0;i<label.length;i++){
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -290,7 +327,7 @@ var chart = {
         }
         else{
             for(var i = 0;i<label.length;i++){
-                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"+label[i].substr(8,2)+"日"];
+                label_month[i] = [label[i].substr(0,4)+"年",label[i].substr(5,2)+"月"];
                 if( i == 0 || label_month[i][0] != label_month[i-1][0]){
                     year_index.push(i);
                 }
@@ -726,11 +763,12 @@ var chart = {
         title1.enabled(true);
         title1.text("無區分詞性");
         title1.fontSize(30);
-        var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#FFCC00", "#00CCFF"]);
-        chart1.colorScale(coolor1);
-        chart1.colorRange(true);
-        chart1.colorRange().length("80%");
+//        var coolor1 = anychart.scales.linearColor();
+//        coolor1.colors(["#FFCC00", "#00CCFF"]);
+//        chart1.colorScale(coolor1);
+        chart1.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
+//        chart1.colorRange(true);
+//        chart1.colorRange().length("80%");
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud1");
         chart1.draw();
@@ -742,11 +780,12 @@ var chart = {
         title2.enabled(true);
         title2.text("專有名詞關鍵字");
         title2.fontSize(30);
-        var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#FFCC00", "#00CCFF"]);
-        chart2.colorScale(coolor2);
-        chart2.colorRange(true);
-        chart2.colorRange().length("80%");
+//        var coolor2 = anychart.scales.linearColor();
+//        coolor2.colors(["#FFCC00", "#00CCFF"]);
+//        chart2.colorScale(coolor2);
+        chart2.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
+//        chart2.colorRange(true);
+//        chart2.colorRange().length("80%");
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud4");
         chart2.draw();
@@ -758,11 +797,12 @@ var chart = {
         title3.enabled(true);
         title3.text("形容詞關鍵字");
         title3.fontSize(30);
-        var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#FFCC00", "#00CCFF"]);
-        chart3.colorScale(coolor3);
-        chart3.colorRange(true);
-        chart3.colorRange().length("80%");
+//        var coolor3 = anychart.scales.linearColor();
+//        coolor3.colors(["#FFCC00", "#00CCFF"]);
+//        chart3.colorScale(coolor3);
+        chart3.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
+//        chart3.colorRange(true);
+//        chart3.colorRange().length("80%");
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud5");
         chart3.draw();
@@ -774,18 +814,27 @@ var chart = {
         title1_1.enabled(true);
         title1_1.text("無區分詞性");
         title1_1.fontSize(30);
-        var coolor1_1 = anychart.scales.linearColor();
-        coolor1_1.colors(["#FFCC00", "#00CCFF"]);
-        chart1_1.colorScale(coolor1_1);
-        chart1_1.colorRange(true);
-        chart1_1.colorRange().length("80%");
+//        var coolor1_1 = anychart.scales.linearColor();
+//        coolor1_1.colors(["#FFCC00", "#00CCFF"]);
+//        chart1_1.colorScale(coolor1_1);
+        chart1_1.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
+//        chart1_1.colorRange(true);
+//        chart1_1.colorRange().length("80%");
         chart1_1.container("wc1");
         chart1_1.draw();
         chart1_1.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
                         article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
@@ -803,10 +852,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart1_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -817,18 +878,28 @@ var chart = {
         title1_2.enabled(true);
         title1_2.text("專有名詞關鍵字");
         title1_2.fontSize(30);
-        var coolor1_2 = anychart.scales.linearColor();
-        coolor1_2.colors(["#FFCC00", "#00CCFF"]);
-        chart1_2.colorScale(coolor1_2);
-        chart1_2.colorRange(true);
-        chart1_2.colorRange().length("80%");
+//        var coolor1_2 = anychart.scales.linearColor();
+//        coolor1_2.colors(["#66FF66", "#116611"]);
+//        chart1_2.colorScale(coolor1_2);
+        chart1_2.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
+//        chart1_2.colorRange(true);
+//        chart1_2.colorRange().length("80%");
         chart1_2.container("wc4");
         chart1_2.draw();
         chart1_2.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -836,6 +907,8 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
                                      
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
@@ -843,10 +916,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart1_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -857,18 +942,28 @@ var chart = {
         title1_3.enabled(true);
         title1_3.text("形容詞關鍵字");
         title1_3.fontSize(30);
-        var coolor1_3 = anychart.scales.linearColor();
-        coolor1_3.colors(["#FFCC00", "#00CCFF"]);
-        chart1_3.colorScale(coolor1_3);
-        chart1_3.colorRange(true);
-        chart1_3.colorRange().length("80%");
+//        var coolor1_3 = anychart.scales.linearColor();
+//        coolor1_3.colors(["#FFCC00", "#00CCFF"]);
+//        chart1_3.colorScale(coolor1_3);
+        chart1_3.palette(["#EFC638","#5151A2", "#715CA8","#F9F900", "#416EB6", "#2B103B"]);
+//        chart1_3.colorRange(true);
+//        chart1_3.colorRange().length("80%");
         chart1_3.container("wc5");
         chart1_3.draw();
         chart1_3.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -876,6 +971,8 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
                                      
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
@@ -883,10 +980,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart1_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -914,11 +1023,12 @@ var chart = {
         title1.enabled(true);
         title1.text("無區分詞性");
         title1.fontSize(30);
-        var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#66FF66", "#116611"]);
-        chart1.colorScale(coolor1);
-        chart1.colorRange(true);
-        chart1.colorRange().length("80%");
+//        var coolor1 = anychart.scales.linearColor();
+//        coolor1.colors(["#66FF66", "#116611"]);
+//        chart1.colorScale(coolor1);
+        chart1.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
+//        chart1.colorRange(true);
+//        chart1.colorRange().length("80%");
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud2");
         chart1.draw();
@@ -930,11 +1040,12 @@ var chart = {
         title2.enabled(true);
         title2.text("專有名詞關鍵字");
         title2.fontSize(30);
-        var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#66FF66", "#116611"]);
-        chart2.colorScale(coolor2);
-        chart2.colorRange(true);
-        chart2.colorRange().length("80%");
+//        var coolor2 = anychart.scales.linearColor();
+//        coolor2.colors(["#66FF66", "#116611"]);
+//        chart2.colorScale(coolor2);
+        chart2.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
+//        chart2.colorRange(true);
+//        chart2.colorRange().length("80%");
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud6");
         chart2.draw();
@@ -946,11 +1057,12 @@ var chart = {
         title3.enabled(true);
         title3.text("形容詞關鍵字");
         title3.fontSize(30);
-        var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#66FF66", "#116611"]);
-        chart3.colorScale(coolor3);
-        chart3.colorRange(true);
-        chart3.colorRange().length("80%");
+//        var coolor3 = anychart.scales.linearColor();
+//        coolor3.colors(["#66FF66", "#116611"]);
+//        chart3.colorScale(coolor3);
+        chart3.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
+//        chart3.colorRange(true);
+//        chart3.colorRange().length("80%");
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud7");
         chart3.draw();
@@ -962,18 +1074,28 @@ var chart = {
         title2_1.enabled(true);
         title2_1.text("無區分詞性");
         title2_1.fontSize(30);
-        var coolor2_1 = anychart.scales.linearColor();
-        coolor2_1.colors(["#66FF66", "#116611"]);
-        chart2_1.colorScale(coolor2_1);
-        chart2_1.colorRange(true);
-        chart2_1.colorRange().length("80%");
+//        var coolor2_1 = anychart.scales.linearColor();
+//        coolor2_1.colors(["#66FF66", "#116611"]);
+//        chart2_1.colorScale(coolor2_1);
+        chart2_1.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
+//        chart2_1.colorRange(true);
+//        chart2_1.colorRange().length("80%");
         chart2_1.container("wc2");
         chart2_1.draw();
         chart2_1.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -981,6 +1103,8 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
                                      
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
@@ -988,10 +1112,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart2_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1002,18 +1138,28 @@ var chart = {
         title2_2.enabled(true);
         title2_2.text("專有名詞關鍵字");
         title2_2.fontSize(30);
-        var coolor2_2 = anychart.scales.linearColor();
-        coolor2_2.colors(["#66FF66", "#116611"]);
-        chart2_2.colorScale(coolor2_2);
-        chart2_2.colorRange(true);
-        chart2_2.colorRange().length("80%");
+//        var coolor2_2 = anychart.scales.linearColor();
+//        coolor2_2.colors(["#66FF66", "#116611"]);
+//        chart2_2.colorScale(coolor2_2);
+        chart2_2.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
+//        chart2_2.colorRange(true);
+//        chart2_2.colorRange().length("80%");
         chart2_2.container("wc6");
         chart2_2.draw();
         chart2_2.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1021,6 +1167,8 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
                                      
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
@@ -1028,10 +1176,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart2_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1042,18 +1202,28 @@ var chart = {
         title2_3.enabled(true);
         title2_3.text("形容詞關鍵字");
         title2_3.fontSize(30);
-        var coolor2_3 = anychart.scales.linearColor();
-        coolor2_3.colors(["#66FF66", "#116611"]);
-        chart2_3.colorScale(coolor2_3);
-        chart2_3.colorRange(true);
-        chart2_3.colorRange().length("80%");
+//        var coolor2_3 = anychart.scales.linearColor();
+//        coolor2_3.colors(["#66FF66", "#116611"]);
+//        chart2_3.colorScale(coolor2_3);
+        chart2_3.palette(["#EE3239","#5EAA5F", "#FECE00","#9D6AB8"]);
+//        chart2_3.colorRange(true);
+//        chart2_3.colorRange().length("80%");
         chart2_3.container("wc7");
         chart2_3.draw();
         chart2_3.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1061,6 +1231,8 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
                                      
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
@@ -1068,10 +1240,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart2_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1099,11 +1283,12 @@ var chart = {
         title1.enabled(true);
         title1.text("無區分詞性");
         title1.fontSize(30);
-        var coolor1 = anychart.scales.linearColor();
-        coolor1.colors(["#EEBBAA", "#DD2222"]);
-        chart1.colorScale(coolor1);
-        chart1.colorRange(true);
-        chart1.colorRange().length("80%");
+//        var coolor1 = anychart.scales.linearColor();
+//        coolor1.colors(["#EEBBAA", "#DD2222"]);
+//        chart1.colorScale(coolor1);
+        chart1.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
+//        chart1.colorRange(true);
+//        chart1.colorRange().length("80%");
         chart1.background().fill("#f9f9f9");
         chart1.container("word_cloud3");
         chart1.draw();
@@ -1115,11 +1300,12 @@ var chart = {
         title2.enabled(true);
         title2.text("專有名詞關鍵字");
         title2.fontSize(30);
-        var coolor2 = anychart.scales.linearColor();
-        coolor2.colors(["#EEBBAA", "#DD2222"]);
-        chart2.colorScale(coolor2);
-        chart2.colorRange(true);
-        chart2.colorRange().length("80%");
+//        var coolor2 = anychart.scales.linearColor();
+//        coolor2.colors(["#EEBBAA", "#DD2222"]);
+//        chart2.colorScale(coolor2);
+        chart2.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
+//        chart2.colorRange(true);
+//        chart2.colorRange().length("80%");
         chart2.background().fill("#f9f9f9");
         chart2.container("word_cloud8");
         chart2.draw();
@@ -1131,11 +1317,12 @@ var chart = {
         title3.enabled(true);
         title3.text("形容詞關鍵字");
         title3.fontSize(30);
-        var coolor3 = anychart.scales.linearColor();
-        coolor3.colors(["#EEBBAA", "#DD2222"]);
-        chart3.colorScale(coolor3);
-        chart3.colorRange(true);
-        chart3.colorRange().length("80%");
+//        var coolor3 = anychart.scales.linearColor();
+//        coolor3.colors(["#EEBBAA", "#DD2222"]);
+//        chart3.colorScale(coolor3);
+        chart3.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
+//        chart3.colorRange(true);
+//        chart3.colorRange().length("80%");
         chart3.background().fill("#f9f9f9");
         chart3.container("word_cloud9");
         chart3.draw();
@@ -1147,18 +1334,28 @@ var chart = {
         title3_1.enabled(true);
         title3_1.text("無區分詞性");
         title3_1.fontSize(30);
-        var coolor3_1 = anychart.scales.linearColor();
-        coolor3_1.colors(["#EEBBAA", "#DD2222"]);
-        chart3_1.colorScale(coolor3_1);
-        chart3_1.colorRange(true);
-        chart3_1.colorRange().length("80%");
+//        var coolor3_1 = anychart.scales.linearColor();
+//        coolor3_1.colors(["#EEBBAA", "#DD2222"]);
+//        chart3_1.colorScale(coolor3_1);
+        chart3_1.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
+//        chart3_1.colorRange(true);
+//        chart3_1.colorRange().length("80%");
         chart3_1.container("wc3");
         chart3_1.draw();
         chart3_1.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1166,6 +1363,8 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
                                      
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
@@ -1173,10 +1372,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart3_1.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1187,18 +1398,28 @@ var chart = {
         title3_2.enabled(true);
         title3_2.text("專有名詞關鍵字");
         title3_2.fontSize(30);
-        var coolor3_2 = anychart.scales.linearColor();
-        coolor3_2.colors(["#EEBBAA", "#DD2222"]);
-        chart3_2.colorScale(coolor3_2);
-        chart3_2.colorRange(true);
-        chart3_2.colorRange().length("80%");
+//        var coolor3_2 = anychart.scales.linearColor();
+//        coolor3_2.colors(["#EEBBAA", "#DD2222"]);
+//        chart3_2.colorScale(coolor3_2);
+        chart3_2.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
+//        chart3_2.colorRange(true);
+//        chart3_2.colorRange().length("80%");
         chart3_2.container("wc8");
         chart3_2.draw();
         chart3_2.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1206,6 +1427,8 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
                                      
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
@@ -1213,10 +1436,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart3_2.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
@@ -1227,18 +1462,28 @@ var chart = {
         title3_3.enabled(true);
         title3_3.text("形容關鍵字");
         title3_3.fontSize(30);
-        var coolor3_3 = anychart.scales.linearColor();
-        coolor3_3.colors(["#EEBBAA", "#DD2222"]);
-        chart3_3.colorScale(coolor3_3);
-        chart3_3.colorRange(true);
-        chart3_3.colorRange().length("80%");
+//        var coolor3_3 = anychart.scales.linearColor();
+//        coolor3_3.colors(["#EEBBAA", "#DD2222"]);
+//        chart3_3.colorScale(coolor3_3);
+        chart3_3.palette(["#028C6A","#632A7E", "#F3553C","#003E19", "#280E3B", "#E81E25"]);
+//        chart3_3.colorRange(true);
+//        chart3_3.colorRange().length("80%");
         chart3_3.container("wc9");
         chart3_3.draw();
         chart3_3.listen("pointClick", function(e){
-            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [];
+            let article_score = [],article = [],content_score = [],content = [],contentSentiment = [],url = [],push_content_text = [],push_content_text_Sentiment = [],push_content_text_score = [];
             for(i in relatedArticle){
                 if(i == e.point.get("x")){
                     for(let j = 0;j<relatedArticle[i].length;j++){
+                        for(let n = 0;n<relatedArticle[i][j].pushContents.length;n++){
+                            if(relatedArticle[i][j].pushContents[n].pushContent.includes(e.point.get("x"))){
+                                push_content_text.push(relatedArticle[i][j].pushContents[n].pushContent);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                                push_content_text_score.push(relatedArticle[i][j].pushContents[n].pushContentSentimentScore);
+                                push_content_text_Sentiment.push(relatedArticle[i][j].pushContents[n].pushContentSentiment);
+                            }
+                        }
+                        article_score.push(relatedArticle[i][j].articleTitleSentimentScore);
                         article.push(relatedArticle[i][j].articleTitle);
                         content_score.push(relatedArticle[i][j].contentSentimentScore);
                         
@@ -1246,6 +1491,8 @@ var chart = {
                         var numberIndex = word.findIndex((word) => word.includes(e.point.get("x"), 0));
                         var indexWord = word[numberIndex];
                         content.push(indexWord);
+                        
+//                        content.push(relatedArticle[i][j].articleContent.substr(relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))-20), relatedArticle[i][j].articleContent.indexOf(' '||'　'||'，'||'：'||':',relatedArticle[i][j].articleContent.indexOf(e.point.get("x")))-relatedArticle[i][j].articleContent.indexOf(e.point.get("x"))));
                                      
                         contentSentiment.push(relatedArticle[i][j].contentSentiment)
                         url.push(relatedArticle[i][j].url);
@@ -1253,10 +1500,22 @@ var chart = {
                 }
             }
             let ran = Math.floor(Math.random() * article.length);
+            let rnd = 0;
+            if(content[ran]==null){
+                rnd = Math.floor(Math.random() * push_content_text.length);
+            }
+            else{
+                rnd = ran;
+            }
+            if(article[ran] == null){
+                alert("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次");
+            }
+            else{
             if(confirm("項目：" + e.point.get("x") + "\n出現頻率：" + e.point.get("value") + "次" +
-                  "\n\n該篇文章出現此關鍵字：" + article[ran] + "\n關鍵字出現段落：" + content[ran] + "\n\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran] + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
+                  "\n\n該篇文章內文或留言出現此關鍵字：" + article[ran] + "\n\n內文關鍵字出現段落：" + (content[ran]==null?"僅留言出現":content[ran]) + "\n內文情緒分析：" + (contentSentiment[ran]=='positive'?"正向內容":"負向內容") + "　內文分析準確度：" + content_score[ran].toFixed(2) + "\n\n關鍵字出現留言：" + push_content_text[rnd] + "\n留言情緒分析：" + (push_content_text_Sentiment[rnd]=='positive'?"正向內容":"負向內容") + "　留言分析準確度：" + push_content_text_score[rnd].toFixed(2) + "\n\n文章連結：" + url[ran] + "\n\n是否移至該文章連結？") == true){
                 
                 window.open(url[ran]);
+            }
             }
         });
         chart3_3.tooltip().format("出現機率：{%yPercentOfTotal}% \n\n筆數：{%value}");
