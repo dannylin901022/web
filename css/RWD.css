@@ -133,10 +133,10 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
     display: flex;margin-left: 40px;
 }
 #start_search_btn{
-    margin-top:20px; height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;
+    height:50px; width:125px; border: 1px solid; border-radius:25px; background-color:white;
 }
 #Popular_Article_info{
-    margin-top:30px;
+    margin-top:10px;
 }
 #Popular_Article_show{
     border: 1px solid;height: 40px;background-color: white;
@@ -144,8 +144,8 @@ h1,h2,h3,h4,h5,h6,p,a,input,label,textarea,span,ul,li,button,select,div{
 #Popular_Article_show p{
     font-size:20px;margin-top: 5px;margin-left:10px;
 }
-#isExactMatch_info{
-    display: flex-warp;margin-left: 20px;margin-top: 20px;
+#isExactMatch_info,#role{
+    display: flex;flex-direction: column;margin-left: 20px;margin-top: 20px;height: 100px;
 }
 /*isExactMatch slider*/
 .switch {   position: relative;display: inline-block;width: 75px;height: 30px;  }
@@ -565,7 +565,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #Popular_Article_show p{
     margin-top: 10px;
 }
-#isExactMatch_info{
+#isExactMatch_info,#role{
     display: flex-warp;margin-left: 20px;margin-top: 20px;
 }
 /*isExactMatch slider*/
@@ -924,7 +924,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #Popular_Article_show p{
     margin-top: 10px;
 }
-#isExactMatch_info{
+#isExactMatch_info,#role{
     display: flex-warp;margin-left: 20px;margin-top: 20px;
 }
 /*isExactMatch slider*/

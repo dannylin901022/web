@@ -231,6 +231,26 @@
                                                         <span class="slider round"></span>
                                                     </label>
                                                 </div>
+                                                <div id="role">
+                                                    <div style="display: flex">
+                                                        <h5>搜尋角色定位</h5>
+                                                        <button type="button" @click="role_btn" style="margin-left: 10px; font-size: 15px;height: 25px;text-align: center">選擇</button>
+                                                    </div>
+                                                    <h5>定位：{{search_input.role}}</h5>
+                                                    
+                                                    <dialog id="role_dialog"
+                                                        style="justify-content:center;align-items:center;flex-direction:column;">
+                                                        <h3>請選擇您的搜尋角色定位</h3>
+                                                        <input type="radio" name="role_select" value="normal" checked >一般民眾
+                                                        <input type="radio" name="role_select" value="politics">政治人物
+                                                        <input type="radio" name="role_select" value="business">商業企業
+                                                        <input type="radio" name="role_select" value="technology">科技公司
+                                                        <input type="radio" name="role_select" value="other">其他
+                                                        <div>
+                                                            <button id="role_dialog_close_btn" style="margin-top: 10px;" @click="role_dialog_close">確認</button>
+                                                        </div>
+                                                    </dialog>
+                                                </div>
                                             </div>
                                         </div>
                                         <div id="Popular_Article_info">
@@ -770,6 +790,7 @@
                     "dateRange": "",
                     "isExactMatch": false,
                     "mode": 0,
+                    "role":"一般民眾",
                 },
                 recommend_info_title: "分析筆數：",
                 recommend_info: "",
@@ -802,7 +823,28 @@
             }
         },
         methods: {
-            //==========================================================================================                
+            //==========================================================================================   
+            role_btn(){
+                document.getElementById("role_dialog").showModal();
+            },
+            role_dialog_close(){
+                var radios = document.getElementsByName('role_select');
+                for (var i = 0, length = radios.length; i < length; i++) {
+                    if (radios[i].checked) {
+                        this.search_input.role = radios[i].value;
+                        switch(this.search_input.role){
+                            case "normal":this.search_input.role = "一般民眾";break;
+                            case "politics":this.search_input.role = "政治人物";break;
+                            case "business":this.search_input.role = "商業企業";break;
+                            case "technology":this.search_input.role = "科技公司";break;
+                            case "other":this.search_input.role = "其他(地精、史萊姆)";break;
+                        }
+                        break;
+                    }
+                }
+                document.getElementById("role_dialog").close();
+            },
+            
             //搜尋
             search_btn() {
                 let api = api_url;
