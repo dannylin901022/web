@@ -312,7 +312,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #line_table_all_1,#line_table_nb_1,#line_table_adj_1,#line_table_all_2,#line_table_nb_2,#line_table_adj_2,#line_table_all_3,#line_table_nb_3,#line_table_adj_3{
     margin-top: 10px;margin-left: 20px;
 }
-#line_table_all_1 td,#line_table_nb_1 td,#line_table_adj_1 td,#line_table_all_2 td,#line_table_nb_2 td,#line_table_adj_2 td,#line_table_all_3 td,#line_table_nb_3 td,#line_table_adj_3 td,#article_dialog_table,#article_dialog_table td{
+#line_table_all_1 td,#line_table_nb_1 td,#line_table_adj_1 td,#line_table_all_2 td,#line_table_nb_2 td,#line_table_adj_2 td,#line_table_all_3 td,#line_table_nb_3 td,#line_table_adj_3 td,#article_dialog_table,#article_dialog_table td,#bar_article_push_pos,#bar_article_push_pos td,#bar_article_push_neg,#bar_article_push_neg td,#line_pos_article_push_pos,#line_pos_article_push_pos td,#line_pos_article_push_neg,#line_pos_article_push_neg td,#line_neg_article_push_pos,#line_neg_article_push_pos td,#line_neg_article_push_neg,#line_neg_article_push_neg td{
     border: 3px double black;
 }
 #line_data_dialog{

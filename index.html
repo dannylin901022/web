@@ -233,14 +233,14 @@
                                                 </div>
                                                 <div id="role">
                                                     <div style="display: flex">
-                                                        <h5>搜尋角色定位</h5>
+                                                        <h5>搜尋職業</h5>
                                                         <button type="button" @click="role_btn" style="margin-left: 10px; font-size: 15px;height: 25px;text-align: center">選擇</button>
                                                     </div>
-                                                    <h5>定位：{{search_input.role}}</h5>
+                                                    <h5>職業：{{search_input.role}}</h5>
                                                     
                                                     <dialog id="role_dialog"
                                                         style="justify-content:center;align-items:center;flex-direction:column;">
-                                                        <h3>請選擇您的搜尋角色定位</h3>
+                                                        <h3>請選擇您的職業定位</h3>
                                                         <input type="radio" name="role_select" value="normal" checked >一般民眾
                                                         <input type="radio" name="role_select" value="politics">政治人物
                                                         <input type="radio" name="role_select" value="business">商業企業
@@ -409,6 +409,31 @@
                                                 </div>
                                                 <div id="bar_link">
                                                 </div>
+                                                <dialog id="bar_dialog">
+                                                    <div>
+                                                        <h1>文章標題、日期</h1>
+                                                        <div style="display: flex">
+                                                            <p id="bar_article_title" style="font-size: 25px;"></p>
+                                                            <p style="margin-left: 30px;font-size:25px;" id="bar_article_date"></p>
+                                                        </div>
+                                                        <h1 style="margin-top:10px">文章內文</h1>
+                                                        <p id="bar_article_content"></p>
+                                                        <h1 style="margin-top:10px">文章留言</h1>
+                                                        <div style="display: flex">
+                                                            <div>
+                                                        <table id="bar_article_push_pos">
+
+                                                        </table>
+                                                        </div>
+                                                        <div style="margin-left: 10px;">
+                                                        <table id="bar_article_push_neg">
+
+                                                        </table>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" onclick="bar_dialog_close()">關閉</button>
+                                                </dialog>
                                             </div>
                                         </div>
                                         <hr id="line_chart_hr">
@@ -540,6 +565,58 @@
                                                         <div id="line_ninfo">
                                                         </div>
                                                     </div>
+                                                    
+                                                    <dialog id="line_pos_dialog">
+                                                    <div>
+                                                        <h1>文章標題、日期</h1>
+                                                        <div style="display: flex">
+                                                            <p id="line_pos_article_title" style="font-size: 25px;"></p>
+                                                            <p style="margin-left: 30px;font-size: 25px;" id="line_pos_article_date"></p>
+                                                        </div>
+                                                        <h1 style="margin-top:10px">文章內文</h1>
+                                                        <p id="line_pos_article_content"></p>
+                                                        <h1 style="margin-top:10px">文章留言</h1>
+                                                        <div style="display: flex">
+                                                            <div>
+                                                        <table id="line_pos_article_push_pos">
+
+                                                        </table>
+                                                        </div>
+                                                        <div style="margin-left: 10px;">
+                                                        <table id="line_pos_article_push_neg">
+
+                                                        </table>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" onclick="line_pos_dialog_close()">關閉</button>
+                                                </dialog>
+                                                    <dialog id="line_neg_dialog">
+                                                    <div>
+                                                        <h1>文章標題、日期</h1>
+                                                        <div style="display: flex">
+                                                            <p id="line_neg_article_title" style="font-size: 25px;"></p>
+                                                            <p style="margin-left: 30px;font-size: 25px;" id="line_neg_article_date"></p>
+                                                        </div>
+                                                        <h1 style="margin-top:10px">文章內文</h1>
+                                                        <p id="line_neg_article_content"></p>
+                                                        <h1 style="margin-top:10px">文章留言</h1>
+                                                        <div style="display: flex">
+                                                            <div>
+                                                        <table id="line_neg_article_push_pos">
+
+                                                        </table>
+                                                        </div>
+                                                        <div style="margin-left: 10px;">
+                                                        <table id="line_neg_article_push_neg">
+
+                                                        </table>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" onclick="line_neg_dialog_close()">關閉</button>
+                                                </dialog>
+                                                    
                                                     <div id="line_chart_pie_chart_div_1">
                                                         <canvas id="line_chart_pie_chart_1"
                                                             style="background-color: white;"></canvas>
@@ -761,7 +838,62 @@
         </div>
     </div>
 </body>
+<script>
+        function article_dialog_show(push_select){
+            var push = [];
+            var id1 = "",id2 = "",dialog_name="";
+            var pos_num = 0,neg_num = 0;
+            switch(push_select){
+                case 1 :push = vm.bar_push;id1="bar_article_push_pos";id2="bar_article_push_neg";dialog_name="bar_dialog";break;
+                
+                case 2 :push = vm.line_pos;id1="line_pos_article_push_pos";id2="line_pos_article_push_neg";dialog_name="line_pos_dialog";break;
+                    
+                case 3 :push = vm.line_neg;id1="line_neg_article_push_pos";id2="line_neg_article_push_neg";dialog_name="line_neg_dialog";break;
+            }
+            
+            
+            
+            var text_pos = "<tr><th style='width:45vw;text-align:center;font'><h4>正向留言</h4></th></tr>";
+            var text_neg = "<tr><th style='width:45vw;text-align:center;'><h4>負向留言</h4></th></tr>";
+
+                            for(let i = 0;i<20;i++){
+                                if(push[i] == null){
+                                    break;
+                                }
+                                else if(push[i].pushContentSentiment == "negative"){
+                                    text_neg += "<tr><td>" + push[i].pushContent + "</td></tr>";
+                                    neg_num++;
+                                }
+                                else if(push[i].pushContentSentiment == "positive"){
+                                    text_pos += "<tr><td>" + push[i].pushContent + "</td></tr>";
+                                    pos_num++;
+                                }
+                            }
+                            
+                            if(pos_num == 0){
+                                text_pos += "<tr><td>" + "無" + "</td></tr>";
+                            }
+                            if(neg_num == 0){
+                                text_neg += "<tr><td>" + "無" + "</td></tr>";
+                            }
+            
+                            document.getElementById(id1).innerHTML = text_pos;
+                            document.getElementById(id2).innerHTML = text_neg;
+        document.getElementById(dialog_name).showModal();
+    }
+    function bar_dialog_close(){
+        document.getElementById("bar_dialog").close();
+    }
+    function line_pos_dialog_close(){
+        document.getElementById("line_pos_dialog").close();
+    }
+    function line_neg_dialog_close(){
+        document.getElementById("line_neg_dialog").close();
+    }
+</script>
 <script type="module">
+    
+    
 
     import chart from "./js/chart.js";
     import search from "./js/search.js";
@@ -819,7 +951,11 @@
                 discuss_num:"",
                 discuss_other_num:"",
                 now_area_discuss_num_top:"",
-                discuss_rank_address: []
+                discuss_rank_address: [],
+                bar_push:[],
+                line_pos:[],
+                line_neg:[],
+                
             }
         },
         methods: {
@@ -1160,6 +1296,7 @@
             neg_atr() {
                 chart.get_article_table_neg();
             },
+            
 
             //==========================================================================================                
             //更改推薦

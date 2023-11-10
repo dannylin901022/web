@@ -430,24 +430,36 @@ var chart = {
         let new_data_neg = {};
 
         var pos_articles = [];
+        var pos_content = [];
         var pos_url = [];
         var pos_sentimentCount = [];
+        var pos_date = [];
+        var pos_push_all = [];
+        
+        
         var wordSegment = [];
         var wordSegmentFrequency = [];
         var wordSegment_nb = [];
         var wordSegmentFrequency_nb = [];
         var wordSegment_adj = [];
         var wordSegmentFrequency_adj = [];
+        
+        
         var pos_push = [];
         var pos_score = [];
+        
+        
         var neg_push = [];
         var neg_score = [];
 
         for (var i = 0; i < label_all.length; i++) {
             if (posHotArticle[label_all[i]] != null && posHotArticle[label_all[i]] != "") {
                 pos_articles.push(posHotArticle[label_all[i]][0].articleTitle);
+                pos_content.push(posHotArticle[label_all[i]][0].articleContent);
                 pos_url.push(posHotArticle[label_all[i]][0].url);
+                pos_date.push(posHotArticle[label_all[i]][0].articleDate);
                 pos_sentimentCount.push(posHotArticle[label_all[i]][0].sentimentCount);
+                pos_push_all.push(posHotArticle[label_all[i]][0].pushContents);
                 for (var j = 0; j < posHotArticle[label_all[i]][0].pushContents.length; j++) {
                     if (posHotArticle[label_all[i]][0].pushContents[j].pushContent.length >= 10) {
                         if (posHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "positive") {
@@ -463,8 +475,11 @@ var chart = {
             }
             else {
                 pos_articles.push(null);
+                pos_content.push(null);
                 pos_url.push(null);
+                pos_date.push(null);
                 pos_sentimentCount.push(null);
+                pos_push_all.push(null);
             }
             if(wordCloudAnalysisResults[i].wordSegment != null){
                 wordSegment.push(wordCloudAnalysisResults[i].wordSegment);
@@ -497,14 +512,22 @@ var chart = {
         }
 
         var neg_articles = [];
+        var neg_content = [];
         var neg_url = [];
         var neg_sentimentCount = [];
+        var neg_date = [];
+        var neg_push_all = [];
+
+        
 
         for (var i = 0; i < label_all.length; i++) {
             if (negHotArticle[label_all[i]] != null && negHotArticle[label_all[i]] != "") {
                 neg_articles.push(negHotArticle[label_all[i]][0].articleTitle);
                 neg_url.push(negHotArticle[label_all[i]][0].url);
                 neg_sentimentCount.push(negHotArticle[label_all[i]][0].sentimentCount);
+                neg_content.push(negHotArticle[label_all[i]][0].articleContent);
+                neg_date.push(negHotArticle[label_all[i]][0].articleDate);
+                neg_push_all.push(negHotArticle[label_all[i]][0].pushContents);
                 for (var j = 0; j < negHotArticle[label_all[i]][0].pushContents.length; j++) {
                     if (negHotArticle[label_all[i]][0].pushContents[j].pushContent.length >= 10) {
                         if (negHotArticle[label_all[i]][0].pushContents[j].pushContentSentiment == "positive") {
@@ -522,6 +545,9 @@ var chart = {
                 neg_articles.push(null);
                 neg_url.push(null);
                 neg_sentimentCount.push(null);
+                neg_content.push(null);
+                neg_date.push(null);
+                neg_push_all.push(null);
             }
         }
 
@@ -556,11 +582,23 @@ var chart = {
 
         document.getElementById("line_link_date").innerHTML = "選取區間：" + label_month[max_index][0] + label_month[max_index][1];
         document.getElementById("line_plink").innerHTML =
-            "　正向相關文章：" + "<a href=" + pos_url[max_index] + " target='_blank'>" + (pos_articles[max_index] == null ? "無" : pos_articles[max_index]) + "</a>";
+            "　正向相關文章：" + "<a style='color:#4488ff' onclick='article_dialog_show(2)' role='button'>" + ((pos_articles[max_index] == null ? "無" : pos_articles[max_index]).length > 25?(pos_articles[max_index] == null ? "無" : pos_articles[max_index]).substring(0,25) + "...":(pos_articles[max_index] == null ? "無" : pos_articles[max_index])) + "</a>";
+
+        
+        document.getElementById("line_pos_article_title").innerHTML = pos_articles[max_index]
+        document.getElementById("line_pos_article_date").innerHTML = "日期：" + pos_date[max_index]
+        document.getElementById("line_pos_article_content").innerHTML = pos_content[max_index]
+        vm.line_pos = pos_push_all[max_index];
 
 
         document.getElementById("line_nlink").innerHTML =
-            "　負向相關文章：" + "<a href=" + neg_url[max_index] + " target='_blank'>" + (neg_articles[max_index] == null ? "無" : neg_articles[max_index]) + "</a>";
+            "　負向相關文章：" + "<a style='color:#4488ff' onclick='article_dialog_show(3)' role='button'>" + ((neg_articles[max_index] == null ? "無" : neg_articles[max_index]).length > 25?(neg_articles[max_index] == null ? "無" : neg_articles[max_index]).substring(0,25) + "...":(neg_articles[max_index] == null ? "無" : neg_articles[max_index])) + "</a>";
+
+        
+        document.getElementById("line_neg_article_title").innerHTML = neg_articles[max_index]
+        document.getElementById("line_neg_article_date").innerHTML = "日期：" + neg_date[max_index]
+        document.getElementById("line_neg_article_content").innerHTML = neg_content[max_index]
+        vm.line_neg = neg_push_all[max_index];
         
         document.getElementById("p_sum").innerHTML =
             "<h5>區間內關鍵字統計：</h5>" + "　1.關鍵字：" + wordSegment[max_index][0] + "：" + wordSegmentFrequency[max_index][0].toLocaleString() + " 次<br>　2.關鍵字：" +
@@ -639,11 +677,22 @@ var chart = {
 
                         document.getElementById("line_link_date").innerHTML = "選取區間：" + month[activeEls[0].index]
                         document.getElementById("line_plink").innerHTML =
-                            "　正向相關文章：" + "<a href=" + pos_url[activeEls[0].index] + " target='_blank'>" + (pos_articles[activeEls[0].index] == null ? "無" : pos_articles[activeEls[0].index]) + "</a>";
+                            "　正向相關文章：" + "<a style='color:#4488ff' onclick='article_dialog_show(3)' role='button'>" + ((pos_articles[activeEls[0].index] == null ? "無" : pos_articles[activeEls[0].index]).length > 25?(pos_articles[activeEls[0].index] == null ? "無" : pos_articles[activeEls[0].index]).substring(0,25) + "...":(pos_articles[activeEls[0].index] == null ? "無" : pos_articles[activeEls[0].index])) + "</a>";
+
+        
+        document.getElementById("line_pos_article_title").innerHTML = pos_articles[activeEls[0].index]
+        document.getElementById("line_pos_article_date").innerHTML = "日期："+pos_date[activeEls[0].index]
+        document.getElementById("line_pos_article_content").innerHTML = pos_content[activeEls[0].index]
+        vm.line_pos = pos_push_all[activeEls[0].index];
 
 
                         document.getElementById("line_nlink").innerHTML =
-                            "　負向相關文章：" + "<a href=" + neg_url[activeEls[0].index] + " target='_blank'>" + (neg_articles[activeEls[0].index] == null ? "無" : neg_articles[activeEls[0].index]) + "</a>";
+                            "　負向相關文章：" + "<a style='color:#4488ff' onclick='article_dialog_show(2)' role='button'>" + ((neg_articles[activeEls[0].index] == null ? "無" : neg_articles[activeEls[0].index]).length > 25?(neg_articles[activeEls[0].index] == null ? "無" : neg_articles[activeEls[0].index]).substring(0,25) + "...":(neg_articles[activeEls[0].index] == null ? "無" : neg_articles[activeEls[0].index])) + "</a>";
+        
+        document.getElementById("line_pos_article_title").innerHTML = neg_articles[activeEls[0].index]
+        document.getElementById("line_pos_article_date").innerHTML = "日期："+neg_date[activeEls[0].index]
+        document.getElementById("line_pos_article_content").innerHTML = neg_content[activeEls[0].index]
+        vm.line_neg = neg_push_all[activeEls[0].index];
 
 
                         document.getElementById("p_sum").innerHTML =
@@ -1557,6 +1606,9 @@ var chart = {
         }
         
         var articles = [];
+        var articles_content = [];
+        var article_date = [];
+        var push_contents = [];
         var url = [];
         var messageCount = [];
         for (var i = 0; i < labels.length; i++) {
@@ -1564,11 +1616,17 @@ var chart = {
                 articles.push(hotArticles[labels[i]][0].articleTitle);
                 url.push(hotArticles[labels[i]][0].url);
                 messageCount.push(hotArticles[labels[i]][0].messageCount);
+                articles_content.push(hotArticles[labels[i]][0].articleContent);
+                article_date.push(hotArticles[labels[i]][0].articleDate);
+                push_contents.push(hotArticles[labels[i]][0].pushContents);
             }
             else {
                 articles.push(null);
                 url.push(null);
                 messageCount.push(null);
+                articles_content.push(null);
+                article_date.push(null);
+                push_contents.push(null);
             }
         }
 
@@ -1638,7 +1696,11 @@ var chart = {
                         else{
                             document.getElementById("message_count").innerHTML = "　該篇文章留言數：" + messageCount[activeEls[0].index];
                             document.getElementById("bar_link").innerHTML =
-                            "　討論數最高文章：" + "<a href=" + url[activeEls[0].index] + " target='_blank'>" + articles[activeEls[0].index] + "</a>";
+                            "　討論數最高文章：" + "<a style='color:#4488ff' onclick='article_dialog_show(1)' role='button'>" + (articles[activeEls[0].index].length>25?articles[activeEls[0].index].substring(0,25) + "...":articles[activeEls[0].index]) + "</a>";
+                            document.getElementById("bar_article_title").innerHTML = articles[activeEls[0].index]
+                            document.getElementById("bar_article_date").innerHTML = "日期：" + article_date[activeEls[0].index]
+                            document.getElementById("bar_article_content").innerHTML = articles_content[activeEls[0].index]
+                            vm.bar_push = push_contents[activeEls[0].index];
                         }
                         //                        document.getElementById("address").innerHTML = "　討論集中區域：" + address[activeEls[0].index];
                         activeEls.length > 0
