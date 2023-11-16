@@ -2,6 +2,8 @@ let return_home = true;
 function search() {
     display_all();
     setTimeout(function () {
+        document.body.style.backgroundImage = "url('../search_bg.png')";
+        document.body.style.backgroundSize = "100vw 120vh";
         document.getElementById("loader").style.display = "none";
         document.getElementById("search").style.display = "block";
         all_event();
@@ -10,9 +12,10 @@ function search() {
 function home() {
     display_all();
     setTimeout(function () {
+        document.body.style.backgroundImage = "url('../search_bg.png')";
+        document.body.style.backgroundSize = "100vw 120vh";
         document.getElementById("loader").style.display = "none";
         document.getElementById("search").style.display = "block";
-        let text = document.getElementById("top_data").innerHTML;
         if(return_home){
             document.getElementById("top_data").innerHTML = "上次搜尋：　" + text; 
             return_home = false;
@@ -68,7 +71,6 @@ function news() {
     setTimeout(function () {
         document.getElementById("loader").style.display = "none";
         document.getElementById("news").style.display = "block";
-        document.getElementById("c_left").style.height = 200 + "vh";
         all_event();
     }, 3000);
 }
@@ -87,8 +89,12 @@ function display_all() {
     document.getElementById("news").style.display = "none";
     document.getElementById("top_data").style.display = "none";
 //    document.getElementById("c_left").style.height = 100 + "vh";
+    
+    document.body.style.backgroundImage = null;
+    document.body.style.backgroundColor = "#f9f9f9";
 }
 function all_event() {
+    AOS.init();
     var x = document.getElementsByClassName("nav_li");
     for (var i = 0; i < x.length; i++) {
         x[i].style.pointerEvents = "auto";

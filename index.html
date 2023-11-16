@@ -34,6 +34,9 @@
         integrity="sha512-4+zFvAejSGVlybiAKYyAz3KMjmbIT7I+wXgx190ZAsT19L2z8S4htBy1scR7CyP9pDKNSaolJMLedCigA/gFVg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <link rel="stylesheet" href="./css/loader_style.css">
     <link rel="stylesheet" href="./css/RWD.css">
@@ -126,11 +129,55 @@
     </style>
 </head>
 
-<body onload="search()">
-    <div id="top"><span id="top_data" style="margin-right: 30px;font-size: 20px;"></span></div>
+<body onload="search()" id="app">
+<!--    <div id="top"></div>-->
+    
+    <nav class="navbar navbar-expand-lg">
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+        <a href="#" id="logo"><img src="logo.png"></a>
+      </li>
+      <li class="nav-item active">
+        <a href="#" onclick="home()" class="nav_li">首頁</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" onclick="result()" class="nav_li" @click="search_btn">搜尋結果</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" onclick="news()" class="nav_li" @click="news_btn">最新消息</a>
+      </li>
+      <li>
+                            <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="nav-item collapsed"
+                                aria-expanded="false">登入/註冊</a>
+                            <ul id="sublist" class="list-unstyled collapse nav_li">
+                                <li>
+                                    <a href="#" id="dropdown_login" onclick="login()">登入</a>
+                                </li>
+                                <li>
+                                    <a href="#" id="dropdown_register" onclick="register()">註冊</a>
+                                </li>
+                            </ul>
+                        </li>
+        <li>
+                            <a href="#" id="user_collection" class="nav_li" onclick="collection()"
+                                style="display: none;" @click="collect_get">收藏列表</a>
+                        </li>
+                        <li>
+                            <p id="user_account" class="nav_li" style="display: none;">使用者：{{account_input}}</p>
+                        </li>
+                        <li>
+                            <a href="#" id="logout" class="nav_li" style="display: none;" @click="logout_btn">登出</a>
+                        </li>
+    </ul>
+      <p id="top_data" style="margin-right: 30px;font-size: 20px;"></p>
+  </div>
+</nav>
+    
     <div id="all_body">
         <div class="container-all">
-            <div id="sliderbar_top">
+            <!--<div id="sliderbar_top">
                 <button type="button" id="collapse" class="collapse-btn">
                     <i class="fa-solid fa-bars" style="color: white;"></i>
                 </button>
@@ -156,7 +203,7 @@
                 <li>
                     <a href="#" class="nav_li">關於我們(暫留)</a>
                 </li>
--->
+
                         <li>
                             <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="collapsed"
                                 aria-expanded="false">登入/註冊</a>
@@ -179,19 +226,19 @@
                         <li>
                             <a href="#" id="logout" class="nav_li" style="display: none;" @click="logout_btn">登出</a>
                         </li>
-<!--
+
                         <li>
                             <input type="text" placeholder="Input api for demo" v-model="test_api">
                         </li>
--->
+
                     </ul>
                 </nav>
-            </div>
+            </div>-->
 
             <div class="container-right">
                 <div id="loader"></div>
                 <div class="container-fluid">
-                    <section id="search" class="animate-bottom">
+                    <section id="search" class="animate-bottom" data-aos="fade-right">
                         <div class='jumbotron'>
                             <div class='container'>
                                 <div class='row'>
@@ -214,16 +261,20 @@
                                                     <input type="text" id="dateRange" placeholder="30天">
                                                 </div>
                                             </div>
-                                            <div id="mode_select">
-                                                <p>選擇模式：</p>
+                                            <div style="display: flex;align-items: center">
+                                            <button type="button" id="start_search_btn" onclick="result()"
+                                                    @click="search_btn">搜尋</button>
+                                            <button type="button" @click="search_select" style="width: 100px;margin-left: 20px">細項設定</button>
+                                            </div>
+                                            <dialog id="select_dialog">
+                                                <div id="mode_select">
+                                                <h5>選擇模式：</h5>
                                                 <div style="display: flex-warp">
                                                     <input type="radio" name="mode" value="0" checked>僅搜尋標題及內文
                                                     <input type="radio" name="mode" value="1">搜尋標題、內文及留言
                                                 </div>
                                             </div>
                                             <div style="display: flex;align-items: center;">
-                                                <button type="button" id="start_search_btn" onclick="result()"
-                                                    @click="search_btn">搜尋</button>
                                                 <div id="isExactMatch_info">
                                                     <h5>是否開啟精準搜尋</h5>
                                                     <label class="switch">
@@ -249,9 +300,14 @@
                                                         <div>
                                                             <button id="role_dialog_close_btn" style="margin-top: 10px;" @click="role_dialog_close">確認</button>
                                                         </div>
+                                                        
                                                     </dialog>
                                                 </div>
+                                                
                                             </div>
+                                                <button type="button" @click="close_search_select">確定</button>
+                                            </dialog>
+                                            
                                         </div>
                                         <div id="Popular_Article_info">
                                             <div style="display: flex;align-items: flex-end;">
@@ -267,7 +323,7 @@
                             </div>
                         </div>
                     </section>
-                    <section id="result" class="animate-bottom" style="display: none;">
+                    <section id="result" class="animate-bottom" style="display: none;" data-aos="fade-right">
                         <div class='jumbotron'>
                             <div class='container'>
                                 <div class='row'>
@@ -344,7 +400,7 @@
                                         </div>
                                         <hr id="map_hr">
                                         <div style="display: flex;">
-                                            <div>
+                                            <div data-aos="fade-right">
                                                 <div style="width: ˇvw; display: flex;justify-content: space-between;align-items: flex-end;">
                                                     <h2 id="map_title">地區討論</h2>
                                                     <h5>可點擊地區進行資料篩選</h5>
@@ -355,7 +411,7 @@
                                                     <div id="map"></div>
                                                 </div>
                                             </div>
-                                            <div style="margin-left: 40px;margin-top: 20px;">
+                                            <div style="margin-left: 40px;margin-top: 20px;" data-aos="fade-left">
                                                 <h2 id="discuss_num" v-model="discuss_num">討論數量最高地區：{{discuss_num}}</h2>
                                                 <h3 id="discuss_other_num"style="margin-top:10px" v-model="discuss_other_num"><span style="color: red">國外</span>地區討論數：{{discuss_other_num}}</h3>
                                                 <h3 id="now_area" style="margin-top: 10vh">現在點選地區：</h3>
@@ -368,8 +424,9 @@
                                         </div>
                                         <hr id="bar_chart_hr">
                                         <!--                                        <h2 id="bar_chart_title">主題討論數</h2>-->
+                                        <div data-aos="fade-down">
                                         <h2 id="bar_chart_title">熱度分析</h2>
-                                        <div id="bar_chart_range">
+                                        <div id="bar_chart_range" data-aos="fade-down">
                                             <div class="bar_chart_overflow">
                                                 <div id="bar_chart_div">
                                                     <canvas id="bar_chart"></canvas>
@@ -393,7 +450,7 @@
 -->
                                             </div>
                                         </div>
-                                        <div id="zoom_map">
+                                        <div id="zoom_map" data-aos="fade-right">
                                             <div>
                                                 <div class="bar_chart_overflow">
                                                     <div style="display: flex;justify-content: space-between;">
@@ -436,7 +493,9 @@
                                                 </dialog>
                                             </div>
                                         </div>
+                                        </div>
                                         <hr id="line_chart_hr">
+                                        <div data-aos="fade-down">
                                         <h2>正負向評價數</h2>
                                         <div id="line_chart_range">
                                             <div id="line_chart_title">
@@ -446,7 +505,7 @@
                                                 </div>
                                             </div>
                                             <div id="line_chart_zoom_title">
-                                                <div style="display: flex;">
+                                                <div style="display: flex;" data-aos="fade-right">
                                                     <h5>放大檢視</h5>
                                                     <button type="button" @click="article_dialog_show(); pos_sort()"
                                                         style="margin-left: 20px;">評價列表</button>
@@ -464,7 +523,7 @@
                                                         </table>
                                                     </div>
                                                 </dialog>
-                                                <div id="line_chart_zoom_height">
+                                                <div id="line_chart_zoom_height" data-aos="fade-right">
                                                     <div id="line_chart_zoom_overflow">
                                                         <div id="line_chart_div">
                                                             <canvas id="line_chart"
@@ -472,11 +531,11 @@
                                                         </div>
                                                     </div>
                                                     <div id="pie_chart_div_2">
-                                                        <div id="line_chart_pie_chart_div_2">
+                                                        <div id="line_chart_pie_chart_div_2" data-aos="zoom-in">
                                                             <canvas id="line_chart_pie_chart_2"
                                                                 style="background-color: white;"></canvas>
                                                         </div>
-                                                        <div id="line_chart_info">
+                                                        <div id="line_chart_info" data-aos="fade-left">
                                                             <div id="p_info">
                                                                 <p id="p_sum"></p>
                                                                 <!--                                                    <p id="n_sum"></p>-->
@@ -553,7 +612,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div id="line_link">
+                                                <div id="line_link" data-aos="fade-right">
                                                     <div style="display: flex-warp">
                                                         <p id="line_link_date"></p>
                                                         <div id="line_plink">
@@ -617,7 +676,7 @@
                                                     <button type="button" onclick="line_neg_dialog_close()">關閉</button>
                                                 </dialog>
                                                     
-                                                    <div id="line_chart_pie_chart_div_1">
+                                                    <div id="line_chart_pie_chart_div_1" data-aos="zoom-in">
                                                         <canvas id="line_chart_pie_chart_1"
                                                             style="background-color: white;"></canvas>
                                                     </div>
@@ -625,23 +684,25 @@
 
                                             </div>
                                         </div>
+                                        </div>
                                         <hr id="word_cloud_hr">
-                                        <h2 id="word_cloud_title">關鍵字文字雲</h2>
+                                        <div data-aos="fade-down">
+                                        <h2 id="word_cloud_title" data-aos="fade-right">關鍵字文字雲</h2>
                                         <div id="word_cloud_range">
-                                            <p style="font-size:30px">正向&負向文字雲</p>
-                                            <div id="WordCloud_all">
+                                            <p style="font-size:30px" data-aos="fade-right">正向&負向文字雲</p>
+                                            <div id="WordCloud_all" data-aos="fade-down">
                                                 <div id="word_cloud1" class="word_display" @click="wc1_click"></div>
                                                 <div id="word_cloud4" class="word_display" @click="wc4_click"></div>
                                                 <div id="word_cloud5" class="word_display" @click="wc5_click"></div>
                                             </div>
-                                            <p id="pos_wc_info" style="font-size:30px">正向文字雲</p>
-                                            <div id="WordCloud_pos">
+                                            <p id="pos_wc_info" style="font-size:30px" data-aos="fade-right">正向文字雲</p>
+                                            <div id="WordCloud_pos" data-aos="fade-down">
                                                 <div id="word_cloud2" class="word_display" @click="wc2_click"></div>
                                                 <div id="word_cloud6" class="word_display" @click="wc6_click"></div>
                                                 <div id="word_cloud7" class="word_display" @click="wc7_click"></div>
                                             </div>
-                                            <p id="neg_wc_info" style="font-size:30px">負向文字雲</p>
-                                            <div id="WordCloud_neg">
+                                            <p id="neg_wc_info" style="font-size:30px" data-aos="fade-right">負向文字雲</p>
+                                            <div id="WordCloud_neg" data-aos="fade-down">
                                                 <div id="word_cloud3" class="word_display" @click="wc3_click"></div>
                                                 <div id="word_cloud8" class="word_display" @click="wc8_click"></div>
                                                 <div id="word_cloud9" class="word_display" @click="wc9_click"></div>
@@ -740,8 +801,9 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
                     </section>
-                    <section id="login" class="animate-bottom" style="display: none;">
+                    <section id="login" class="animate-bottom" style="display: none;" data-aos="fade-down">
                         <div class='jumbotron'>
                             <div class='container'>
                                 <div class='row'>
@@ -757,7 +819,7 @@
                             </div>
                         </div>
                     </section>
-                    <section id="register" class="animate-bottom" style="display: none;">
+                    <section id="register" class="animate-bottom" style="display: none;" data-aos="fade-down">
                         <div class='jumbotron'>
                             <div class='container'>
                                 <div class='row'>
@@ -779,7 +841,7 @@
                             </div>
                         </div>
                     </section>
-                    <section id="collection" class="animate-bottom" style="display: none;">
+                    <section id="collection" class="animate-bottom" style="display: none;" data-aos="fade-down">
                         <div class='jumbotron'>
                             <div class='container'>
                                 <div class='row'>
@@ -817,7 +879,7 @@
                             </div>
                         </div>
                     </section>
-                    <section id="news" class="animate-bottom" style="display: none">
+                    <section id="news" class="animate-bottom" style="display: none" data-aos="fade-down">
                         <div class='jumbotron'>
                             <div class='container'>
                                 <div class='row'>
@@ -890,11 +952,11 @@
     function line_neg_dialog_close(){
         document.getElementById("line_neg_dialog").close();
     }
+
+        
 </script>
 <script type="module">
     
-    
-
     import chart from "./js/chart.js";
     import search from "./js/search.js";
     import news from "./js/news.js";
@@ -905,7 +967,8 @@
     import bubble from "./js/bubble.js";
     import { summary_api_url, api_url } from "./js/config.js";
 
-    bubble.bubbly_create();
+
+    //bubble.bubbly_create();
 
     var login_statu = 0;
     var id = 0, id_index = 0, item_id = 0;
@@ -1296,6 +1359,12 @@
             neg_atr() {
                 chart.get_article_table_neg();
             },
+            search_select(){
+                document.getElementById("select_dialog").showModal();
+            },
+            close_search_select(){
+                document.getElementById("select_dialog").close();
+            },
             
 
             //==========================================================================================                
@@ -1326,7 +1395,7 @@
         mounted: function () {
             this.change_recommend();
         },
-    }).mount('#all_body');
+    }).mount('#app');
     window.vm = vm
 </script>
 
