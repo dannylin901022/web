@@ -2,7 +2,7 @@ let return_home = true;
 function search() {
     display_all();
     setTimeout(function () {
-        document.body.style.backgroundImage = "url('../search_bg.png')";
+        document.body.style.backgroundImage = "url('./search_bg.png')";
         document.body.style.backgroundSize = "100vw 120vh";
         document.getElementById("loader").style.display = "none";
         document.getElementById("search").style.display = "block";
@@ -12,7 +12,7 @@ function search() {
 function home() {
     display_all();
     setTimeout(function () {
-        document.body.style.backgroundImage = "url('../search_bg.png')";
+        document.body.style.backgroundImage = "url('./search_bg.png')";
         document.body.style.backgroundSize = "100vw 120vh";
         document.getElementById("loader").style.display = "none";
         document.getElementById("search").style.display = "block";
