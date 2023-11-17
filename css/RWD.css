@@ -41,7 +41,7 @@ button,input{
 
 /*body*/
 #all_body{
-    height: 100vh;margin-top:-50px;
+    height: 100vh;
 }
 .container-all{
     display: flex;align-items: stretch;

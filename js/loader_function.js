@@ -1,4 +1,5 @@
-let return_home = true;
+let return_home = true,is_searched = false;
+
 function search() {
     display_all();
     setTimeout(function () {
@@ -16,8 +17,8 @@ function home() {
         document.body.style.backgroundSize = "100vw 120vh";
         document.getElementById("loader").style.display = "none";
         document.getElementById("search").style.display = "block";
-        if(return_home){
-            document.getElementById("top_data").innerHTML = "上次搜尋：　" + text; 
+        if(return_home && is_searched){
+            document.getElementById("top_data").innerHTML = "上次搜尋：　" + vm.text; 
             return_home = false;
         }
         document.getElementById("top_data").style.display = "block";
@@ -37,6 +38,7 @@ function result() {
         setTimeout(function () {
             document.getElementById("loader").style.display = "none";
             document.getElementById("result").style.display = "block";
+            is_searched = true;
 //            document.getElementById("c_left").style.height = 750 + "vh";
             all_event();
         }, 3000);

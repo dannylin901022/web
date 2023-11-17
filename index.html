@@ -137,32 +137,32 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
         <li class="nav-item active">
-        <a href="#" id="logo"><img src="logo.png"></a>
+        <a href="#" onclick="home()" @click="home" id="logo"><img src="logo.png"></a>
       </li>
       <li class="nav-item active">
-        <a href="#" onclick="home()" class="nav_li">首頁</a>
+        <a href="#" onclick="home()" @click="home" class="nav_li">首頁</a>
       </li>
       <li class="nav-item">
-        <a href="#" onclick="result()" class="nav_li" @click="search_btn">搜尋結果</a>
+        <a href="#" onclick="result()" class="nav_li" @click="search_btn(); other_bubble();">搜尋結果</a>
       </li>
       <li class="nav-item">
-        <a href="#" onclick="news()" class="nav_li" @click="news_btn">最新消息</a>
+        <a href="#" onclick="news()" class="nav_li" @click="news_btn(); other_bubble();">最新消息</a>
       </li>
       <li>
                             <a href="#sublist" data-bs-toggle="collapse" id="dropdown" class="nav-item collapsed"
                                 aria-expanded="false">登入/註冊</a>
                             <ul id="sublist" class="list-unstyled collapse nav_li">
                                 <li>
-                                    <a href="#" id="dropdown_login" onclick="login()">登入</a>
+                                    <a href="#" id="dropdown_login" onclick="login()" @click="other_bubble">登入</a>
                                 </li>
                                 <li>
-                                    <a href="#" id="dropdown_register" onclick="register()">註冊</a>
+                                    <a href="#" id="dropdown_register" onclick="register()" @click="other_bubble">註冊</a>
                                 </li>
                             </ul>
                         </li>
         <li>
                             <a href="#" id="user_collection" class="nav_li" onclick="collection()"
-                                style="display: none;" @click="collect_get">收藏列表</a>
+                                style="display: none;" @click="collect_get(); other_bubble();">收藏列表</a>
                         </li>
                         <li>
                             <p id="user_account" class="nav_li" style="display: none;">使用者：{{account_input}}</p>
@@ -263,7 +263,7 @@
                                             </div>
                                             <div style="display: flex;align-items: center">
                                             <button type="button" id="start_search_btn" onclick="result()"
-                                                    @click="search_btn">搜尋</button>
+                                                    @click="search_btn(); other_bubble();">搜尋</button>
                                             <button type="button" @click="search_select" style="width: 100px;margin-left: 20px">細項設定</button>
                                             </div>
                                             <dialog id="select_dialog">
@@ -968,7 +968,7 @@
     import { summary_api_url, api_url } from "./js/config.js";
 
 
-    //bubble.bubbly_create();
+    
 
     var login_statu = 0;
     var id = 0, id_index = 0, item_id = 0;
@@ -1382,6 +1382,13 @@
                     vm.recommend_info = "關鍵字：" + recommend_list[Math.floor(Math.random() * recommend_list.length)] + "　　出現率：" + recommend_value_list[Math.floor(Math.random() * recommend_value_list.length)];
                 }, 5000);
             },
+            
+            home(){
+                bubble.bubbly_create_search();
+            },
+            other_bubble(){
+                bubble.bubbly_create();
+            },
 
             //==========================================================================================                
             //其他
@@ -1394,6 +1401,7 @@
         },
         mounted: function () {
             this.change_recommend();
+            bubble.bubbly_create_search();
         },
     }).mount('#app');
     window.vm = vm
