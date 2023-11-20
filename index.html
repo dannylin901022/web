@@ -132,13 +132,15 @@
 <body onload="search()" id="app">
 <!--    <div id="top"></div>-->
     
-    <nav class="navbar navbar-expand">
-
+    <nav class="navbar p-3 navbar-expand-lg">
+        
+        <div class="container">
+            <a href="#" onclick="home()" @click="home" id="logo" class="navbar-brand"><img src="logo.png"></a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-        <li class="nav-item active">
-        <a href="#" onclick="home()" @click="home" id="logo"><img src="logo.png"></a>
-      </li>
       <li class="nav-item active">
         <a href="#" onclick="home()" @click="home" class="nav_li">首頁</a>
       </li>
@@ -173,6 +175,7 @@
     </ul>
       <p id="top_data" style="margin-right: 30px;font-size: 20px;"></p>
   </div>
+        </div>
 </nav>
     
     <div id="all_body">
@@ -402,7 +405,7 @@
                                             </div>
                                         </div>
                                         <hr id="map_hr">
-                                        <div style="display: flex;">
+                                        <div style="display: flex;" id="map_info_div">
                                             <div data-aos="fade-right">
                                                 <div style="width: ˇvw; display: flex;justify-content: space-between;align-items: flex-end;">
                                                     <h2 id="map_title">地區討論</h2>

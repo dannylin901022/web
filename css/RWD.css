@@ -71,7 +71,7 @@ button,input{
 
 /*logo*/
 #logo{
-    margin: auto;
+    margin:auto;
 }
 #logo img{
     height: 75px;
@@ -88,7 +88,7 @@ nav{
     display: flex;align-items: center;
 }
 #top_data{
-    margin-left: 300px;
+    margin-left: 120px;
 }
 
 .list-unstyled{
@@ -187,7 +187,7 @@ nav{
     margin-top:10px;
 }
 #Popular_Article_show{
-    border: 1px solid;height: 40px;background-color: white;
+    border: 1px solid;height: 40px;background-color: white;width: 90%
 }
 #Popular_Article_show p{
     font-size:20px;margin-top: 5px;margin-left:10px;
@@ -305,6 +305,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 #zoom_map{
     display: flex;
+}
+#map_info_div{
+    flex-direction: column;
 }
 
 /*line chart*/
@@ -470,9 +473,15 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 
 
-
-
-
+/*====================RWD 990px====================*/
+@media screen and (max-width: 990px){
+#logo{
+    margin:0;
+}
+#top_data{
+    margin-left: 0px;
+}
+}
 
 /*========================================RWD 768px================================================*/
 @media screen and (max-width: 768px){
@@ -494,14 +503,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-left: 210px; border: none; font-size: 30px;background-color:#9ef1f5;
 }
 
-/*logo*/
-#logo{
-    margin: auto;margin-top: 20px;
-}
-#logo img{
-    height: 150px;
-}
-
+    
 /*nav select*/
 .list-unstyled{
     margin-top:30px; text-align: center
@@ -557,6 +559,9 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*===========================================右半邊=================================================*/
 /*整體右半邊*/
+.container-all{
+     margin-bottom: 20vh;   
+}        
 .container-right{
     margin-left: -110px;margin-top: 80vh; display: flex; justify-content: center; position: relative;top:0;left:15vw;transition: 1s;width: 100vw;
 }
@@ -849,14 +854,6 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 #collapse{
     margin-left: 210px; border: none; font-size: 30px;background-color:#9ef1f5;
-}
-
-/*logo*/
-#logo{
-    margin: auto;margin-top: 20px;
-}
-#logo img{
-    height: 150px;
 }
 
 /*nav select*/
