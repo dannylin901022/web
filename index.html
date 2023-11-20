@@ -282,6 +282,7 @@
                                                         <span class="slider round"></span>
                                                     </label>
                                                 </div>
+<!--
                                                 <div id="role">
                                                     <div style="display: flex">
                                                         <h5>搜尋職業</h5>
@@ -303,6 +304,7 @@
                                                         
                                                     </dialog>
                                                 </div>
+-->
                                                 
                                             </div>
                                                 <button type="button" @click="close_search_select">確定</button>
@@ -986,7 +988,7 @@
                     "dateRange": "",
                     "isExactMatch": false,
                     "mode": 0,
-                    "role":"一般民眾",
+                    //"role":"一般民眾",
                 },
                 recommend_info_title: "分析筆數：",
                 recommend_info: "",
@@ -1024,26 +1026,26 @@
         },
         methods: {
             //==========================================================================================   
-            role_btn(){
-                document.getElementById("role_dialog").showModal();
-            },
-            role_dialog_close(){
-                var radios = document.getElementsByName('role_select');
-                for (var i = 0, length = radios.length; i < length; i++) {
-                    if (radios[i].checked) {
-                        this.search_input.role = radios[i].value;
-                        switch(this.search_input.role){
-                            case "normal":this.search_input.role = "一般民眾";break;
-                            case "politics":this.search_input.role = "政治人物";break;
-                            case "business":this.search_input.role = "商業企業";break;
-                            case "technology":this.search_input.role = "科技公司";break;
-                            case "other":this.search_input.role = "其他(地精、史萊姆)";break;
-                        }
-                        break;
-                    }
-                }
-                document.getElementById("role_dialog").close();
-            },
+//            role_btn(){
+//                document.getElementById("role_dialog").showModal();
+//            },
+//            role_dialog_close(){
+//                var radios = document.getElementsByName('role_select');
+//                for (var i = 0, length = radios.length; i < length; i++) {
+//                    if (radios[i].checked) {
+//                        this.search_input.role = radios[i].value;
+//                        switch(this.search_input.role){
+//                            case "normal":this.search_input.role = "一般民眾";break;
+//                            case "politics":this.search_input.role = "政治人物";break;
+//                            case "business":this.search_input.role = "商業企業";break;
+//                            case "technology":this.search_input.role = "科技公司";break;
+//                            case "other":this.search_input.role = "其他(地精、史萊姆)";break;
+//                        }
+//                        break;
+//                    }
+//                }
+//                document.getElementById("role_dialog").close();
+//            },
             
             //搜尋
             search_btn() {
