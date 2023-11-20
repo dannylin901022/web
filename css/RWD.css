@@ -44,7 +44,7 @@ button,input{
     height: 100vh;
 }
 .container-all{
-    display: flex;align-items: stretch;
+    display: flex;align-items: stretch;margin-left: 8vw;
 }
 #search h1,#search h2,#search h3,#search h4,#search h5,#search h6,#search p,#search a{
     color:white;
