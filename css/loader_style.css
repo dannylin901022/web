@@ -11,11 +11,20 @@
     border-radius: 50%;
     border-top: 16px solid #3377c4;
     animation: spin 1s linear infinite;
+    top:50%;
+    left: -10%;
 }
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1024px)and (min-width: 768px){
 #loader{
     top:65%;
-    left:37%;
+    left:43vw
+}
+}
+
+@media screen and (max-width: 768px) and (min-width: 320px){
+#loader{
+    top:75vh;
+    left:40vw;
 }
 }
 

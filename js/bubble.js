@@ -20,7 +20,6 @@ var bubble = {
 },
     bubbly_create_search(){
         if(this.first){
-            console.log(document.body.children);
             for(let i = 0;i<document.body.childElementCount;i++){
                 if(document.body.children[i].tagName == 'CANVAS'){
                     document.body.removeChild(document.body.children[i]);

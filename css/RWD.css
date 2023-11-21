@@ -53,7 +53,7 @@ button,input{
     color:black;
 }
 #Popular_Article_show{
-    border-radius: 10px;
+    border-radius: 10px;overflow: auto;
 }
 
 
@@ -89,6 +89,7 @@ nav{
 }
 #top_data{
     margin-left: 120px;
+    width: 30vw;
 }
 
 .list-unstyled{
@@ -151,7 +152,7 @@ nav{
 
 /*======================================search section===========================================*/
 #search{
-    display: none;margin-top: -40vh;
+    display: none;margin-top: -40vh;margin-left: 0vw;
 }
 #search .jumbotron{
     height: 50vh;
@@ -211,7 +212,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================result section============================================*/
 #result{
-    max-height:auto;margin-top: -40vh;
+    max-height:auto;margin-top: -40vh;margin-left: -8vw;
 /*    margin-top: 75vh;*/
 }
 /*result_topic*/
@@ -303,8 +304,14 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 #map{
     height:1000px ; width: 500px;border: 3px solid;border-radius: 1px;border-color:black;box-shadow: 0px 5px 5px #aaaaaa
 }
+#map_div{
+     height: 500px;overflow: auto;
+}
 #zoom_map{
     display: flex;
+}
+#map_info_div{
+     display: flex;
 }
 
 /*line chart*/
@@ -414,7 +421,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================login section=============================================*/
 #login{
-    display: none;margin-top: -40vh;
+    display: none;margin-top: -40vh;margin-left: 16vw;
 }
 #login input{
     margin-top:20px;height: 50px; width:75%;font-size:30px;
@@ -425,7 +432,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================register section===========================================*/
 #register{
-    display: none;margin-top: -40vh;
+    display: none;margin-top: -40vh;margin-left: 16vw;
 }
 #register input{
     margin-top:20px;height: 50px; width:75%;font-size:30px;
@@ -436,7 +443,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*====================================collection section===========================================*/
 #collection{
-    display: none;margin-top: -40vh;
+    display: none;margin-top: -40vh;margin-left: 0vw;
 }
 #collection_list{
     display:flex; flex-direction:column;border:1px solid black;height:70vh;width:150vh;overflow:auto;background-color: white;
@@ -460,7 +467,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*========================================news section=============================================*/
 #news{
-    display: none;margin-top: -40vh;
+    display: none;margin-top: -40vh;margin-left: -8vw;
 }
 #news hr{
     border:2px dashed #534B52;
@@ -481,10 +488,13 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 
 /*========================================RWD 768px================================================*/
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1024px) and (min-width: 768px){
 /*最上方橫條*/
 #top{
     min-width: 768px;height: 50px;background-color:#9ef1f5;
+}
+#all_body{
+    margin-left: -8vw;
 }
 
 
@@ -557,7 +567,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 /*===========================================右半邊=================================================*/
 /*整體右半邊*/
 .container-all{
-     margin-bottom: 20vh;   
+     margin-top: -15vh;margin-left: 0vw;   
 }        
 .container-right{
     margin-left: -110px;margin-top: 80vh; display: flex; justify-content: center; position: relative;top:0;left:15vw;transition: 1s;width: 100vw;
@@ -570,7 +580,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 /*======================================search section===========================================*/
 #search{
-    display: none;margin-top: -60vh;
+    display: none;margin-top: -60vh;margin-left: 8vw;
 }
 #search .jumbotron{
     height: 50vh;
@@ -627,7 +637,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================result section============================================*/
 #result{
-    max-height:auto;margin-top: -60vh;
+    max-height:auto;margin-top: -60vh;margin-left:8vw; 
 }
 /*result_topic*/
 #result_topic{
@@ -715,7 +725,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     width: 75vw;margin-left: 20px;border: 3px solid;border-radius: 4px;border-color: #3CC796;height: 50vh;margin-top: 10px;
 }
 #map_info_div{
-    flex-direction: column;
+     display: flex;flex-direction: column;
 }
     
 /*line chart*/
@@ -767,7 +777,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-bottom: 50px;
 }
 #word_cloud_range{
-    display: flex;height:500px;
+    display: flex;height:1000px;
 }
 .word_display{
     height:200%;width:40%;margin-top:-30px;
@@ -827,7 +837,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*========================================news section=============================================*/
 #news{
-    display: none;margin-top: -60vh;
+    display: none;margin-top: -60vh;margin-left: 8vw;
 }
 #news hr{
     border:2px dashed #534B52;
@@ -837,11 +847,14 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 }
 }
 
-/*========================================RWD 480px================================================*/
-@media screen and (max-width: 480px){
+/*========================================RWD 320px================================================*/
+@media screen and (max-width: 768px) and (min-width: 320px){
 /*最上方橫條*/
 #top{
     min-width: 480px;height: 50px;background-color:#9ef1f5;
+}
+.container-all{
+    margin-left:  -16vw;
 }
 
 /*======================================側邊攔(nav)(左半邊)===========================================*/
@@ -860,7 +873,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 .nav_li,#dropdown{
     font-size: 20px;
 /*    font-family: 'Noto Sans TC', sans-serif;*/
-    font-family: "NaniFont Light";
+/*    font-family: "NaniFont Light";*/
     line-height: 2.5;
     text-decoration: none;
     color:#534B52;
@@ -908,7 +921,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 /*===========================================右半邊=================================================*/
 /*整體右半邊*/
 .container-right{
-    margin-top: 80vh; display: flex; justify-content: center; position: relative;top:0;left:20vw;transition: 1s;width: 100vw;
+    margin-top: 80vh; display: flex; justify-content: center; position: relative;top:0;left:0;transition: 1s;width: 100vw;
 }
 .container-right.active{
     margin-left: 150px;
@@ -919,7 +932,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================search section===========================================*/
 #search{
-    display: none;margin-top: -65vh;
+    display: none;margin-top: -80vh;margin-left: 16vw;
 }
 #search .jumbotron{
     height: 50vh;
@@ -952,7 +965,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     border: 1px solid;height: 40px;background-color: white;
 }
 #Popular_Article_show p{
-    margin-top: 10px;
+    margin-top: 10px;font-size: 15px;
 }
 #isExactMatch_info,#role{
     display: flex-warp;margin-left: 20px;margin-top: 20px;
@@ -970,7 +983,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================result section============================================*/
 #result{
-    max-height:auto;margin-top: -65vh;margin-left: 5vw;
+    max-height:auto;margin-top: -65vh;margin-left:16vw;
 }
 /*result_topic*/
 #result_topic{
@@ -1021,7 +1034,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-top: 100px;
 }
 #word_cloud_hr{
-    margin-top: 145vh;
+    margin-top: 160vh;
 }
 /*display_chart:conten*/
 /*bar chart*/
@@ -1041,10 +1054,13 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     background-color: white;border: 3px solid;border-radius: 4px;border-color:#3CC796;
 }
 #bar_chart_info{
-    display: flex;width: 80vw;flex-direction: column;align-items: flex-start;margin-left: 0px;
+    display: flex;width: 60vw;flex-direction: column;align-items: flex-start;margin-left: 0px;margin-top: 10px;
 }
 #bar_chart_info p{
     font-size: 15px;margin-top: 0px;
+}
+#zoom_map{
+    margin-top: 50px;
 }
 #bar_chart_zoom_div{
     height:250px;border: 3px solid;border-radius: 4px;border-color:#3CC796;width: 75vw;
@@ -1056,7 +1072,13 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     display: flex;align-items: center;font-size: 12px; border: 3px solid;border-radius: 4px;border-color:#3CC796;height: 50px;width:700px;margin-top: 10px;background-color: white;width: 75vw;
 }
 #map{
-    margin-left: 0px;
+    width: 75vw;margin-left: 0px;border: 3px solid;border-radius: 4px;border-color: #3CC796;height: 50vh;margin-top: 10px;
+}
+#map_info_div{
+     display: flex;flex-direction: column;
+}
+#map_div{
+    height: 400px;
 }
 
 /*line chart*/
@@ -1076,28 +1098,34 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
     margin-top: 80px;width: 75vw;
 }
 #line_chart_zoom_overflow{
-    width:75vw;overflow:auto;margin-top: 20px;height:200px;
+    width:75vw;overflow:auto;margin-top: 20px;height:auto;
 }
 #line_chart_zoom_height{
-    height: auto;
+    height: auto;flex-direction: column;
 }
 #line_chart_div{
     height:60%;border: 3px solid;border-radius: 4px;border-color:lightgreen;width: 100vw;
 }
 #line_chart_info{
-    margin-left: 10px;width: 97%;overflow: auto;height: 50vh;
+    margin-left: 10px;width: 97%;overflow: auto;height: 50vh;padding: 5px;
 }
 #p_info,#n_info{
-    display: flex;justify-content: space-between;
+    display: flex;justify-content: space-between;flex-direction: column;font-size: 13px;
 }
 #line_plink,#line_pinfo,#line_nlink,#line_ninfo{
     font-size: 12px;width:75vw;
 }
 #pie_chart_div_2{
-    display: block;
+    display: block;display: flex;flex-direction: column;
 }
 #line_link {
     margin-top: 0vh;
+}
+#line_chart_pie_chart_div_1{
+    display: none;
+}
+#line_chart_pie_chart_div_2{
+    display: block;height:100%;width:100%;border: 3px solid;border-radius: 1px;border-color:black;box-shadow: 0px 5px 5px #aaaaaa;margin-left: 10px;margin-top: 20px;
 }
 
 /*word cloud*/
@@ -1119,7 +1147,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================login section=============================================*/
 #login{
-    margin-left:10vw;margin-top: -65vh;margin-left: 5vw;
+    margin-left:10vw;margin-top: -65vh;margin-left: 21vw;
 }
 #login input{
     margin-top:20px;height: 50px; width:40%;font-size:30px;
@@ -1130,7 +1158,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*======================================register section===========================================*/
 #register{
-    margin-left:10vw;margin-top: -65vh;margin-left: 5vw;
+    margin-left:10vw;margin-top: -65vh;margin-left: 21vw;
 }
 #register input{
     margin-top:20px;height: 50px; width:40%;font-size:30px;
@@ -1141,7 +1169,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*====================================collection section===========================================*/
 #collection{
-    margin-top: -65vh;margin-left: 5vw;
+    margin-top: -65vh;margin-left:16vw;
 }
 #collection_list{
     display:flex; flex-direction:column;border:1px solid black;height:70vh;width:75vw;overflow:auto;background-color: white;
@@ -1168,7 +1196,7 @@ input:checked + .slider:before {    -webkit-transform: translateX(43px);-ms-tran
 
 /*========================================news section=============================================*/
 #news{
-    margin-top: -65vh;margin-left: 5vw;
+    margin-top: -65vh;margin-left: 16vw;
 }
 #news hr{
     border:2px dashed #534B52;width: 75vw;

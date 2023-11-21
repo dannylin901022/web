@@ -18,7 +18,7 @@ function home() {
         document.getElementById("loader").style.display = "none";
         document.getElementById("search").style.display = "block";
         if(return_home && is_searched){
-            document.getElementById("top_data").innerHTML = "上次搜尋：　" + vm.text; 
+            document.getElementById("top_data").innerHTML = vm.search_record + " <span style='font-size:12px'>(上次搜尋)</span>"; 
             return_home = false;
         }
         document.getElementById("top_data").style.display = "block";
@@ -38,7 +38,6 @@ function result() {
         setTimeout(function () {
             document.getElementById("loader").style.display = "none";
             document.getElementById("result").style.display = "block";
-            document.getElementsByClassName("container-all")[0].style.marginLeft = "0vw";
             is_searched = true;
 //            document.getElementById("c_left").style.height = 750 + "vh";
             all_event();
@@ -50,7 +49,6 @@ function login() {
     setTimeout(function () {
         document.getElementById("loader").style.display = "none";
         document.getElementById("login").style.display = "block";
-        document.getElementsByClassName("container-all")[0].style.marginLeft = "16vw";
         all_event();
     }, 3000);
 }
@@ -59,7 +57,6 @@ function register() {
     setTimeout(function () {
         document.getElementById("loader").style.display = "none";
         document.getElementById("register").style.display = "block";
-        document.getElementsByClassName("container-all")[0].style.marginLeft = "16vw";
         all_event();
     }, 3000);
 }
@@ -68,7 +65,6 @@ function collection() {
     setTimeout(function () {
         document.getElementById("loader").style.display = "none";
         document.getElementById("collection").style.display = "block";
-        document.getElementsByClassName("container-all")[0].style.marginLeft = "0vw";
         all_event();
     }, 3000);
 }
@@ -77,7 +73,6 @@ function news() {
     setTimeout(function () {
         document.getElementById("loader").style.display = "none";
         document.getElementById("news").style.display = "block";
-        document.getElementsByClassName("container-all")[0].style.marginLeft = "0vw";
         all_event();
     }, 3000);
 }
@@ -96,7 +91,7 @@ function display_all() {
     document.getElementById("news").style.display = "none";
     document.getElementById("top_data").style.display = "none";
 //    document.getElementById("c_left").style.height = 100 + "vh";
-    document.getElementsByClassName("container-all")[0].style.marginLeft = "8vw";
+
     
     document.body.style.backgroundImage = null;
     document.body.style.backgroundColor = "#f9f9f9";

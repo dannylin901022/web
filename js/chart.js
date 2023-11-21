@@ -1740,7 +1740,7 @@ var chart = {
         var width = window.innerWidth;
         var ctx = null;
         var graphique = null;
-        if (width > 768) {
+        if (width > 1024) {
             ctx = document.getElementById("line_chart_pie_chart_1").getContext("2d");
             graphique = Chart.getChart("line_chart_pie_chart_1");
         }

@@ -49,7 +49,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500&display=swap" rel="stylesheet">
 
 
-    <title>index</title>
+    <title>情緒分析應用於社群論壇之文件探勘</title>
 
     <style type="text/css">
         .jumbotron {
@@ -145,7 +145,7 @@
         <a href="#" onclick="home()" @click="home" class="nav_li">首頁</a>
       </li>
       <li class="nav-item">
-        <a href="#" onclick="result()" class="nav_li" @click="search_btn(); other_bubble();">搜尋結果</a>
+        <a href="#" onclick="result()" class="nav_li" @click="search_btn();">搜尋結果</a>
       </li>
       <li class="nav-item">
         <a href="#" onclick="news()" class="nav_li" @click="news_btn(); other_bubble();">最新消息</a>
@@ -173,7 +173,7 @@
                             <a href="#" id="logout" class="nav_li" style="display: none;" @click="logout_btn">登出</a>
                         </li>
     </ul>
-      <p id="top_data" style="margin-right: 30px;font-size: 20px;"></p>
+      <p id="top_data" style="font-size: 15px;"></p>
   </div>
         </div>
 </nav>
@@ -266,7 +266,7 @@
                                             </div>
                                             <div style="display: flex;align-items: center">
                                             <button type="button" id="start_search_btn" onclick="result()"
-                                                    @click="search_btn(); other_bubble();">搜尋</button>
+                                                    @click="other_bubble();search_btn();">搜尋</button>
                                             <button type="button" @click="search_select" style="width: 100px;margin-left: 20px">細項設定</button>
                                             </div>
                                             <dialog id="select_dialog">
@@ -405,15 +405,15 @@
                                             </div>
                                         </div>
                                         <hr id="map_hr">
-                                        <div style="display: flex;" id="map_info_div">
+                                        <div id="map_info_div">
                                             <div data-aos="fade-right">
-                                                <div style="width: ˇvw; display: flex;justify-content: space-between;align-items: flex-end;">
+                                                <div style="display: flex;justify-content: space-between;align-items: flex-end;">
                                                     <h2 id="map_title">地區討論</h2>
                                                     <h5>可點擊地區進行資料篩選</h5>
                                                     <button type="button" @click="origin_search" style="margin-bottom: 5px;">還原</button>
 <!--                                                    <h4 id="address"></h4>-->
                                                 </div>
-                                                <div style="height: 500px;overflow: auto">
+                                                <div id="map_div">
                                                     <div id="map"></div>
                                                 </div>
                                             </div>
@@ -1024,6 +1024,7 @@
                 bar_push:[],
                 line_pos:[],
                 line_neg:[],
+                search_record:"",
                 
             }
         },
@@ -1076,6 +1077,7 @@
                 if (this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == "") {
                     alert("請輸入主題、時間，若已更換頁面，請重新輸入");
                     document.getElementById("search_slider").checked = false;
+                    bubble.bubbly_create_search();
                 }
                 else {
                     if(this.search_input.dateRange < 30){
@@ -1085,8 +1087,9 @@
                     this.origin_data = this.search_input;
                     search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, this.search_input.mode, chart, api, token,this.search_input.address);
                     
-                    document.getElementById("top_data").innerHTML = "主題：" + this.search_input.topic + "　　期間：" + this.search_input.startDate + " ~ " + this.search_input.endDate + "　　日期間隔：" + this.search_input.dateRange + "天";
+                    this.search_record = "主題：" + this.search_input.topic + "<br>期間：" + this.search_input.startDate + " ~ " + this.search_input.endDate + "<br>日期間隔：" + this.search_input.dateRange + "天";
                     
+                    document.getElementById("top_data").innerHTML = this.search_record;
                     document.getElementById("top_data").style.display = "block";
                 }
 
