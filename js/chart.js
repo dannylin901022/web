@@ -1586,13 +1586,43 @@ var chart = {
             label[index + 1],
             label[index + 2]
         ];
-        var labels_month = [
-            [label_month[index - 2][0],label_month[index - 2][1]],
-            [label_month[index - 1][0],label_month[index - 1][1]],
-            [label_month[index][0],label_month[index][1]],
-            [label_month[index + 1][0],label_month[index + 1][1]],
-            [label_month[index + 2][0],label_month[index + 2][1]],
-        ];
+        
+        var labels_month = [];
+        if(labels[1] == null){
+            labels_month[0] = [null];
+            labels_month[1] = [null];
+            labels_month[2] = [label_month[index][0],label_month[index][1]];
+            labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+            labels_month[4] = [label_month[index + 2][0],label_month[index + 2][1]];
+        }
+        else if(labels[1] && labels[0] == null){
+            labels_month[0] = [null];
+            labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+            labels_month[2] = [label_month[index][0],label_month[index][1]];
+            labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+            labels_month[4] = [label_month[index + 2][0],label_month[index + 2][1]];
+        }
+        else if(labels[3] == null){
+            labels_month[0] = [label_month[index - 2][0],label_month[index - 2][1]];
+            labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+            labels_month[2] = [label_month[index][0],label_month[index][1]];
+            labels_month[3] = [null];
+            labels_month[4] = [null];
+        }
+        else if(labels[3] && labels[4] == null){
+            labels_month[0] = [label_month[index - 2][0],label_month[index - 2][1]];
+            labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+            labels_month[2] = [label_month[index][0],label_month[index][1]];
+            labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+            labels_month[4] = [null];
+        }
+        else{
+            labels_month[0] = [label_month[index - 2][0],label_month[index - 2][1]];
+            labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+            labels_month[2] = [label_month[index][0],label_month[index][1]];
+            labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+            labels_month[4] = [label_month[index + 2][0],label_month[index + 2][1]];
+        }
         
         var months = [];
         
