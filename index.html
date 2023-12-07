@@ -247,7 +247,7 @@
                                 <div class='row'>
                                     <div class='col-md-12'>
                                         <h1>情緒分析應用於社群論壇之文件探勘</h1>
-                                        <p>輸入主題以產生分析結果</p>
+                                        <p>輸入事件以產生分析結果</p>
                                         <div style="display:flex; flex-direction:column; justify-content:center;">
                                             <input v-model="topic" type="text" id="search_box">
                                             <div id="time_set">
@@ -429,7 +429,7 @@
                                             </div>
                                         </div>
                                         <hr id="bar_chart_hr">
-                                        <!--                                        <h2 id="bar_chart_title">主題討論數</h2>-->
+                                        <!--                                        <h2 id="bar_chart_title">事件討論數</h2>-->
                                         <div data-aos="fade-down">
                                         <h2 id="bar_chart_title">熱度分析</h2>
                                         <div id="bar_chart_range" data-aos="fade-down">
@@ -1075,7 +1075,7 @@
                     api = this.test_api + "/api/";
                 }
                 if (this.search_input.topic == "" || this.search_input.startDate == "" || this.search_input.endDate == "") {
-                    alert("請輸入主題、時間，若已更換頁面，請重新輸入");
+                    alert("請輸入事件、時間，若已更換頁面，請重新輸入");
                     document.getElementById("search_slider").checked = false;
                     bubble.bubbly_create_search();
                 }
@@ -1087,7 +1087,7 @@
                     this.origin_data = this.search_input;
                     search.search_btn(this.search_input.topic, this.search_input.startDate, this.search_input.endDate, this.search_input.dateRange, this.search_input.isExactMatch, this.search_input.mode, chart, api, token,this.search_input.address);
                     
-                    this.search_record = "主題：" + this.search_input.topic + "<br>期間：" + this.search_input.startDate + " ~ " + this.search_input.endDate + "<br>日期間隔：" + this.search_input.dateRange + "天";
+                    this.search_record = "事件：" + this.search_input.topic + "<br>期間：" + this.search_input.startDate + " ~ " + this.search_input.endDate + "<br>日期間隔：" + this.search_input.dateRange + "天";
                     
                     document.getElementById("top_data").innerHTML = this.search_record;
                     document.getElementById("top_data").style.display = "block";

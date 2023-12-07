@@ -266,7 +266,7 @@ var chart = {
                 labels: month,
                 datasets: [
                     {
-                        label: "主題討論數",
+                        label: "事件討論數",
                         data: datas,
                         borderWidth: 1,
                         backgroundColor:color_arr,
@@ -1745,7 +1745,7 @@ var chart = {
                 labels: months,
                 datasets: [
                     {
-                        label: "主題討論數",
+                        label: "事件討論數",
                         data: data,
                         borderWidth: 1,
                         backgroundColor: color_arr,
