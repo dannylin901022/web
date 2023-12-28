@@ -133,7 +133,7 @@ var chart = {
         }
 //        document.getElementById("b_down_table").innerHTML = b_down_table;
 
-        this.bar_chart_zoom(label, datas, max_index, hotArticles,label_month);
+        //this.bar_chart_zoom(label, datas, max_index, hotArticles,label_month);
 
         document.getElementById("message_count").innerHTML = ""
         document.getElementById("bar_link").innerHTML = ""
