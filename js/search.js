@@ -32,7 +32,14 @@ var search = {
             document.getElementById("search_start").value = "";
             document.getElementById("search_end").value = "";
             document.getElementById("dateRange").value = "";
-        } else {
+        }
+        else if(parseInt(end.substr(8,3))-parseInt(start.substr(8,3)) <= dateRange){
+            alert("日期間隔小於開始日期到結束日期間隔");
+            document.getElementById("search_start").value = "";
+            document.getElementById("search_end").value = "";
+            document.getElementById("dateRange").value = "";
+        }
+        else{
             vm.summary = ""
             vm.discuss_rank_address = []
             document.getElementById("search_box").value = "";

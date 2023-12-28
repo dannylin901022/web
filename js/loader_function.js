@@ -32,7 +32,9 @@ function result() {
         document.getElementById("search_start").value != "" &&
         document.getElementById("search_end").value != "" &&
         document.getElementById("search_start").value <
-            document.getElementById("search_end").value
+        document.getElementById("search_end").value &&
+        parseInt(document.getElementById("search_end").value.substr(8,3))-parseInt(document.getElementById("search_start").value.substr(8,3)) >= parseInt(document.getElementById("dateRange").value)
+        
     ) {
         display_all();
         setTimeout(function () {

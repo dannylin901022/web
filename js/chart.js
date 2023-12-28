@@ -133,7 +133,7 @@ var chart = {
         }
 //        document.getElementById("b_down_table").innerHTML = b_down_table;
 
-        //this.bar_chart_zoom(label, datas, max_index, hotArticles,label_month);
+        this.bar_chart_zoom(label, datas, max_index, hotArticles,label_month);
 
         document.getElementById("message_count").innerHTML = ""
         document.getElementById("bar_link").innerHTML = ""
@@ -1572,13 +1572,110 @@ var chart = {
 
     bar_chart_zoom(label, datas, index, hotArticles,label_month) {
         var ctx = document.getElementById("bar_chart_zoom").getContext("2d");
-        var data = [
-            datas[index - 2],
-            datas[index - 1],
-            datas[index],
-            datas[index + 1],
-            datas[index + 2],
-        ];
+        var data = [];
+        if(datas[index - 1] == null){
+            if(datas[index + 1] == null){
+                data[0] == null;
+                data[1] == null;
+                data[2] == datas[index]
+                data[3] == null;
+                data[4] == null;
+            }
+            else if(datas[index + 1] && datas[index + 2] == null){
+                data[0] == null;
+                data[1] == null;
+                data[2] == datas[index]
+                data[3] == datas[index + 1];
+                data[4] == null;
+            }
+            else{
+                data[0] == null;
+                data[1] == null;
+                data[2] == datas[index]
+                data[3] == datas[index + 1];
+                data[4] == datas[index + 2];
+            }
+        }
+        else if(datas[index - 1] && datas[index - 2] == null){
+            if(datas[index + 1] == null){
+                data[0] == null;
+                data[1] == datas[index - 1];
+                data[2] == datas[index]
+                data[3] == null;
+                data[4] == null;
+            }
+            else if(datas[index + 1] && datas[index + 2] == null){
+                data[0] == null;
+                data[1] == datas[index - 1];
+                data[2] == datas[index]
+                data[3] == datas[index + 1];
+                data[4] == null;
+            }
+            else{
+                data[0] == null;
+                data[1] == datas[index - 1];
+                data[2] == datas[index]
+                data[3] == datas[index + 1];
+                data[4] == datas[index + 2];
+            }
+
+        }
+        else if(datas[index + 1] == null){
+            if(datas[index - 1] == null){
+                data[0] == null;
+                data[0] == null;
+                data[2] == datas[index]
+                data[3] == null;
+                data[4] == null;
+            }
+            else if(datas[index - 1] && datas[index - 2] == null){
+                data[0] == null;
+                data[1] == datas[index - 1];
+                data[2] == datas[index]
+                data[3] == null;
+                data[4] == null;
+            }
+            else{
+                data[0] == datas[index - 2];
+                data[1] == datas[index - 1];
+                data[2] == datas[index]
+                data[3] == null;
+                data[4] == null;
+            }
+
+        }
+        else if(datas[index + 1] && datas[index + 2] == null){
+            if(datas[index - 1] == null){
+                data[0] == null;
+                data[1] == null;
+                data[2] == datas[index]
+                data[3] == datas[index + 1];
+                data[4] == null;
+            }
+            else if(datas[index - 1] && datas[index - 2] == null){
+                data[0] == null;
+                data[1] == datas[index - 1];
+                data[2] == datas[index]
+                data[3] == datas[index + 1];
+                data[4] == null;
+            }
+            else{
+                data[0] == datas[index - 2];
+                data[1] == datas[index - 1];
+                data[2] == datas[index]
+                data[3] == datas[index + 1];
+                data[4] == null;
+            }
+            
+        }
+        else{
+            data[0] == datas[index - 2];
+            data[1] == datas[index - 1];
+            data[2] == datas[index]
+            data[3] == datas[index + 1];
+            data[4] == datas[index + 2];
+        }
+        
         var labels = [
             label[index - 2],
             label[index - 1],
@@ -1589,32 +1686,98 @@ var chart = {
         
         var labels_month = [];
         if(labels[1] == null){
-            labels_month[0] = [null];
-            labels_month[1] = [null];
-            labels_month[2] = [label_month[index][0],label_month[index][1]];
-            labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
-            labels_month[4] = [label_month[index + 2][0],label_month[index + 2][1]];
+            if(labels[3] == null){
+                labels_month[0] = [null];
+                labels_month[1] = [null];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [null];
+                labels_month[4] = [null];
+            }
+            else if(labels[3] && labels[4] == null){
+                labels_month[0] = [null];
+                labels_month[1] = [null];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+                labels_month[4] = [null];
+            }
+            else{
+                labels_month[0] = [null];
+                labels_month[1] = [null];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+                labels_month[4] = [label_month[index + 2][0],label_month[index + 2][1]];
+            }
+            
         }
         else if(labels[1] && labels[0] == null){
-            labels_month[0] = [null];
-            labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
-            labels_month[2] = [label_month[index][0],label_month[index][1]];
-            labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
-            labels_month[4] = [label_month[index + 2][0],label_month[index + 2][1]];
+            if(labels[3] == null){
+                labels_month[0] = [null];
+                labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [null];
+                labels_month[4] = [null];
+            }
+            else if(labels[3] && labels[4] == null){
+                labels_month[0] = [null];
+                labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+                labels_month[4] = [null];
+            }
+            else{
+                labels_month[0] = [null];
+                labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+                labels_month[4] = [label_month[index + 2][0],label_month[index + 2][1]];
+            }
+            
         }
         else if(labels[3] == null){
-            labels_month[0] = [label_month[index - 2][0],label_month[index - 2][1]];
-            labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
-            labels_month[2] = [label_month[index][0],label_month[index][1]];
-            labels_month[3] = [null];
-            labels_month[4] = [null];
+            if(labels[1] == null){
+                labels_month[0] = [null];
+                labels_month[1] = [null];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [null];
+                labels_month[4] = [null];
+            }
+            else if(labels[1] && labels[0] == null){
+                labels_month[0] = [null];
+                labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [null];
+                labels_month[4] = [null];
+            }
+            else{
+                labels_month[0] = [label_month[index - 2][0],label_month[index - 2][1]];
+                labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [null];
+                labels_month[4] = [null];
+            }
         }
         else if(labels[3] && labels[4] == null){
-            labels_month[0] = [label_month[index - 2][0],label_month[index - 2][1]];
-            labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
-            labels_month[2] = [label_month[index][0],label_month[index][1]];
-            labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
-            labels_month[4] = [null];
+            if(labels[1] == null){
+                labels_month[0] = [null];
+                labels_month[1] = [null];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+                labels_month[4] = [null];
+            }
+            else if(labels[1] && labels[0] == null){
+                labels_month[0] = [null];
+                labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+                labels_month[4] = [null];
+            }
+            else{
+                labels_month[0] = [label_month[index - 2][0],label_month[index - 2][1]];
+                labels_month[1] = [label_month[index - 1][0],label_month[index - 1][1]];
+                labels_month[2] = [label_month[index][0],label_month[index][1]];
+                labels_month[3] = [label_month[index + 1][0],label_month[index + 1][1]];
+                labels_month[4] = [null]; 
+            }
         }
         else{
             labels_month[0] = [label_month[index - 2][0],label_month[index - 2][1]];
