@@ -27,13 +27,26 @@ function home() {
     }, 3000);
 }
 function result() {
+    
+    let start_date = parseInt(document.getElementById("search_start").value.substr(8,3));
+    let end_date = parseInt(document.getElementById("search_end").value.substr(8,3));
+    let month_gap = (parseInt(document.getElementById("search_end").value.substr(5,3)) - parseInt(document.getElementById("search_start").value.substr(5,3))) * 30;
+    
+    let date_range = null;
+    if(document.getElementById("dateRange").value == ""){
+        date_range = 30;
+    }
+    else{
+        date_range = parseInt(document.getElementById("dateRange").value);
+    }
+    
     if (
         document.getElementById("search_box").value != "" &&
         document.getElementById("search_start").value != "" &&
         document.getElementById("search_end").value != "" &&
         document.getElementById("search_start").value <
         document.getElementById("search_end").value &&
-        parseInt(document.getElementById("search_end").value.substr(8,3))-parseInt(document.getElementById("search_start").value.substr(8,3)) >= parseInt(document.getElementById("dateRange").value)
+        (end_date - start_date + month_gap) >= date_range
         
     ) {
         display_all();

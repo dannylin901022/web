@@ -27,14 +27,19 @@ var search = {
                 address:address
             }
         
+        let start_date = parseInt(document.getElementById("search_start").value.substr(8,3));
+        let end_date = parseInt(document.getElementById("search_end").value.substr(8,3));
+        let month_gap = (parseInt(document.getElementById("search_end").value.substr(5,3)) - parseInt(document.getElementById("search_start").value.substr(5,3))) * 30;
+        
         if (start > end) {
             alert("結束日期小於開始日期，請重新輸入");
             document.getElementById("search_start").value = "";
             document.getElementById("search_end").value = "";
             document.getElementById("dateRange").value = "";
         }
-        else if(parseInt(end.substr(8,3))-parseInt(start.substr(8,3)) <= dateRange){
+        else if(end_date - start_date + month_gap <= dateRange){
             alert("日期間隔小於開始日期到結束日期間隔");
+            alert(parseInt(document.getElementById("search_start").value.substr(5,3)));
             document.getElementById("search_start").value = "";
             document.getElementById("search_end").value = "";
             document.getElementById("dateRange").value = "";
