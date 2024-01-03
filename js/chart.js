@@ -1618,7 +1618,6 @@ var chart = {
                 data[3] = datas[index + 1];
                 data[4] = datas[index + 2];
             }
-
         }
         else if (datas[index + 1] == null) {
             if (datas[index - 1] == null) {
@@ -1642,7 +1641,6 @@ var chart = {
                 data[3] = null;
                 data[4] = null;
             }
-
         }
         else if (datas[index + 1] && datas[index + 2] == null) {
             if (datas[index - 1] == null) {
@@ -1666,7 +1664,6 @@ var chart = {
                 data[3] = datas[index + 1];
                 data[4] = null;
             }
-
         }
         else {
             data[0] = datas[index - 2];
@@ -1674,39 +1671,6 @@ var chart = {
             data[2] = datas[index]
             data[3] = datas[index + 1];
             data[4] = datas[index + 2];
-        }
-
-        }
-        else if(datas[index + 1] && datas[index + 2] == null){
-            if(datas[index - 1] == null){
-                data[0] == null;
-                data[1] == null;
-                data[2] == datas[index]
-                data[3] == datas[index + 1];
-                data[4] == null;
-            }
-            else if(datas[index - 1] && datas[index - 2] == null){
-                data[0] == null;
-                data[1] == datas[index - 1];
-                data[2] == datas[index]
-                data[3] == datas[index + 1];
-                data[4] == null;
-            }
-            else{
-                data[0] == datas[index - 2];
-                data[1] == datas[index - 1];
-                data[2] == datas[index]
-                data[3] == datas[index + 1];
-                data[4] == null;
-            }
-            
-        }
-        else{
-            data[0] == datas[index - 2];
-            data[1] == datas[index - 1];
-            data[2] == datas[index]
-            data[3] == datas[index + 1];
-            data[4] == datas[index + 2];
         }
         
         var labels = [
