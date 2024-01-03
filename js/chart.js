@@ -1623,7 +1623,7 @@ var chart = {
         else if(datas[index + 1] == null){
             if(datas[index - 1] == null){
                 data[0] == null;
-                data[0] == null;
+                data[1] == null;
                 data[2] == datas[index]
                 data[3] == null;
                 data[4] == null;
